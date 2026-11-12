@@ -955,6 +955,18 @@ body.lb-open { overflow: hidden; }
 .legal-links a { color: rgba(255, 255, 255, .78); }
 .legal-links a:hover { color: #fff; }
 
+.footer-email {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+.footer-email a {
+  color: rgba(255, 255, 255, .78);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-word;
+}
+.footer-email a:hover { color: #fff; }
+
 .copyright {
   margin: 0;
   font-size: 13px;

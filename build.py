@@ -64,7 +64,7 @@ def header(active=''):
       <a href="index.html#welcome">Why Master</a>
       <a href="index.html#offer">Special Offers</a>
       <a href="index.html#footer">About us</a>
-      <a href="index.html#footer">Contact Us</a>
+      <a href="mailto:easytravelagency@trustagent.space">Contact Us</a>
     </nav>
 
     <div class="header-actions">
@@ -87,7 +87,7 @@ def header(active=''):
         <li><a href="index.html#offer">Special Offers</a></li>
         <li><a href="index.html#welcome">Why Master</a></li>
         <li><a href="index.html#footer">About us</a></li>
-        <li><a href="index.html#footer">Contact Us</a></li>
+        <li><a href="mailto:easytravelagency@trustagent.space">Contact Us</a></li>
         <li><a href="https://master.reserve-online.net/?lang=en&amp;view=amend" target="_blank" rel="noopener">Manage your bookings</a></li>
       </ul>
       <p class="menu-label menu-label--spaced">Language</p>
@@ -146,10 +146,11 @@ def footer():
             <li><a href="index.html#where">Luxury Apartments</a></li>
             <li><a href="index.html#offer">Special Offers</a></li>
             <li><a href="index.html#footer">About us</a></li>
-            <li><a href="index.html#footer">Contact Us</a></li>
+            <li><a href="mailto:easytravelagency@trustagent.space">Contact Us</a></li>
             <li><a href="index.html#footer">Privacy</a></li>
             <li><a href="index.html#footer">Terms of use</a></li>
           </ul>
+          <p class="footer-email"><a href="mailto:easytravelagency@trustagent.space">easytravelagency@trustagent.space</a></p>
           <p class="copyright">&copy; 2025 master</p>
         </div>
       </div>
@@ -168,7 +169,7 @@ def shell(title, desc, body, active=''):
 <meta name="description" content="%s">
 <meta name="theme-color" content="#003319">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 
@@ -183,7 +184,7 @@ def shell(title, desc, body, active=''):
 %s
 
 <script src="vendor/leaflet/leaflet.js"></script>
-<script src="script.js?v=2"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>
 ''' % (e(title), e(desc), header(active), body, footer())
