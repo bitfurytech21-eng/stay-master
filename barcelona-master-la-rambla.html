@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>master La Rambla | Barcelona | master</title>
+<meta name="description" content="master La Rambla — 33 serviced apartments at La Rambla, 34. 08002, Barcelona. 1-2 Bedrooms">
+<meta name="theme-color" content="#003319">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="master — home">
+      <img src="images/master-logo.svg" alt="master" width="120" height="26">
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="index.html#where">Cities</a>
+      <a href="index.html#where">Luxury Apartments</a>
+      <a href="index.html#welcome">Why Master</a>
+      <a href="index.html#offer">Special Offers</a>
+      <a href="index.html#footer">About us</a>
+      <a href="index.html#footer">Contact Us</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn-book" href="https://master.reserve-online.net/?lang=en" target="_blank" rel="noopener">Book Now</a>
+      <button class="hamburger" id="menuToggle" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu">
+        <span class="inside"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="main-menu" id="mainMenu" hidden>
+    <div class="menu-col">
+      <p class="menu-label">Cities</p>
+      <ul class="menu-list"><li><a href="london.html">London</a></li><li><a href="rome.html">Rome</a></li><li><a href="barcelona.html" aria-current="page">Barcelona</a></li><li><a href="athens.html">Athens</a></li><li><a href="warsaw.html">Warsaw</a></li><li><a href="hamburg.html">Hamburg</a></li><li><a href="salzburg.html">Salzburg</a></li><li><a href="tel-aviv.html">Tel Aviv</a></li><li><a href="bat-yam.html">Bat Yam</a></li></ul>
+    </div>
+    <div class="menu-col">
+      <p class="menu-label">Discover</p>
+      <ul class="menu-list">
+        <li><a href="index.html#where">Luxury Apartments</a></li>
+        <li><a href="index.html#offer">Special Offers</a></li>
+        <li><a href="index.html#welcome">Why Master</a></li>
+        <li><a href="index.html#footer">About us</a></li>
+        <li><a href="index.html#footer">Contact Us</a></li>
+        <li><a href="https://master.reserve-online.net/?lang=en&amp;view=amend" target="_blank" rel="noopener">Manage your bookings</a></li>
+      </ul>
+      <p class="menu-label menu-label--spaced">Language</p>
+      <ul class="lang-list">
+        <li><a href="#" aria-current="true">EN</a></li>
+        <li><a href="#">DE</a></li>
+        <li><a href="#">IT</a></li>
+        <li><a href="#">GR</a></li>
+        <li><a href="#">ES</a></li>
+        <li><a href="#">PL</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="bhero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="index.html">master</a><span aria-hidden="true">&gt;</span><a href="barcelona.html">Barcelona</a><span aria-hidden="true">&gt;</span><span aria-current="page">master La Rambla</span>
+    </nav>
+    <div class="bhero-top">
+      <div>
+        <h1>master La Rambla</h1>
+        <p class="addr">La Rambla, 34. 08002, Barcelona &nbsp;·&nbsp; <a href="#location">Map</a></p>
+      </div>
+      <ul class="bhero-facts">
+        <li><strong>33</strong>Apartments</li>
+        <li><strong>1-2 Bedrooms</strong>Bedrooms</li>
+        <li><strong>03:00 pm</strong>Check-in</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="bhero-gallery" id="galleryGrid"><div class="bg-cell">
+      <button class="gallery-btn" type="button" data-index="0" aria-label="Open photo 1 of 12">
+        <img src="images/buildings/barcelona-master-la-rambla-01.jpg" alt="master La Rambla — photo 1" width="1024" height="683" loading="eager" decoding="async">
+      </button>
+    </div><div class="bg-cell">
+      <button class="gallery-btn" type="button" data-index="1" aria-label="Open photo 2 of 12">
+        <img src="images/buildings/barcelona-master-la-rambla-02.jpg" alt="master La Rambla — photo 2" width="1024" height="683" loading="lazy" decoding="async">
+      </button>
+    </div><div class="bg-cell">
+      <button class="gallery-btn" type="button" data-index="2" aria-label="Open photo 3 of 12">
+        <img src="images/buildings/barcelona-master-la-rambla-03.jpg" alt="master La Rambla — photo 3" width="1024" height="683" loading="lazy" decoding="async">
+      </button>
+    </div><div class="bg-cell">
+      <button class="gallery-btn" type="button" data-index="3" aria-label="Open photo 4 of 12">
+        <img src="images/buildings/barcelona-master-la-rambla-04.jpg" alt="master La Rambla — photo 4" width="1024" height="683" loading="lazy" decoding="async"><span class="more-count">+8 photos</span>
+      </button>
+    </div></div>
+  </div>
+</section>
+
+<nav class="subnav" aria-label="Building sections">
+  <div class="wrap">
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#apartments">The Apartments</a></li>
+      <li><a href="#facilities">Facilities</a></li>
+      <li><a href="#location">The neighbourhood</a></li>
+      <li><a href="#goodtoknow">Good to know</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section" id="overview">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Barcelona · Serviced Apartments</p>
+      <h2>master La Rambla</h2>
+    </div>
+    <div class="prose">
+      <p>master La Rambla puts you right on the iconic Rambla, in the very center of Barcelona&#x27;s energy, color, and charm. Inside this modern 8-story building, you&#x27;ll find 33 exclusive apartments designed for comfort, flexibility, and peace of mind, whether you&#x27;re here for a few nights or a few weeks.</p>
+      <div id="ovMore" hidden><p>Each apartment has independent access with a secure entry code, plus an automatic video intercom and 24/7 reception service for added security and support. From floors 1 to 6, five apartments are laid out per level. The top floor, floor 8 features a one-of-a-kind penthouse with stunning 360-degree views across the city. With fast Wi-Fi, air conditioning, fully equipped kitchens, an elevator, and professional cleaning services, you&#x27;ll have everything you need to feel at home, right in the heart of it all.</p></div>
+      <button class="read-toggle" type="button" data-readmore="ovMore" aria-expanded="false" aria-controls="ovMore">Read more</button>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream" id="apartments">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">33 apartments</p>
+      <h2>The Apartments</h2>
+      <p>Each of the 33 exclusive apartments at master La Rambla is designed to feel like your own slice of the city, bright, functional, and thoughtfully laid out. The style blends modern Mediterranean charm with clean Scandinavian lines, creating a space that&#x27;s as warm and welcoming as it is sleek and simple.</p>
+    </div>
+    <div class="prose" style="margin-bottom:34px"><div id="aptMore" hidden><p>Whether you&#x27;re here to work, rest, or explore, you&#x27;ll enjoy the comfort of air conditioning, a fully equipped kitchen, and a smartly placed television for when you want to unwind.</p></div>
+      <button class="read-toggle" type="button" data-readmore="aptMore" aria-expanded="false" aria-controls="aptMore">Read more</button></div>
+    <div class="apt-grid"><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-01.jpg" alt="Interior One Bedroom Apartment" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>Interior One Bedroom Apartment</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-4</strong></li>
+      <li><span>Bedrooms</span><strong>1</strong></li>
+      <li><span>Bathrooms</span><strong>1</strong></li>
+      <li><span>Size</span><strong>41 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-02.jpg" alt="Studio with Balcony" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>Studio with Balcony</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-4</strong></li>
+      <li><span>Bedrooms</span><strong>1</strong></li>
+      <li><span>Bathrooms</span><strong>1</strong></li>
+      <li><span>Size</span><strong>40 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-03.jpg" alt="One Bedroom Apartment with Balcony" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>One Bedroom Apartment with Balcony</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-4</strong></li>
+      <li><span>Bedrooms</span><strong>1</strong></li>
+      <li><span>Bathrooms</span><strong>1</strong></li>
+      <li><span>Size</span><strong>41 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-04.jpg" alt="One Bedroom with Large Terrace" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>One Bedroom with Large Terrace</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-2</strong></li>
+      <li><span>Bedrooms</span><strong>1</strong></li>
+      <li><span>Bathrooms</span><strong>1</strong></li>
+      <li><span>Size</span><strong>50 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-05.jpg" alt="Two Bedroom Apartment with Balcony" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>Two Bedroom Apartment with Balcony</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-4</strong></li>
+      <li><span>Bedrooms</span><strong>2</strong></li>
+      <li><span>Bathrooms</span><strong>2</strong></li>
+      <li><span>Size</span><strong>60 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-06.png" alt="Family Two Bedroom Apartment" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>Family Two Bedroom Apartment</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-8</strong></li>
+      <li><span>Bedrooms</span><strong>2</strong></li>
+      <li><span>Bathrooms</span><strong>2</strong></li>
+      <li><span>Size</span><strong>81 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article><article class="apt-card">
+  <div class="apt-card-media">
+    <img src="images/buildings/barcelona-master-la-rambla-07.jpg" alt="Two Bedroom penthouse with Large Terrace" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
+    <h3>Two Bedroom penthouse with Large Terrace</h3>
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>1-6</strong></li>
+      <li><span>Bedrooms</span><strong>2</strong></li>
+      <li><span>Bathrooms</span><strong>2</strong></li>
+      <li><span>Size</span><strong>70 m²</strong></li>
+    </ul>
+    <a class="btn-outline" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Check Availability</a>
+  </div>
+</article></div>
+  </div>
+</section>
+
+<section class="section" id="facilities">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Services &amp; facilities</p>
+      <h2>What's included</h2>
+    </div>
+    <div class="fac-grid"><div class="fac-item"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg><p>Luggage storage</p></div><div class="fac-item"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg><p>Washer &amp; Dryer</p></div></div>
+  </div>
+</section>
+
+<section class="section section--sand" id="location">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The neighbourhood</p>
+      <h2>Barcelona</h2>
+      <p>La Rambla, 34. 08002, Barcelona</p>
+    </div>
+    <div class="loc-grid">
+      <div class="map-canvas">
+        <div class="map-leaflet loc-map" data-map data-lat="41.37887" data-lon="2.17582" data-label="master La Rambla" data-zoom="16"
+             role="application" aria-label="Interactive map showing master La Rambla. Use arrow keys to pan, plus and minus to zoom."></div>
+        <div class="map-fallback" hidden>
+          <p>The interactive map could not load.</p>
+          <a class="map-link" href="https://www.openstreetmap.org/?mlat=41.37887&amp;mlon=2.17582#map=17/41.37887/2.17582" target="_blank" rel="noopener">View master La Rambla on OpenStreetMap</a>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Rambla,+34.+08002,+Barcelona" target="_blank" rel="noopener">Open in Maps</a>
+      </div>
+      <div class="getting-here">
+        <h3>Our address</h3>
+        <p>La Rambla, 34. 08002, Barcelona</p>
+        <h3>Getting here</h3>
+        <p>master La Rambla is in Barcelona. Use the map to plan your route, or open the address in your maps app for live directions and public transport.</p>
+        <ul>
+          <li>Check-in from 03:00 pm, check-out by 11:00 am.</li>
+          <li>Reception and support are remote — details are sent before arrival.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="goodtoknow">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Good to know</p>
+      <h2>Before you arrive</h2>
+    </div>
+    <dl class="gtk">
+      <div><dt>Check in</dt><dd>03:00 pm</dd></div>
+      <div><dt>Check out</dt><dd>11:00 am</dd></div>
+      <div><dt>Apartments</dt><dd>33</dd></div>
+      <div><dt>Bedrooms</dt><dd>1-2 Bedrooms</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section section--cream" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">FAQ</p>
+      <h2>Common questions</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>What exactly is master La Rambla — hotel, aparthotel, or serviced apartments?</summary>
+        <p>master La Rambla offers serviced apartments that combine private living spaces with hotel-style conveniences, including virtual guest support, housekeeping and access to laundry facilities.</p>
+      </details>
+      <details>
+        <summary>What type of traveller is master La Rambla best suited for?</summary>
+        <p>It suits business travellers, couples and families seeking spacious serviced apartments with kitchen facilities in Barcelona.</p>
+      </details>
+      <details>
+        <summary>Is it suitable for a long-term stay of several weeks or more?</summary>
+        <p>Yes. Fully equipped kitchens, laundry facilities and apartment-style layouts make it comfortable for extended stays.</p>
+      </details>
+      <details>
+        <summary>Do the apartments have fully equipped kitchens?</summary>
+        <p>Yes — each apartment includes a kitchen with stovetop, fridge, cookware and utensils, plus coffee-making facilities.</p>
+      </details>
+      <details>
+        <summary>Is there Wi-Fi throughout the property?</summary>
+        <p>Yes, complimentary high-speed Wi-Fi covers every apartment and all shared areas for guests.</p>
+      </details>
+      <details>
+        <summary>What are the check-in and check-out times?</summary>
+        <p>Check-in is from 03:00 pm and check-out is by 11:00 am. Guests receive arrival instructions before their stay.</p>
+      </details>
+      <details>
+        <summary>How do I get the best rate?</summary>
+        <p>Book directly with master and get 5% off. Rates and live availability are confirmed on the reservation system.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Gallery</p>
+      <h2>Take a look around</h2>
+      <p>Every photo of master La Rambla. Tap any image to open it full size.</p>
+    </div>
+    <ul class="gallery-grid" id="galleryGridFull"><li class="gallery-cell gallery-cell--wide">
+          <button class="gallery-btn" type="button" data-index="0" aria-label="Open photo 1 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-01.jpg" alt="master La Rambla — photo 1" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="1" aria-label="Open photo 2 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-02.jpg" alt="master La Rambla — photo 2" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="2" aria-label="Open photo 3 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-03.jpg" alt="master La Rambla — photo 3" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="3" aria-label="Open photo 4 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-04.jpg" alt="master La Rambla — photo 4" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="4" aria-label="Open photo 5 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-05.jpg" alt="master La Rambla — photo 5" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell gallery-cell--tall">
+          <button class="gallery-btn" type="button" data-index="5" aria-label="Open photo 6 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-06.png" alt="master La Rambla — photo 6" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="6" aria-label="Open photo 7 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-07.jpg" alt="master La Rambla — photo 7" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="7" aria-label="Open photo 8 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-08.jpg" alt="master La Rambla — photo 8" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="8" aria-label="Open photo 9 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-09.jpg" alt="master La Rambla — photo 9" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="9" aria-label="Open photo 10 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-10.jpg" alt="master La Rambla — photo 10" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="10" aria-label="Open photo 11 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-11.png" alt="master La Rambla — photo 11" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li><li class="gallery-cell">
+          <button class="gallery-btn" type="button" data-index="11" aria-label="Open photo 12 of 12">
+            <img src="images/buildings/barcelona-master-la-rambla-12.jpg" alt="master La Rambla — photo 12" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">master La Rambla</span>
+          </button>
+        </li></ul>
+  </div>
+</section>
+
+<section class="cta-band" id="offer">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2>Book directly with master and get 5% off</h2>
+        <p>Save More, Stay More: Book Directly With master For A 5% Discount Today! — master La Rambla</p>
+      </div>
+      <a class="btn-cream" href="https://masterlarambla.reserve-online.net/?lang=en" target="_blank" rel="noopener">Book Now</a>
+    </div>
+  </div>
+</section>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button class="lb-close" id="lbClose" type="button" aria-label="Close photo viewer">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" type="button" aria-label="Previous photo">&#8249;</button>
+  <figure class="lb-figure">
+    <img id="lbImage" src="" alt="">
+    <figcaption id="lbCaption"></figcaption>
+  </figure>
+  <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="Next photo">&#8250;</button>
+</div>
+</main>
+
+<footer class="site-footer" id="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-locations"><div class="loc-col">
+          <h3><a href="london.html">London</a></h3>
+          <ul><li><a href="london-master-st-pauls.html">master St. Paul&#x27;s</a></li><li><a href="london-master-cannon.html">master Cannon</a></li><li><a href="london-master-farringdon.html">master Farringdon</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="rome.html">Rome</a></h3>
+          <ul><li><a href="rome-master-trevi.html">master Trevi</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="barcelona.html">Barcelona</a></h3>
+          <ul><li><a href="barcelona-master-la-rambla.html">master La Rambla</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="athens.html">Athens</a></h3>
+          <ul><li><a href="athens-master-plaka-athens.html">Plaka Athens</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="warsaw.html">Warsaw</a></h3>
+          <ul><li><a href="warsaw-master-wola.html">master Wola</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="hamburg.html">Hamburg</a></h3>
+          <ul><li><a href="hamburg-master-altona.html">Altona Hamburg</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="salzburg.html">Salzburg</a></h3>
+          <ul><li><a href="salzburg-master-mirabell.html">Mirabell Salzburg</a></li><li><a href="salzburg-master-linzergasse.html">Linzergasse Salzburg</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="tel-aviv.html">Tel Aviv</a></h3>
+          <ul><li><a href="tel-aviv-mazeh-tel-aviv.html">Mazeh Tel Aviv</a></li><li><a href="tel-aviv-master-shenkin.html">master Shenkin</a></li></ul>
+        </div><div class="loc-col">
+          <h3><a href="bat-yam.html">Bat Yam</a></h3>
+          <ul><li><a href="bat-yam-master-bat-yam.html">master Bat Yam</a></li></ul>
+        </div></div>
+
+      <div class="footer-social">
+        <h2 class="lucky">Keep in Touch</h2>
+        <ul>
+          <li><a href="https://www.instagram.com/stay.master/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+          </a></li>
+          <li><a href="https://www.facebook.com/people/Master-Aparthotel-Serviced-Apartments/61575637148714/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7h2.4l.4-2.9h-2.8V9.3c0-.8.2-1.4 1.4-1.4h1.5V5.3c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v2.9h2.5V21h3z"/></svg>
+          </a></li>
+          <li><a href="https://www.linkedin.com/company/master-serviced-apartments/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.9 8.6H4.2V20h2.7V8.6zM5.5 4a1.6 1.6 0 100 3.2 1.6 1.6 0 000-3.2zM20 13.6c0-3-1.6-4.4-3.7-4.4-1.7 0-2.5.9-2.9 1.6V8.6H10.7V20h2.7v-6.1c0-1.3.6-2.1 1.8-2.1 1.1 0 1.6.8 1.6 2.1V20H20v-6.4z"/></svg>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-credit">
+        <a class="footer-logo" href="index.html" aria-label="master">
+          <img src="images/master-logo.svg" alt="master" width="110" height="24" loading="lazy">
+        </a>
+        <div class="footer-legal">
+          <ul class="legal-links">
+            <li><a href="index.html#where">Luxury Apartments</a></li>
+            <li><a href="index.html#offer">Special Offers</a></li>
+            <li><a href="index.html#footer">About us</a></li>
+            <li><a href="index.html#footer">Contact Us</a></li>
+            <li><a href="index.html#footer">Privacy</a></li>
+            <li><a href="index.html#footer">Terms of use</a></li>
+          </ul>
+          <p class="copyright">&copy; 2025 master</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="script.js?v=2"></script>
+</body>
+</html>

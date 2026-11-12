@@ -1,0 +1,976 @@
+{
+  "cities": [
+    {
+      "slug": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "title": "Serviced Apartments in London | UK | master",
+      "meta": "Serviced apartments in London from master — St. Paul's, Cannon and Farringdon. More space, more freedom and hotel-standard service in the heart of the City.",
+      "hero": "images/buildings/city-london-1.jpg",
+      "intro": "Welcome to the heart of London, an undeniable global hub renowned for its liveliness and diversity. This extraordinary metropolis goes beyond simply being the UK's capital; it's a vibrant tapestry of cultures and experiences, pulsing with history at every corner. From iconic landmarks to dynamic neighborhoods, London thrives as a vibrant center of progress and diversity.",
+      "more": "Just steps away from the River Thames, master St. Paul's serviced apartments place you near historic and cultural marvels, including the awe-inspiring St. Paul's Cathedral, the innovative Tate Modern, and Shakespeare's Globe Theatre. This area seamlessly blends convenience for business engagements with unmatched cultural experiences, ideal for both leisure travelers and corporate guests. Nearby, master Farringdon serviced apartments invite you into a neighborhood renowned for its trendy charm, innovative dining, and eclectic atmosphere. Perfectly located near bustling markets, independent boutiques, and vibrant nightlife, master Farringdon combines contemporary style with practical comfort, ideal for both short and extended stays. In the heart of London's financial district, master Cannon serviced apartments deliver exceptional convenience for business travelers. Surrounded by towering corporate headquarters, historic architecture, and vibrant eateries, master Cannon effortlessly combines professional functionality with comfort and relaxation, ensuring a rewarding stay. Whichever master location you choose, your London adventure begins with serviced apartments offering more space, more freedom, and greater comfort—making every extended stay feel just right!",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "rome",
+      "name": "Rome",
+      "country": "Italy",
+      "title": "Aparthotels in Rome | Italy | master",
+      "meta": "master Trevi — 27 apartments and studios steps from the Trevi Fountain, in the heart of Rome's historic centre.",
+      "hero": "images/buildings/city-rome-1.jpg",
+      "intro": "Nestled in the heart of Rome, the Trevi Fountain district places you at the very center of the city's most celebrated landmarks. Just steps away from the world-famous Trevi Fountain, this area is brimming with history, charm, and the lively pulse of Roman culture. As you wander the picturesque streets, you'll find yourself surrounded by centuries-old architecture, quaint piazzas, and the irresistible allure of authentic Italian cafes and boutiques.",
+      "more": "What sets the Trevi Fountain district apart is its seamless blend of historical grandeur and vibrant modern life. Whether you're admiring the fountain's baroque artistry or exploring nearby iconic sights like the Spanish Steps and the Pantheon, every corner reveals another layer of Rome's rich tapestry. The energy here is palpable, offering an atmosphere that is both romantic and endlessly captivating. At master Trevi, you're not just visiting Rome – you're living it. Our prime location places you in the heart of the city's magic, offering an immersive experience that lets you wake up to the sights and sounds of this eternal city. Step outside and discover everything Rome has to offer, all just a short walk from your doorstep. Make your stay unforgettable at master Trevi, where history and luxury meet for the ultimate Roman getaway.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "barcelona",
+      "name": "Barcelona",
+      "country": "Spain",
+      "title": "Serviced Apartments in Barcelona | Spain | master",
+      "meta": "master La Rambla — 33 apartments on Barcelona's most iconic boulevard, with a 360-degree penthouse on the top floor.",
+      "hero": "images/buildings/city-barcelona-1.jpg",
+      "intro": "Barcelona is a city that invites you to slow down, look up, and take it all in. From Gaudí's surreal architecture and golden Mediterranean beaches to its buzzing food markets and sunlit plazas, every corner of the city pulses with creativity and life. Whether you're here for the art, the history, the nightlife, or simply the laid-back lifestyle, Barcelona delivers, effortlessly. At the heart of this vibrant city lies La Rambla, stretching from Plaça Catalunya to the waterfront, it's one of Barcelona's most iconic streets. Alive with performers, artists, cafés, and open-air markets, it's a place where locals and visitors come together to stroll, people-watch, and soak in the city's energy. Just steps away, you'll find historic neighborhoods like the Gothic Quarter and El Raval, packed with hidden gems and endless character.",
+      "more": "Right along this legendary boulevard, you'll find your home base, master La Rambla. Perfectly located on Rambla, it puts you exactly where you want to be: at the center of it all, with the freedom to live like a local. Our fully equipped apartments blend modern Mediterranean design with Scandinavian simplicity, offering space, comfort, and a quiet retreat above the city buzz. A weekend or a few weeks? Here, you'll have the space to explore, relax, and feel at home in Barcelona.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "athens",
+      "name": "Athens",
+      "country": "Greece",
+      "title": "Aparthotels & Serviced Apartments in Athens | Greece | master",
+      "meta": "Explore Athens with master Plaka Athens, perfectly located near the Acropolis. Enjoy history, charm, and vibrant city life just steps from your door.",
+      "hero": "images/buildings/athens-master-plaka-athens-01.jpg",
+      "intro": "Athens, the birthplace of democracy and philosophy, seamlessly blends ancient history with modern energy. As one of the world's oldest cities, it offers a captivating journey through time, from the iconic Acropolis and Parthenon to contemporary galleries, bustling markets, and vibrant nightlife. Whether you're wandering through archaeological sites, indulging in Greek cuisine, or experiencing local festivals, Athens provides endless opportunities for cultural exploration and discovery.",
+      "more": "Nestled at the foot of the Acropolis Hill, Plaka is known as the “Neighborhood of the Gods” for its close ties to Athens's ancient heritage. Famous for its neoclassical architecture, winding cobblestone streets, and lively cafes and tavernas, Plaka offers a glimpse of old Athens with a warm and welcoming charm. Despite being popular with visitors, it retains an air of nostalgia and authenticity, making it one of the city's most beloved areas.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "warsaw",
+      "name": "Warsaw",
+      "country": "Poland",
+      "title": "Serviced Apartments in Warsaw | Poland | master",
+      "meta": "master Wola — 113 apartments from studios to three-bedroom layouts in Warsaw's most vibrant business district.",
+      "hero": "images/buildings/city-warsaw-1.jpg",
+      "intro": "Dynamic, creative, and endlessly evolving. Warsaw is a city that wears its history with pride while charging forward with modern momentum. From the cobblestone charm of the Old Town to the skyscrapers lining the business districts, every corner tells a story of reinvention. Here, art galleries fill former factories, global cuisine meets Polish tradition, and green parks offer a breath of calm between bold architecture and buzzing cafés. Whether you're here to dive into culture, work on the move, or explore the city's contrasts, Warsaw moves with you.",
+      "more": "At the heart of it all, master Wola awaits. Located at Grzybowska 45, this modern Serviced Apartments features 113 thoughtfully designed apartments, from cozy studios to spacious three-bedroom layouts, bringing smart comfort to one of the city's most vibrant districts.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "hamburg",
+      "name": "Hamburg",
+      "country": "Germany",
+      "title": "Serviced Apartments in Hamburg | Germany | master",
+      "meta": "master Altona Hamburg — 84 brand-new serviced apartments in one of Hamburg's most characterful neighbourhoods.",
+      "hero": "images/buildings/hamburg-master-altona-01.jpg",
+      "intro": "Hamburg, a city in Germany that exudes an edgy and cosmopolitan charm, offers a unique blend of history, culture, and vibrant personality. Renowned for being one of Europe's busiest ports, it is home to the red-brick, Neo-Gothic Speicherstadt, a UNESCO World Heritage Site and the largest unified historic port warehouse complex in the world. The red-brick buildings, connected by charming canals and bridges, become truly enchanting in the evening when they are lit up, casting a golden glow over the water.",
+      "more": "One of Hamburg's most iconic modern architectural wonders is the Elbphilharmonie, designed to resemble an ocean-liner docked in the harbor. This glass and brick marvel, often likened to a wave or a quartz crystal, is not only a sight to behold but also one of the world's most acoustically advanced concert halls. Attending a performance here is a must for those who appreciate exceptional acoustics and stunning design. In Hamburg, the real charm emerges from immersing yourself in its neighborhoods, enjoying the vibrant nightlife, and savoring the diverse cuisine. St. Pauli is known for its lively and rebellious spirit and is famous for the Reeperbahn, a street lined with bars, clubs, and theaters. Sternschanze is a trendy district, a hub for artists, hipsters, and young professionals. It's known for its street art, boutique shops, and an array of diverse culinary options. Altona is a laid-back and diverse neighborhood with a blend of historic charm and modernity. Its streets are filled with cozy cafes, independent shops, and a vibrant multicultural atmosphere. Delight in the convenience and comfort of master Altona Hamburg's centrally-located serviced apartments in Germany. Whether you're a business traveler or a family looking for a home away from home, our well-appointed apartments are the perfect choice for extended stays.",
+      "family": "The family stay that feels like home – that's master!"
+    },
+    {
+      "slug": "salzburg",
+      "name": "Salzburg",
+      "country": "Austria",
+      "title": "Aparthotels & Serviced Apartments in Salzburg | Austria | master",
+      "meta": "Two master properties in Salzburg — Mirabell beside the palace gardens and Linzergasse at the entrance to the UNESCO Old City.",
+      "hero": "images/buildings/salzburg-master-mirabell-01.jpg",
+      "intro": "Salzburg is a city in Austria that is famous for its Baroque architecture, winding streets, and grand palaces. It is also the birthplace of Wolfgang Amadeus Mozart. There are many things to see and do in Salzburg, including visiting Mozart's birthplace, exploring the Hohensalzburg Fortress, and strolling through the Mirabell Gardens. The city is also home to a number of family-friendly attractions, such as the Sound of Music tour and the Salzburg Zoo. Salzburg is a great place to visit for both business and leisure travellers.",
+      "more": "master Linzergasse's serviced apartments are at the very entrance of the Alstadt (Old City), a mere 10-minute walk to Mozart's birthplace and so perfectly situated to explore the storied city. master Mirabell is just minutes away from the Mirabell Gardens, an enchanting palace with meticulously landscaped gardens. Both properties are strategically positioned near the Congress House of Salzburg, making them an ideal choice for businessmen, aside from being perfect for family vacations as well.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "tel-aviv",
+      "name": "Tel Aviv",
+      "country": "Israel",
+      "title": "Serviced Apartments in Tel Aviv | Israel | master",
+      "meta": "master Shenkin and master Mazeh — serviced apartments in Tel Aviv built for extended stays, from 19 to 54 apartments.",
+      "hero": "images/buildings/tel-aviv-master-shenkin-01.jpg",
+      "intro": "Tel Aviv, the city that never sleeps, exudes an unparalleled energy that makes it an exceptional destination for both business endeavors and family vacations. As the bustling center of Israel's high-tech industry, the city presents endless opportunities for entrepreneurs, making it an ideal place to network and forge valuable connections. Meanwhile, families can revel in the city's diverse recreational options, including its pristine beaches, world-class museums, and family-friendly attractions.",
+      "more": "Settle in and thrive at master's serviced apartments in Tel Aviv, meticulously designed for extended stays. master Shenkin sits on one of the city's most characterful streets, steps from Carmel Market and Rothschild Boulevard, while master Mazeh occupies a quiet, restored Bauhaus corner of early Tel Aviv — twenty minutes on foot from the beach.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    },
+    {
+      "slug": "bat-yam",
+      "name": "Bat Yam",
+      "country": "Israel",
+      "title": "Serviced Apartments in Bat Yam | Israel | master",
+      "meta": "master Bat Yam — 55 serviced apartments six minutes from the beach and minutes from Tel Aviv by light rail.",
+      "hero": "images/buildings/bat-yam-master-bat-yam-01.webp",
+      "intro": "Situated on the glistening shores of the Mediterranean Sea and only minutes away by light rail from Tel Aviv, Bat Yam is ideal for both business travelers and families on vacation. The proximity to renowned high-tech industrial parks in cities such as Yavne, Rishon LeZion and Holon, not to mention Tel Aviv, is a boon for businesses and professionals seeking to network and collaborate. Being far removed from the congestion and traffic jams is a distinct advantage for the busy business traveler. Families can live it up at Bat Yam's beautiful beaches, as well as take advantage of all that Tel Aviv has to offer.",
+      "more": "At master's Serviced Apartments in Bat Yam, we redefine extended stays with unparalleled comfort removed from the hustle and bustle of the city.",
+      "family": "Family-friendly stays near top attractions – that's master!"
+    }
+  ],
+  "buildings": [
+    {
+      "slug": "london/master-st-pauls",
+      "city": "london",
+      "name": "master St. Paul's",
+      "short": "St. Paul's",
+      "kind": "Serviced Apartments",
+      "address": "9 Creed Lane, London EC4V 5BR, UK",
+      "apartments": 27,
+      "bedrooms": "Studio Apartments",
+      "lat": 51.51372,
+      "lon": -0.10103,
+      "img": "london-master-st-pauls",
+      "count": 12,
+      "intro": "When visiting London, indisputably one of the most dynamic and multicultural cities on the planet, and an unrivaled epicenter of global finance, master St.Paul's serviced apartments offer the perfect solution, whether you're here on business or on vacation – both for short and extended stays.",
+      "more": "Our apartments are adjacent to St. Paul's Cathedral, an architectural marvel that has graced the city's skyline for centuries. Walk over the Thames via the illuminated and innovatively designed Millenium Bridge to get to the Tate Modern, the renowned contemporary museum with works by iconic artists like Picasso, Warhol and Hockney. The fusion of history and modernity extends to the Shakespeare's Globe Theater, where you'll be transported to the Elizabethan era and experience Shakespearean plays in a faithful reconstruction of the original theater. A hop, skip and a jump – that's all it takes to reach The City, London's pulsating financial center, which magnetically draws in financial wizards, entrepreneurs and investors from every corner of the globe. master St. Paul's serviced apartments cater to business travelers, placing them strategically within reach of institutions like the Bank of England and the London Stock Exchange.",
+      "aptIntro": "Get set to be charmed by one of 27 stylish serviced apartments. Each has been thoughtfully designed and outfitted to ensure your comfort whether for short or extended stays. With full-equipped kitchenettes, a washer-dryer and hotel-standard amenities, you'll sense a touch of homey familiarity along with the added sophistication of hotel-like conveniences.",
+      "aptMore": "",
+      "facilities": [
+        "Lobby",
+        "Laundry Room",
+        "Lockers Room"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterstpaulslondon.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Inner Lightwell Studio",
+          "1-2",
+          1,
+          1,
+          22
+        ],
+        [
+          "Studio",
+          "1-2",
+          1,
+          1,
+          20
+        ],
+        [
+          "Family Apartment (4 PAX)",
+          "1-4",
+          2,
+          1,
+          40
+        ],
+        [
+          "Family Apartment (5 PAX)",
+          "1-5",
+          2,
+          1,
+          50
+        ]
+      ]
+    },
+    {
+      "slug": "london/master-cannon",
+      "city": "london",
+      "name": "master Cannon",
+      "short": "Cannon",
+      "kind": "Serviced Apartments",
+      "address": "2 Suffolk Lane, London EC4R 0AT",
+      "apartments": 27,
+      "bedrooms": "1 Bedroom",
+      "lat": 51.51097,
+      "lon": -0.08926,
+      "img": "london-master-cannon",
+      "count": 12,
+      "intro": "Nestled in the heart of The City of London, master Cannon serviced apartments provide an exceptional stay for both business professionals and leisure travelers. Just a five-minute walk from Cannon Street mainline rail and underground station, this prime location offers seamless access to London's financial district, iconic landmarks, and a wealth of cultural and entertainment attractions. Whether you're here for work or to immerse yourself in the vibrant city life, master Cannon is the perfect starting point.",
+      "more": "Located in London's historic financial district, the property is surrounded by world-famous attractions such as the Tower of London, St Paul's Cathedral, and Shakespeare's Globe Theatre. For retail and dining, explore the independent boutiques and eateries of Bow Lane, or visit The Ned, Bloomberg Arcade, and the Royal Exchange shopping center. With Cannon Street station just steps away and London City Airport only eight miles away, master Cannon ensures easy travel within and beyond the city. Business hubs, tech markets, and major insurance firms are all within reach, making it a top choice for corporate stays. The property features 27 modern serviced apartments, each designed with both style and functionality in mind. Guests enjoy fully fitted kitchens, contemporary bathrooms, and amenities like Wi-Fi, TVs, and comfort heating and cooling systems.",
+      "aptIntro": "At master Cannon serviced apartments, each apartment is fully equipped to meet your needs, featuring modern amenities and a design that harmonizes style and functionality.",
+      "aptMore": "The interiors are inspired by Scandinavian minimalism, with a warm palette of neutrals, browns, and muted earthy tones. Wooden flooring, simple furniture in natural finishes, and cozy fabrics create a welcoming and comfortable atmosphere. Clean lines and uncluttered spaces ensure a sense of calm, while functional layouts maximize comfort and usability. Experience a perfect blend of modern minimalism and natural elegance during your stay.",
+      "facilities": [
+        "Lobby",
+        "Laundry Room",
+        "Lockers Room"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://mastercannonlondon.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Lower Ground Studio",
+          "1-2",
+          1,
+          1,
+          26
+        ],
+        [
+          "Studio",
+          "1-2",
+          1,
+          1,
+          26
+        ],
+        [
+          "Studio with sofa bed",
+          "1-3",
+          1,
+          1,
+          30
+        ],
+        [
+          "One bedroom open plan",
+          "1-4",
+          1,
+          1,
+          62
+        ],
+        [
+          "Family Apartment (4 PAX)",
+          "1-4",
+          2,
+          1,
+          52
+        ],
+        [
+          "Family Apartment (5 PAX)",
+          "1-5",
+          2,
+          1,
+          56
+        ],
+        [
+          "Family Apartment (6 PAX)",
+          "1-6",
+          3,
+          2,
+          78
+        ]
+      ]
+    },
+    {
+      "slug": "london/master-farringdon",
+      "city": "london",
+      "name": "master Farringdon",
+      "short": "Farringdon",
+      "kind": "Serviced Apartments",
+      "address": "66 Turnmill Street, London EC1M 5RR",
+      "apartments": 14,
+      "bedrooms": "1 Bedroom",
+      "lat": 51.52164,
+      "lon": -0.10562,
+      "img": "london-master-farringdon",
+      "count": 12,
+      "intro": "Nestled in the vibrant Farringdon neighborhood, master Farringdon serviced apartments offers the perfect blend of historic charm and modern sophistication. With 14 thoughtfully designed family-friendly apartments, this property serves as a spacious and convenient home base for family apartments exploring London. Our generous layouts, flexible bedding options, and kid-friendly features ensure parents and children alike have room to unwind and create lasting memories.",
+      "more": "Located on the edge of the City of London, Farringdon is steeped in history, with roots dating back to the 12th century. Today, it has evolved into one of the city's trendiest districts, celebrated for its youthful vibe and dynamic urban lifestyle. Families will appreciate the neighborhood's safe, pedestrian-friendly streets and the variety of casual cafes perfect for little ones. Situated between iconic areas like Clerkenwell, St. Paul's, and the Barbican, Farringdon puts you in the heart of London's cultural and business hubs. Enjoy a stroll along Charterhouse Street, indulge in culinary delights at renowned eateries like St. John Restaurant, or explore the lively nightlife at the legendary Fabric nightclub. Just a short walk away, families can visit the Museum of London for engaging exhibits that kids love, or let children burn off energy at nearby Spa Fields Park. From the historic Smithfield Market to world-class performances at Sadler's Wells, there's always something to discover nearby. master Farringdon combines the convenience of a central location with the comfort of a modern, private retreat. Our fully equipped kitchens make it easy to prepare breakfasts or midday snacks for children, on-site laundry facilities provide added convenience for longer stays. Be it a short getaway or an extended stay, our family apartments are the ideal base to experience the best of London. Parents can enjoy a peaceful evening in our quiet apartments, knowing kids have ample space to play and relax.",
+      "aptIntro": "master Farringdon offers 14 fully equipped serviced apartments, each thoughtfully designed to provide a relaxing and practical space for your stay in London. The interiors embrace a modern mid-century-inspired aesthetic, featuring soft greens, blues, and earthy tones complemented by natural wood for a calming ambience.",
+      "aptMore": "",
+      "facilities": [
+        "Laundry Room",
+        "Lockers Room"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterfarringdonlondon.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "One bedroom open plan",
+          "1-4",
+          1,
+          1,
+          39
+        ],
+        [
+          "Family Apartment",
+          "1-8",
+          2,
+          2,
+          73
+        ]
+      ]
+    },
+    {
+      "slug": "rome/master-trevi",
+      "city": "rome",
+      "name": "master Trevi",
+      "short": "Trevi",
+      "kind": "Aparthotel",
+      "address": "Via dei Maroniti 19, 00187 Roma, Italy",
+      "apartments": 27,
+      "bedrooms": "Studio & One–Three Bedroom",
+      "lat": 41.90226,
+      "lon": 12.48497,
+      "img": "rome-master-trevi",
+      "count": 12,
+      "intro": "Located just steps away from the world-famous Trevi Fountain, master Trevi places you in the very heart of Rome's historic center. With the Spanish Steps, Pantheon, and Piazza Navona all within walking distance, you're perfectly situated to explore the city's most iconic landmarks. Whether it's the ancient ruins of the Roman Forum or the bustling atmosphere of Via del Corso, you'll find countless cultural and shopping opportunities right at your doorstep. master Trevi offers 27 thoughtfully designed apartments and studio apartments, blending modern minimalist aesthetics with Scandinavian-inspired interiors. Large, floor-to-ceiling windows flood each space with natural light, creating a fresh and inviting atmosphere.",
+      "more": "Each apartment is equipped with a coffee machine, perfect for brewing your morning espresso before embarking on your Roman adventures. The fully equipped kitchens, complete with a dishwasher and refrigerator, make preparing and storing meals convenient and hassle-free. Unwind in the communal space, ideal for working, socializing, or simply relaxing. With additional amenities such as a laundry service, master Trevi provides everything you need for a comfortable and effortless stay in Rome.",
+      "aptIntro": "master Trevi offers 27 beautifully designed apartments, perfectly located in the heart of Rome. Some apartments feature private balconies, while others boast spacious terraces, providing stunning views of the city's historic skyline—ideal for enjoying a morning coffee or an evening glass of wine.",
+      "aptMore": "Each apartment reflects a modern minimalist aesthetic, with sleek Scandinavian-inspired design elements that create a serene and contemporary atmosphere. The use of neutral tones and clean lines enhances the sense of space and calm. All apartments are equipped with high-speed Wi-Fi, air conditioning, a coffee maker, and a refrigerator, ensuring a comfortable and convenient stay. The apartments also feature a fully equipped kitchenette, offering added flexibility for preparing meals at home. Whether you're staying for a few nights or an extended visit, master Trevi's stylish and thoughtfully designed apartments provide the perfect blend of comfort and practicality.",
+      "facilities": [
+        "Common Area",
+        "Laundry Service"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://mastertrevi.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Studio",
+          "1-2",
+          1,
+          1,
+          28
+        ],
+        [
+          "Studio with Balcony",
+          "1-3",
+          1,
+          1,
+          30
+        ],
+        [
+          "Large studio Ground level",
+          "1-4",
+          1,
+          1,
+          50
+        ],
+        [
+          "Large Studio with Balcony",
+          "1-4",
+          1,
+          1,
+          46
+        ],
+        [
+          "One-Bedroom Apartment with Large Terrace",
+          "1-4",
+          1,
+          1,
+          47
+        ],
+        [
+          "Family Apartment with Balcony",
+          "1-5",
+          2,
+          2,
+          58
+        ],
+        [
+          "Two-Bedroom Penthouse with Large Terrace",
+          "1-4",
+          2,
+          2,
+          71
+        ],
+        [
+          "Three-Bedroom Penthouse with Large Terrace",
+          "1-6",
+          3,
+          2,
+          98
+        ]
+      ]
+    },
+    {
+      "slug": "barcelona/master-la-rambla",
+      "city": "barcelona",
+      "name": "master La Rambla",
+      "short": "La Rambla",
+      "kind": "Serviced Apartments",
+      "address": "La Rambla, 34. 08002, Barcelona",
+      "apartments": 33,
+      "bedrooms": "1-2 Bedrooms",
+      "lat": 41.37887,
+      "lon": 2.17582,
+      "img": "barcelona-master-la-rambla",
+      "count": 12,
+      "intro": "master La Rambla puts you right on the iconic Rambla, in the very center of Barcelona's energy, color, and charm. Inside this modern 8-story building, you'll find 33 exclusive apartments designed for comfort, flexibility, and peace of mind, whether you're here for a few nights or a few weeks.",
+      "more": "Each apartment has independent access with a secure entry code, plus an automatic video intercom and 24/7 reception service for added security and support. From floors 1 to 6, five apartments are laid out per level. The top floor, floor 8 features a one-of-a-kind penthouse with stunning 360-degree views across the city. With fast Wi-Fi, air conditioning, fully equipped kitchens, an elevator, and professional cleaning services, you'll have everything you need to feel at home, right in the heart of it all.",
+      "aptIntro": "Each of the 33 exclusive apartments at master La Rambla is designed to feel like your own slice of the city, bright, functional, and thoughtfully laid out. The style blends modern Mediterranean charm with clean Scandinavian lines, creating a space that's as warm and welcoming as it is sleek and simple.",
+      "aptMore": "Whether you're here to work, rest, or explore, you'll enjoy the comfort of air conditioning, a fully equipped kitchen, and a smartly placed television for when you want to unwind.",
+      "facilities": [
+        "Luggage storage",
+        "Washer & Dryer"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterlarambla.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Interior One Bedroom Apartment",
+          "1-4",
+          1,
+          1,
+          41
+        ],
+        [
+          "Studio with Balcony",
+          "1-4",
+          1,
+          1,
+          40
+        ],
+        [
+          "One Bedroom Apartment with Balcony",
+          "1-4",
+          1,
+          1,
+          41
+        ],
+        [
+          "One Bedroom with Large Terrace",
+          "1-2",
+          1,
+          1,
+          50
+        ],
+        [
+          "Two Bedroom Apartment with Balcony",
+          "1-4",
+          2,
+          2,
+          60
+        ],
+        [
+          "Family Two Bedroom Apartment",
+          "1-8",
+          2,
+          2,
+          81
+        ],
+        [
+          "Two Bedroom penthouse with Large Terrace",
+          "1-6",
+          2,
+          2,
+          70
+        ]
+      ]
+    },
+    {
+      "slug": "athens/master-plaka-athens",
+      "city": "athens",
+      "name": "Plaka Athens",
+      "short": "Plaka",
+      "kind": "Serviced Apartments",
+      "address": "Apollonos 34, Athens",
+      "apartments": 14,
+      "bedrooms": "1-2 Bedrooms",
+      "lat": 37.97457,
+      "lon": 23.72978,
+      "img": "athens-master-plaka-athens",
+      "count": 14,
+      "intro": "Nestled on Apollonos 34 in the heart of Plaka, master Plaka Athens offers a unique blend of modern living within one of Athens's most historic and charming neighborhoods. Located just below the iconic Acropolis Hill, Plaka invites you to experience the essence of old Athens, with narrow cobblestone streets, neoclassical buildings, and vibrant local life.",
+      "more": "Plaka is renowned for its nostalgic atmosphere, blending small cafes, traditional tavernas, quaint souvenir shops, and ancient ruins around every corner. While it is lively and bustling with visitors, it retains an intimate and authentic charm that sets it apart from the rest of the city center. Here you can explore the area's rich history or enjoy a leisurely walk through its pedestrian-friendly streets. Plaka invites you to discover, unwind, and explore at your own pace. At master Plaka Athens, we provide 14 thoughtfully designed apartments, tailored to meet the needs of modern travelers. Whether you're visiting for business or leisure, for a short or extended stay, our apartments are crafted to offer the perfect balance of comfort and convenience. For added ease, the property is equipped with an elevator, ensuring smooth access to all apartment levels. Guests also have access to a communal area, an inviting space to work, relax, or connect with others. No matter your purpose—whether for business meetings or a cultural escape—master Plaka Athens is your perfect home base, offering an authentic stay in the heart of the city.",
+      "aptIntro": "The apartments at master Plaka Athens are designed to provide a harmonious blend of style and functionality, offering a serene escape within the vibrant surroundings of the city. Each of the 14 apartments reflects a modern minimalist aesthetic, with clean lines, neutral tones, and thoughtfully curated furnishings to create a sense of calm.",
+      "aptMore": "Equipped with fully-functional kitchens, coffee-making facilities, high-speed Wi-Fi, and flat-screen TVs, the apartments are well-suited for both short-term stays and extended visits. Whether you're traveling for business or leisure, these apartments provide all the essentials you need, ensuring a seamless and comfortable stay in the heart of Athens.",
+      "facilities": [
+        "Lobby area",
+        "Breakfast Available Nearby (Served at Symposio Restaurant, just 70 metres from the property. Book a Breakfast Rate to enjoy it).",
+        "Laundry Room",
+        "24/7 Remote Service"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterplakaathens.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Plaka Comfort Studio",
+          "1-2",
+          1,
+          1,
+          23
+        ],
+        [
+          "Plaka Superior Studio with Sofa Bed",
+          "1-4",
+          1,
+          1,
+          30
+        ],
+        [
+          "Plaka Balcony Studio",
+          "1-2",
+          1,
+          1,
+          25
+        ],
+        [
+          "Plaka One-Bedroom Suite",
+          "1-4",
+          1,
+          1,
+          42
+        ],
+        [
+          "Plaka One-Bedroom Suite with Balcony",
+          "1-4",
+          1,
+          1,
+          42
+        ],
+        [
+          "Acropolis View Penthouse Suite",
+          "1-4",
+          1,
+          1,
+          42
+        ],
+        [
+          "Plaka Family Suite",
+          "1-8",
+          2,
+          2,
+          72
+        ],
+        [
+          "Acropolis View Family Penthouse Suite",
+          "1-8",
+          2,
+          2,
+          84
+        ]
+      ]
+    },
+    {
+      "slug": "warsaw/master-wola",
+      "city": "warsaw",
+      "name": "master Wola",
+      "short": "Wola",
+      "kind": "Serviced Apartments",
+      "address": "Grzybowska 45, 00-844 Warszawa, Poland",
+      "apartments": 113,
+      "bedrooms": "1-3 Bedrooms",
+      "lat": 52.23425,
+      "lon": 20.9903,
+      "img": "warsaw-master-wola",
+      "count": 12,
+      "intro": "Set in the heart of Warsaw's vibrant Wola district, master Wola Serviced Apartments places you exactly where you need to be, close to the city's cultural highlights, buzzing business hubs, and an exciting mix of cafés, parks, and local markets. Whether you're here for work, family time, or simply to explore, this is your space to settle in and stay your way.",
+      "more": "With 113 thoughtfully designed apartments ranging from studio apartments to spacious three-bedroom layouts, master Wola combines flexibility and comfort with a clear sense of style. Each space showcases contemporary minimalist design with Scandinavian influences, blending clean lines, natural textures, and warm earthy tones to create a modern yet cozy atmosphere you'll want to come home to. Ideal for families discovering Warsaw together, couples on a city escape, or business travelers in town for a longer stay, master Wola offers the balance of independence and ease, right where the city beats strongest.",
+      "aptIntro": "At master Wola, you will find 113 fully equipped serviced apartments designed with comfort and style in mind. From studios to three bedroom layouts, each space offers a clean minimalist design with soft earthy tones and natural textures. These apartments are made for city living, giving you room to relax, work, cook, and rest in your own way. Feel at home from the moment you walk in.",
+      "aptMore": "",
+      "facilities": [
+        "Laundry Room",
+        "Luggage Storage Room"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterwolawarsaw.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Studio Apartment",
+          "1-2",
+          1,
+          1,
+          30
+        ],
+        [
+          "Studio with Sofa bed",
+          "1-4",
+          1,
+          1,
+          38
+        ],
+        [
+          "One Bedroom Apartment",
+          "1-2",
+          1,
+          1,
+          43
+        ],
+        [
+          "One Bedroom Apartment with Sofa bed",
+          "1-4",
+          1,
+          1,
+          45
+        ],
+        [
+          "Two Bedroom Apartment",
+          "1-6",
+          2,
+          2,
+          70
+        ],
+        [
+          "Three Bedroom Apartment",
+          "1-6",
+          3,
+          2,
+          95
+        ],
+        [
+          "Family Two-Bedroom Apartment 6 PAX",
+          "1-6",
+          2,
+          2,
+          70
+        ],
+        [
+          "Family Two-Bedroom Apartment 8 PAX",
+          "1-8",
+          2,
+          2,
+          85
+        ]
+      ]
+    },
+    {
+      "slug": "hamburg/master-altona",
+      "city": "hamburg",
+      "name": "Altona Hamburg",
+      "short": "Altona",
+      "kind": "Serviced Apartments",
+      "address": "Beerenweg 1C, 22761 Hamburg",
+      "apartments": 84,
+      "bedrooms": "Studio Apartments",
+      "lat": 53.56494,
+      "lon": 9.92175,
+      "img": "hamburg-master-altona",
+      "count": 12,
+      "intro": "Our serviced apartments in Altona, a vibrant neighborhood in Hamburg, Germany, offer a fantastic base to explore the city's main attractions while enjoying a more relaxed and local atmosphere.",
+      "more": "master Altona Hamburg is well-connected to the heart of Hamburg, being only a few train stops away from historic Speicherstadt port warehouse district, the lively St. Pauli neighborhood with its bars and nightclubs, the stunning Elbphilharmonie, and the bustling city center. Our serviced apartments offer more space, privacy and home-like amenities than a traditional hotel room. Business professionals or families longing for a cozy, extended stay will find immense satisfaction in the comfort and homeliness of serviced apartments. The inclusion of a kitchen allows guests to cook their meals, saving on dining expenses and offering a sense of familiarity. What sets Altona apart is its blend of historic charm and modernity, with picturesque streets lined with cozy cafes, independent shops, and a multicultural atmosphere. Its proximity to the Elbe River provides opportunities to enjoy leisurely walks along the scenic riverfront and take in breathtaking sunsets. Experience the local lifestyle, savor international cuisines, discover hidden gems, and enjoy a more authentic Hamburg experience. Whether you're on an extended business trip or a well-deserved family vacation, master Altona Hamburg's serviced apartments are an ideal solution for your stay.",
+      "aptIntro": "Enjoy the authentic coziness of a true home in Hamburg with one of master Altona Hamburg's 84 brand-new serviced apartments. Be it for a business assignment or a family getaway, our apartments offer a comfortable stay. Designed for two or four guests, they include full furnishings, a fully-equipped kitchen, and a variety of in-room entertainment options.",
+      "aptMore": "",
+      "facilities": [
+        "Gym",
+        "Sauna",
+        "Laundry Services"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masteraltonahamburg.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Studio Apartment",
+          "1-2",
+          1,
+          1,
+          30
+        ],
+        [
+          "Studio Apartment with Sofa Bed",
+          "1-4",
+          1,
+          1,
+          30
+        ],
+        [
+          "Family Apartment",
+          "1-6",
+          2,
+          2,
+          60
+        ]
+      ]
+    },
+    {
+      "slug": "salzburg/master-mirabell",
+      "city": "salzburg",
+      "name": "Mirabell Salzburg",
+      "short": "Mirabell",
+      "kind": "Serviced Apartments",
+      "address": "Rainerstrasse 7, Salzburg",
+      "apartments": 50,
+      "bedrooms": "Studio, One- and Two-Bedroom & Penthouses",
+      "lat": 47.80768,
+      "lon": 13.04145,
+      "img": "salzburg-master-mirabell",
+      "count": 12,
+      "intro": "When visiting Salzburg, the majestic and picturesque birthplace of Mozart, nestled in the embrace of the Austrian Alps, our spacious serviced apartments offer the perfect solution, whether you're on business or on extended vacation.",
+      "more": "Embraced by the Baroque splendor of Mirabell Palace & Gardens and adjacent to the Congress House of Salzburg, our prime location offers convenient access to the city's renowned attractions. A mere 6-minute walk separates you from the iconic birthplace of Mozart, where his musical genius still resonates in opulent concert halls and intimate venues. A leisurely 10-minute stroll leads you to the UNESCO-listed Old Town, where pastel-colored buildings, ornate facades and pedestrian streets transport you to a bygone era. We are also just a stone's throw away from the gorgeous Salzach River – ramble along its shores as majestic mountains provide a dramatic backdrop to the city's architectural wonders. master Mirabell serviced apartments allow Salzburg to cast the spell of its magical atmosphere upon you, inviting you to discover a captivating blend of history, culture and natural allure.",
+      "aptIntro": "Bask in the genuine warmth of a true home in Salzburg in one of master Mirabell Salzburg's brand-new collection of 50 serviced apartments. Whether you're on an extended business trip or enjoying a vacation with your loved ones, our serviced apartments are the perfect choice for a comfortable stay. Designed to accommodate two or four guests, our units boast full furnishings and are immaculately prepared for your arrival.",
+      "aptMore": "",
+      "facilities": [
+        "Lobby",
+        "Laundry Room",
+        "Luggage Storage"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://mastermirabellsalzburg.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Studio Apartment",
+          "1-2",
+          1,
+          1,
+          24
+        ],
+        [
+          "Studio Apartment with Sofa bed",
+          "1-4",
+          1,
+          1,
+          28
+        ],
+        [
+          "Deluxe Studio",
+          "1-2",
+          1,
+          1,
+          24
+        ],
+        [
+          "Compact One Bedroom Apartment",
+          "1-3",
+          1,
+          1,
+          28
+        ],
+        [
+          "One Bedroom Apartment",
+          "1-4",
+          1,
+          1,
+          35
+        ],
+        [
+          "Deluxe One Bedroom with Single Sofabed",
+          "1-3",
+          1,
+          1,
+          30
+        ],
+        [
+          "One Bedroom Suite",
+          "1-4",
+          1,
+          1,
+          42
+        ],
+        [
+          "Deluxe One Bedroom Suite",
+          "1-4",
+          1,
+          1,
+          32
+        ],
+        [
+          "Family Apartment",
+          "1-8",
+          2,
+          2,
+          63
+        ],
+        [
+          "Three Bedroom Penthouse with Terrace",
+          "1-6",
+          3,
+          2,
+          100
+        ]
+      ]
+    },
+    {
+      "slug": "salzburg/master-linzergasse",
+      "city": "salzburg",
+      "name": "Linzergasse Salzburg",
+      "short": "Linzergasse",
+      "kind": "Serviced Apartments",
+      "address": "Schallmooser Hauptstrasse 2, Salzburg",
+      "apartments": 21,
+      "bedrooms": "Studio & One Bedroom",
+      "lat": 47.8047,
+      "lon": 13.05001,
+      "img": "salzburg-master-linzergasse",
+      "count": 12,
+      "intro": "Travel Back in Time: Uncover Salzburg's Old City from our serviced apartments. Transport yourself to a bygone era as you venture into the captivating Aldstadt – the old city of Salzburg. Our serviced apartments provide the perfect base for your journey, whether you're on an extended business trip or enjoying a well-deserved family vacation.",
+      "more": "Our apartments are literally at the entrance to the Old City, a UNESCO World Heritage site. Lose yourself amidst the ornate facades, winding streets and charming squares. You'll also be a 10-minute walk away from Mozart's birthplace, now a museum dedicated to his life and work. Conveniently located close to The Congress House of Salzburg, Linzergrasse Salzburg is the perfect option for business travelers. Families can spend a delightful day exploring the stunning Mirabell Palace and Gardens. Let the kids run freely in the beautifully manicured gardens, play in the fountains, and enjoy the charming atmosphere. Allow Linzergrasse Salzburg by master be your conduit to the enchanting ambiance of Salzburg. Uncover the captivating blend of history, culture, and natural allure that awaits.",
+      "aptIntro": "Make our apartments your own home in Salzburg. 21 exquisitely-crafted serviced apartments are suitable for a prolonged business excursion or a vacation with your loved ones. Designed to cater to two or four guests, our units feature comprehensive furnishings and are immaculately prepared for your arrival.",
+      "aptMore": "",
+      "facilities": [
+        "Lobby",
+        "Laundry Room"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterlinzergassesalzburg.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "Studio Apartment",
+          "1-2",
+          1,
+          1,
+          24
+        ],
+        [
+          "One Bedroom Open Plan Suite",
+          "1-4",
+          1,
+          1,
+          42
+        ],
+        [
+          "One Bedroom Apartment",
+          "1-4",
+          1,
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "slug": "tel-aviv/mazeh-tel-aviv",
+      "city": "tel-aviv",
+      "name": "Mazeh Tel Aviv",
+      "short": "Mazeh",
+      "kind": "Serviced Apartments",
+      "address": "56 Mazeh, Tel Aviv",
+      "apartments": 54,
+      "bedrooms": "1-2 Bedrooms",
+      "lat": 32.06434,
+      "lon": 34.78305,
+      "img": "tel-aviv-mazeh-tel-aviv",
+      "count": 12,
+      "intro": "master Mazeh Tel Aviv Serviced Apartments is nestled in a peaceful neighborhood that embodies the charm and character of early Tel Aviv. The street is lined with historic buildings from the 1920s and 1930s, showcasing a mix of eclectic and Bauhaus architectural styles that reflect the city's beginnings. Recently restored, many of these architectural gems have become a must-see for design enthusiasts and a key attraction for visitors seeking a quieter side of the bustling city.",
+      "more": "Despite its serene atmosphere, our location places you at the heart of Tel Aviv's cultural pulse. A short walk will take you to the iconic Rothschild Boulevard, known for its vibrant cafes, nightlife, and green spaces. In just 20 minutes, you can find yourself exploring the lively Carmel Market or relaxing at Aviv Beach, providing the perfect balance of tranquility and city life.",
+      "aptIntro": "Our Serviced Apartments feature 54 spacious and modern serviced apartments, ranging from 42 to 60 square meters, ideal for accommodating 4 to 6 guests. Designed with comfort and convenience in mind, these apartments are perfect whether you're planning a short getaway or an extended stay.",
+      "aptMore": "Each apartment is equipped with a fully functional kitchenette, featuring a refrigerator, stovetop, microwave-oven combo, and an espresso machine to start your day right. Complimentary high-speed internet and built-in Chromecast ensure that you stay connected and entertained throughout your visit. We prioritize your well-being by providing fresh towels, branded bath products, and essential in-room amenities like a washer/dryer, iron, ironing board, and a safe for your valuables. Our dedicated remote staff is on hand to assist with any needs, ensuring your experience exceeds expectations. At master Mazeh Tel Aviv Serviced Apartments, you'll enjoy the comfort of a home-like environment paired with the services of a hotel, allowing you to relax and unwind after a day of exploring the dynamic city at your doorstep.",
+      "facilities": [
+        "Gym",
+        "Parking (available at an additional cost)"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://mazehtelaviv.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "One Bedroom Apartment",
+          "1-2",
+          1,
+          1,
+          46
+        ],
+        [
+          "One Bedroom Apartment with Sofa Bed",
+          "1-4",
+          1,
+          1,
+          46
+        ],
+        [
+          "One Bedroom Apartment with Balcony",
+          "1-2",
+          1,
+          1,
+          43
+        ],
+        [
+          "One Bedroom Apartment with Balcony & Sofa Bed",
+          "1-4",
+          1,
+          1,
+          43
+        ],
+        [
+          "Two Bedroom Apartment with Sofa Bed",
+          "1-6",
+          2,
+          2,
+          60
+        ],
+        [
+          "One Bedroom Apartment with Big Terrace & Sofa Bed",
+          "1-4",
+          1,
+          1,
+          42
+        ]
+      ]
+    },
+    {
+      "slug": "tel-aviv/master-shenkin",
+      "city": "tel-aviv",
+      "name": "master Shenkin",
+      "short": "Shenkin",
+      "kind": "Serviced Apartments",
+      "address": "38 Shenkin St, Tel Aviv",
+      "apartments": 19,
+      "bedrooms": "1-5 Bedroom Apartments",
+      "lat": 32.06889,
+      "lon": 34.77446,
+      "img": "tel-aviv-master-shenkin",
+      "count": 12,
+      "intro": "Hip and happening! Shenkin – the beating heart of Tel Aviv's hipster scene! This street is home to some of the city's coolest boutiques, bustling cafes, and funky shops, making it a must-visit destination for anyone looking to soak up the local culture.",
+      "more": "The perfect place to wander, shop, grab a coffee or a bite to eat and people-watch. Near some of the city's top attractions such as the Carmel Market, Nahalat Binyamin and Rothschild Boulevard, there's no better place to experience Tel Aviv's vibrant energy.",
+      "aptIntro": "Discover the comfort of unhindered stays at master Shenkin Serviced Apartments, where freedom knows no boundaries. Your desire for an extended retreat is effortlessly fulfilled, inviting you to linger a little longer. From a day to a week, a month, or even beyond, our accommodations warmly embrace you with spacious living areas.",
+      "aptMore": "Treat yourself to one of master Shenkin 19 high-standard, beautifully-renovated apartments. Each is a fully-furnished and fully-serviced apartment with a fully-equipped kitchen, cleaned and beautifully prepared for your arrival. Enjoy the convenience of work desks and sofas for small meetings, complemented by high-speed Wi-Fi for uninterrupted productivity. Experience the freedom to dine in at fully-equipped kitchens, featuring stovetops, ovens, microwaves, dishwashers, and refrigerators. Additional amenities include Smart TVs with Netflix, Nespresso machines, and safe boxes.",
+      "facilities": [
+        "Lobby",
+        "Laundry Room",
+        "Rooftop"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://shenkinapartments.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "One Bedroom Apartment",
+          "1-4",
+          1,
+          1,
+          55
+        ],
+        [
+          "One Bedroom Apartment With Balcony",
+          "1-4",
+          1,
+          1,
+          65
+        ],
+        [
+          "Two Bedroom Apartment With Balcony",
+          "1-6",
+          2,
+          2,
+          90
+        ],
+        [
+          "Three Bedroom Apartment With Balcony",
+          "1-8",
+          3,
+          2,
+          130
+        ],
+        [
+          "Four Bedroom Apartment With Balcony",
+          "1-10",
+          4,
+          3,
+          130
+        ]
+      ]
+    },
+    {
+      "slug": "bat-yam/master-bat-yam",
+      "city": "bat-yam",
+      "name": "master Bat Yam",
+      "short": "Bat Yam",
+      "kind": "Serviced Apartments",
+      "address": "Yochanan HaSandlar 4 Street, Bat Yam",
+      "apartments": 55,
+      "bedrooms": "1 Bedroom Apartments",
+      "lat": 32.00602,
+      "lon": 34.74277,
+      "img": "bat-yam-master-bat-yam",
+      "count": 12,
+      "intro": "Welcome to master's brand-new Serviced Apartments in Bat Yam. Make yourself at home, whether on a business or family trip, for a short stay or an extended period of time.",
+      "more": "Our beautifully-designed, modern, spacious units, featuring fully-equipped kitchens, and space to work are what set us apart. Work hard – at the nearby major industrial parks; Play hard – 6 minutes from the beach by foot, and only minutes away from Tel Aviv by light rail. Savor seamless comfort outside the hustle and bustle of the city.",
+      "aptIntro": "Enjoy the best of both worlds: Bat Yam Serviced Apartments combines convenience and style. Far from the chaos, congestion and traffic jams of Tel Aviv, and within easy reach of the industrial parks of Yavne, Rishon LeZion, Holon and Me'uyan Soreq, you'll save time and frustration and get more quality work done.",
+      "aptMore": "Our suites are thoughtfully designed to ensure you can comfortably host business guests, hold meetings in the living area and knock out some serious work at your desk. Make the most of your full-size kitchen to cook a meal for you and your guests or chill in front of the TV and catch up on your favorite show. You'll be glad to know that the new red line of the Greater Tel Aviv tramway is already up and running, giving you easy access to the “city that never sleeps”. From the flexibility of contactless self check-in at our lobby's kiosk to 24/7 personal service, Bat Yam Serviced Apartments offers its guests high standards of style and comfort. The 55 apartments are all tastefully-decorated with soothing color schemes. All have fully-equipped kitchens, Egyptian cotton bedding, artisanal toiletries, a Smart TV with Netflix and blazing-fast Wi-Fi. Moreover, each floor has a large room with multiple workstations, which can also be used as a meeting room. There is a self-service laundry room, complimentary for our business and long-staying guests, a fully-equipped gym, a yoga room as well as lockers to store your luggage in. Bat Yam Serviced Apartments means effortless work and relaxation – close enough to the city but far enough to get away!",
+      "facilities": [
+        "Gym",
+        "Yoga Room",
+        "Self-service Laundry",
+        "Luggage Lockers"
+      ],
+      "checkin": "03:00 pm",
+      "checkout": "11:00 am",
+      "book": "https://masterbatyam.reserve-online.net/?lang=en",
+      "apts": [
+        [
+          "One Bedroom Suite",
+          "1-2",
+          1,
+          1,
+          33
+        ],
+        [
+          "One Bedroom Suite with sofabed",
+          "1-3",
+          1,
+          1,
+          33
+        ]
+      ]
+    }
+  ]
+}
