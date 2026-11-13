@@ -100,21 +100,21 @@ test('visitor language preference persists between page visits', async () => {
 });
 
 
+
 test('booking page keeps its scripts in valid separate HTML tags', async () => {
   const html = await readFile(path.resolve(here, '../../booking.html'), 'utf8');
-  assert.doesNotMatch(html, /<\\/script>\\\\n<script/);
-  assert.match(html, /<script src="translator\\.js\\?v=1" defer><\\/script>\\s*<script src="booking\\.js" defer><\\/script>/);
+  assert.ok(html.includes('<script src="translator.js?v=1" defer></script>\\n<script src="booking.js" defer></script>'));
+  assert.ok(!html.includes('</script>\\\\n<script src="booking.js"'));
 });
 
 test('booking admin escapes guest and property data before HTML rendering', async () => {
   const source = await readFile(path.resolve(here, '../../booking-admin.js'), 'utf8');
-  assert.match(source, /esc\\(b\\.guest_name\\)/);
-  assert.match(source, /esc\\(b\\.guest_email\\)/);
-  assert.match(source, /esc\\(b\\.property_name\\)/);
-  assert.match(source, /esc\\(p\\.name\\)/);
+  for (const expression of ['esc(b.guest_name)', 'esc(b.guest_email)', 'esc(b.property_name)', 'esc(p.name)', 'esc(p.city)', 'esc(p.address)']) {
+    assert.ok(source.includes(expression), 'Missing HTML escaping for ' + expression);
+  }
 });
 
 test('manual payment transfer date rejects impossible calendar dates', async () => {
   const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
-  assert.match(source, /const validDate=Boolean\\(dateOnly\\(transferDate\\)\\)/);
+  assert.ok(source.includes('const validDate=Boolean(dateOnly(transferDate));'));
 });
