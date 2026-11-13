@@ -55,6 +55,7 @@ test('manual payment API routes enforce submission and administrator verificatio
   assert.match(source, /status\s*===\s*'verified'/);
   assert.match(source, /payment_status='paid'/);
   assert.match(source, /amountMinor!==booking\.total_minor/);
+  assert.match(source, /booking\.currency!==String\(process\.env\.BANK_ACCOUNT_CURRENCY/);
 });
 
 
