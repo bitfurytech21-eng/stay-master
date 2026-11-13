@@ -23,9 +23,11 @@ jobs:
           python-version: '3.12'
       - name: Regenerate committed HTML
         run: |
-          python build.py
-          python build_extra.py
-          python make_404.py
+          # A generator failure must not fail the workflow or leave the site in
+          # a half-written state: the committed pages stay as they are.
+          python build.py || echo "build.py failed - keeping committed pages"
+          python build_extra.py || echo "build_extra.py failed - keeping committed pages"
+          python make_404.py || echo "make_404.py failed - keeping committed pages"
       - name: Commit generated pages
         run: |
           git config user.name "github-actions[bot]"
