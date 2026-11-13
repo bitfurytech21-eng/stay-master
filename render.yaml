@@ -92,6 +92,8 @@ services:
         sync: false
       - key: ALLOWED_ORIGINS
         sync: false
+      - key: GOOGLE_TRANSLATE_API_KEY
+        sync: false
       # Manual checkout is disabled until verified bank settlement details are configured.
       - key: MANUAL_BANK_TRANSFER_ENABLED
         value: "false"
