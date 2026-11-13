@@ -103,11 +103,9 @@ def header(active='', book_href=None, book_label='Book Now'):
         '<li><a href="%s.html"%s>%s</a></li>' % (
             c['slug'], ' aria-current="page"' if c['slug'] == active else '', e(c['name']))
         for c in CITIES)
-    if book_href is None:
-        book_href = 'booking.html'
-        book_attrs = ' target="_blank" rel="noopener"'
-    else:
-        book_attrs = ''
+    # Always route booking actions to the first-party booking platform.
+    book_href = 'booking.html'
+    book_attrs = ''
     return '''<header class="site-header" id="siteHeader">
   <div class="header-inner">
     <a class="logo" href="index.html" aria-label="master — home">
