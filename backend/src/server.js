@@ -250,9 +250,17 @@ app.post('/api/enquiries', async (req, res) => {
 app.get('/api/enquiries', (req, res) => {
   if (!ADMIN_TOKEN) return res.status(404).json({ ok: false, error: 'Not found' });
   const given = String(req.headers.authorization || '').replace(/^Bearer\s+/i, '');
-  if (given !== ADMIN_TOKEN) return res.status(401).json({ ok: false, error: 'Unauthorized' });
+  const expectedToken = Buffer.from(ADMIN_TOKEN);
+  const givenToken = Buffer.from(given);
+  if (givenToken.length !== expectedToken.length ||
+      !crypto.timingSafeEqual(givenToken, expectedToken)) {
+    return res.status(401).json({ ok: false, error: 'Unauthorized' });
+  }
 
-  const limit = Math.min(Number(req.query.limit || 50), 200);
+  const requestedLimit = Number.parseInt(req.query.limit, 10);
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.min(Math.max(requestedLimit, 1), 200)
+    : 50;
   const rows = db.prepare(
     'SELECT id, created_at, name, email, phone, city, arrival, departure, guests, message, source_page, mailed, mail_error FROM enquiries ORDER BY id DESC LIMIT ?',
   ).all(limit);
