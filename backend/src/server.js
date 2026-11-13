@@ -278,9 +278,11 @@ async function notifyBookingRequest(details) {
     'Apartment: ' + details.unitName,
     'Dates: ' + details.checkIn + ' to ' + details.checkOut,
     'Guests: ' + details.guests,
-    'Total: ' + (details.totalMinor / 100).toFixed(2) + ' ' + details.currency,
+    details.onRequest
+      ? 'Rate: on request — quote this guest before confirming.'
+      : 'Total: ' + (details.totalMinor / 100).toFixed(2) + ' ' + details.currency,
     'Payment: not collected; awaiting team confirmation.'
-  ].join('\\n');
+  ].join('\n');
   await transporter.sendMail({
     from: FROM_EMAIL || 'website@example.com',
     to: TO_EMAIL,
@@ -292,7 +294,7 @@ async function notifyBookingRequest(details) {
     from: FROM_EMAIL || 'website@example.com',
     to: details.guestEmail,
     subject: 'We received your booking request ' + details.reference,
-    text: 'Hello ' + details.guestName + ',\\n\\nWe received your booking request for ' + details.propertyName + ' from ' + details.checkIn + ' to ' + details.checkOut + '. This is a request, not a confirmed reservation, and no payment has been collected. Our team will contact you after checking the details.\\n\\nReference: ' + details.reference,
+    text: 'Hello ' + details.guestName + ',\n\nWe received your booking request for ' + details.propertyName + ' from ' + details.checkIn + ' to ' + details.checkOut + '. This is a request, not a confirmed reservation, and no payment has been collected. Our team will contact you after checking the details.\n\nReference: ' + details.reference,
   });
   return true;
 }
