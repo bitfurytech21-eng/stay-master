@@ -118,3 +118,16 @@ test('manual payment transfer date rejects impossible calendar dates', async () 
   const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
   assert.ok(source.includes('const validDate=Boolean(dateOnly(transferDate));'));
 });
+
+test('booking pricing supports verified editable unit rates and displays full stay totals', async () => {
+  const backend = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
+  const admin = await readFile(path.resolve(here, '../../booking-admin.js'), 'utf8');
+  const guest = await readFile(path.resolve(here, '../../booking.js'), 'utf8');
+  assert.match(backend, /\/api\/admin\/booking\/units/);
+  assert.match(backend, /nightly_rate_minor=\?,currency=\?,active=\?/);
+  assert.match(backend, /Number\.isSafeInteger\(total\)/);
+  assert.match(admin, /data-unit-rate/);
+  assert.match(admin, /Math\.round\(rate\*100\)/);
+  assert.match(guest, /Stay total:/);
+  assert.match(guest, /data\.nights/);
+});
