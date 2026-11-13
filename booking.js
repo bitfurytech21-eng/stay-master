@@ -65,12 +65,24 @@ async function authSubmit(form,endpoint){
 }
 $('#loginForm').addEventListener('submit',e=>{e.preventDefault();authSubmit(e.currentTarget,'/api/auth/login');});
 $('#registerForm').addEventListener('submit',e=>{e.preventDefault();authSubmit(e.currentTarget,'/api/auth/register');});
+async function openManualCheckout(reference,amountMinor,currency){
+ const panel=$('#manualCheckout');panel.hidden=false;panel.innerHTML='<h3>Manual bank transfer checkout</h3><p>Loading payment instructions…</p>';panel.scrollIntoView({behavior:'smooth',block:'center'});
+ try{
+  const methods=await api('/api/payments/methods');
+  if(!methods.methods.length){panel.innerHTML='<h3>Manual checkout unavailable</h3><p>'+escapeHtml(methods.message)+'</p><p>Contact our reservations team for payment instructions.</p>';return;}
+  const method=methods.methods[0];
+  panel.innerHTML='<h3>Manual bank transfer</h3><p>Booking reference: <strong>'+escapeHtml(reference)+'</strong></p><p>Amount due: <strong>'+((amountMinor/100).toFixed(2))+' '+escapeHtml(currency)+'</strong></p><p>Transfer to the account below. Use your booking reference as the transfer description.</p><dl class="payment-details"><dt>Bank</dt><dd>'+escapeHtml(method.bankName)+'</dd><dt>Account name</dt><dd>'+escapeHtml(method.accountName)+'</dd><dt>Account number</dt><dd>'+escapeHtml(method.accountNumber)+'</dd>'+(method.sortCode?'<dt>Sort code</dt><dd>'+escapeHtml(method.sortCode)+'</dd>':'')+(method.iban?'<dt>IBAN</dt><dd>'+escapeHtml(method.iban)+'</dd>':'')+(method.swift?'<dt>SWIFT/BIC</dt><dd>'+escapeHtml(method.swift)+'</dd>':'')+'<dt>Instructions</dt><dd>'+escapeHtml(method.instructions)+'</dd></dl><form id="manualPaymentForm" class="auth-form"><label>Account holder / payer name<input name="payerName" required minlength="2" maxlength="120"></label><label>Transfer transaction reference<input name="transactionReference" required minlength="4" maxlength="120"></label><label>Transfer date<input name="transferDate" type="date" required></label><label>Additional notes (optional)<textarea name="notes" maxlength="500" rows="3"></textarea></label><button class="booking-primary" type="submit">Submit payment for verification</button></form><div id="paymentMessage" class="booking-message" role="status"></div><p class="payment-caution">Submitting details does not confirm payment. Keep your bank receipt. The team will verify the funds before updating your booking.</p>';
+  $('#manualPaymentForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.currentTarget.querySelector('button');button.disabled=true;try{const values=Object.fromEntries(new FormData(e.currentTarget).entries());const result=await api('/api/bookings/'+encodeURIComponent(reference)+'/payments',{method:'POST',body:JSON.stringify({...values,amountMinor})});msg($('#paymentMessage'),result.message,'success');await loadAccount();}catch(error){msg($('#paymentMessage'),error.message,'error');}finally{button.disabled=false;}});
+ }catch(error){panel.textContent=error.message;}
+}
+$('#bookingHistory').addEventListener('click',e=>{const button=e.target.closest('[data-pay-booking]');if(button)openManualCheckout(button.dataset.payBooking,Number(button.dataset.amount),button.dataset.currency);});
+
 async function loadAccount(){
  try{
   const me=await api('/api/auth/me');if(!me.user){$('#accountPanel').hidden=true;return;}
   $('#accountPanel').hidden=false;$('#welcomeName').textContent='Welcome, '+me.user.name;
   const data=await api('/api/bookings/mine');
-  $('#bookingHistory').innerHTML=data.bookings.length?data.bookings.map(b=>'<div class="history-row"><strong>'+escapeHtml(b.reference)+' · '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' · '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' · '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+'</div>').join(''):'<p>You have no booking requests yet.</p>';
+  $('#bookingHistory').innerHTML=data.bookings.length?data.bookings.map(b=>'<div class="history-row"><strong>'+escapeHtml(b.reference)+' · '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' · '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' · '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+' / submission '+escapeHtml(b.latest_payment_submission||'none')+(b.payment_status!=='paid'&&b.status!=='cancelled'?'<br><button type="button" class="booking-secondary" data-pay-booking="'+escapeHtml(b.reference)+'" data-amount="'+b.total_minor+'" data-currency="'+escapeHtml(b.currency)+'">Manual checkout · '+(b.total_minor/100).toFixed(2)+' '+escapeHtml(b.currency)+'</button>':'')+'</div>').join(''):'<p>You have no booking requests yet.</p>';
  }catch(e){/* signed-out state is shown by default */}
 }
 $('#logoutButton').addEventListener('click',async()=>{try{await api('/api/auth/logout',{method:'POST',body:'{}'});$('#accountPanel').hidden=true;msg($('#authMessage'),'You have signed out.');}catch(e){msg($('#authMessage'),e.message,'error');}});
