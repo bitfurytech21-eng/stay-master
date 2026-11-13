@@ -8,6 +8,7 @@ on:
       - 'build_city.py'
       - 'build_building.py'
       - 'build_building_parts.py'
+      - 'build_property_content.py'
       - 'build_extra.py'
       - 'make_404.py'
       - 'data/**'

@@ -487,18 +487,16 @@ def build_apartments():
   <div class="wrap">
     %s
     <div class="prose">%s</div>
+    <p style="margin-top:34px"><a class="btn-outline" href="%s">Check Availability</a></p>
   </div>
 </section>
 
-%s''' % (hero, spec_html, prose(d['blocks']), B.cta_band(b))
+%s''' % (hero, spec_html, prose(d['blocks']), B.e(B.booking_href(b, h1)), B.cta_band(b))
 
         out['%s-apartments-%s.html' % (flat(b['slug']), apt)] = B.shell(
             title, desc, body, active=c['slug'],
-            book_href=B.mailto('Booking enquiry \u2014 %s, %s' % (h1, b['name']),
-                               'Hello,\n\nI would like to enquire about availability for the '
-                               '%s at %s, %s.\n\nArrival:\nDeparture:\nGuests:\n\nThank you.'
-                               % (h1, b['name'], b['address'])),
-            book_label='Enquire by email')
+            book_href=B.booking_href(b, h1),
+            book_label='Check Availability')
     return out
 
 
