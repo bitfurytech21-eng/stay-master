@@ -101,3 +101,9 @@ test('booking pricing supports verified editable unit rates and displays full st
   const source = await readFile(path.resolve(here, '../../booking.js'), 'utf8');
   assert.ok(source.includes('nightly_rate_minor'));
 });
+
+test('booking creation checks overlapping reservations inside the same transaction as insertion', async () => {
+  const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
+  assert.ok(source.includes('const createReservation = db.transaction'));
+  assert.ok(source.includes('if (!createReservation())'));
+});
