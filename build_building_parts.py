@@ -39,7 +39,7 @@ def building_parts(b):
             overlay = '<span class="more-count">+%d photos</span>' % (n - 4)
         cells.append('''<div class="bg-cell">
       <button class="gallery-btn" type="button" data-index="%d" aria-label="Open photo %d of %d">
-        <img src="%s" alt="%s — photo %d" width="1024" height="683" %s decoding="async">%s
+        <img src="%s" alt="%s \u2014 photo %d" width="1024" height="683" %s decoding="async">%s
       </button>
     </div>''' % (i - 1, i, n, img(b, i), e(b['name']), i,
                  'loading="eager"' if i == 1 else 'loading="lazy"', overlay))
@@ -53,7 +53,7 @@ def building_parts(b):
             cls += ' gallery-cell--tall'
         grid_cells.append('''<li class="%s">
           <button class="gallery-btn" type="button" data-index="%d" aria-label="Open photo %d of %d">
-            <img src="%s" alt="%s — photo %d" width="1024" height="683" loading="lazy" decoding="async">
+            <img src="%s" alt="%s \u2014 photo %d" width="1024" height="683" loading="lazy" decoding="async">
             <span class="gallery-cap">%s</span>
           </button>
         </li>''' % (cls, i - 1, i, n, img(b, i), e(b['name']), i, e(b['name'])))
@@ -76,7 +76,7 @@ def building_parts(b):
       <li><span>Guests</span><strong>%s</strong></li>
       <li><span>Bedrooms</span><strong>%d</strong></li>
       <li><span>Bathrooms</span><strong>%d</strong></li>
-      <li><span>Size</span><strong>%d m²</strong></li>
+      <li><span>Size</span><strong>%d m\u00b2</strong></li>
     </ul>
     <a class="btn-outline" href="%s">Check Availability</a>
   </div>
@@ -113,11 +113,8 @@ def building_parts(b):
     nav_items.append(nav_item('Reviews', first_sub('reviews'), 'reviews'))
     nav_items.append(nav_item('Special Offers', first_sub('special-offers'), 'offer'))
 
-    osm = 'https://www.openstreetmap.org/?mlat=%s&amp;mlon=%s#map=17/%s/%s' % (b['lat'], b['lon'], b['lat'], b['lon'])
-    gmaps = 'https://www.google.com/maps/search/?api=1&amp;query=' + e(b['address'].replace(' ', '+'))
-
     return {
         'c': c, 'n': n, 'cells': ''.join(cells), 'grid_cells': ''.join(grid_cells),
         'apts': ''.join(apts), 'facs': facs, 'apt_more': apt_more,
-        'nav_items': ''.join(nav_items), 'osm': osm, 'gmaps': gmaps,
+        'nav_items': ''.join(nav_items),
     }

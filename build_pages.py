@@ -28,7 +28,7 @@ def header(active='', book_href=None, book_label='Book Now'):
     book_attrs = ''
     return '''<header class="site-header" id="siteHeader">
   <div class="header-inner">
-    <a class="logo" href="index.html" aria-label="master — home">
+    <a class="logo" href="index.html" aria-label="master \u2014 home">
       <img src="images/master-logo.svg" alt="master" width="120" height="26">
     </a>
 
@@ -101,21 +101,6 @@ def footer():
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-locations">%s</div>
-
-      <div class="footer-social">
-        <h2 class="lucky">Keep in Touch</h2>
-        <ul>
-          <li><a href="https://www.instagram.com/stay.master/" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
-          </a></li>
-          <li><a href="https://www.facebook.com/people/Master-Aparthotel-Serviced-Apartments/61575637148714/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7h2.4l.4-2.9h-2.8V9.3c0-.8.2-1.4 1.4-1.4h1.5V5.3c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v2.9h2.5V21h3z"/></svg>
-          </a></li>
-          <li><a href="https://www.linkedin.com/company/master-serviced-apartments/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.9 8.6H4.2V20h2.7V8.6zM5.5 4a1.6 1.6 0 100 3.2 1.6 1.6 0 000-3.2zM20 13.6c0-3-1.6-4.4-3.7-4.4-1.7 0-2.5.9-2.9 1.6V8.6H10.7V20h2.7v-6.1c0-1.3.6-2.1 1.8-2.1 1.1 0 1.6.8 1.6 2.1V20H20v-6.4z"/></svg>
-          </a></li>
-        </ul>
-      </div>
     </div>
 
     <div class="footer-bottom">
@@ -171,6 +156,7 @@ def shell(title, desc, body, active='', book_href=None, book_label='Book Now'):
 
 %s
 
+<script src="api-config.js"></script>
 <script src="vendor/leaflet/leaflet.js"></script>
 <script src="script.js?v=3"></script>
 </body>
@@ -184,7 +170,7 @@ def cta_band(b=None):
     # All booking calls now use the first-party reservation platform.
     book = 'booking.html'
     label = 'Book Now'
-    where = (' — ' + e(b['name'])) if b else ''
+    where = (' \u2014 ' + e(b['name'])) if b else ''
     return '''<section class="cta-band" id="offer">
   <div class="wrap">
     <div class="cta-inner">
@@ -236,6 +222,6 @@ def building_card(b):
     </ul>
     <a class="btn-outline bcard-cta" href="%s">Check Availability</a>
   </div>
-</article>''' % (img(b, 1), e(b['name'] + ' — ' + c['name']), e(b['kind']),
+</article>''' % (img(b, 1), e(b['name'] + ' \u2014 ' + c['name']), e(b['kind']),
                  page_path(b), e(b['name']), e(b['address']),
                  b['apartments'], e(b['bedrooms']), page_path(b))
