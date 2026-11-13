@@ -248,7 +248,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
 
   app.get('/api/payments/methods', (req, res) => {
     const enabled = String(process.env.MANUAL_BANK_TRANSFER_ENABLED || 'false').toLowerCase() === 'true';
-    const details = { enabled: enabled && Boolean(process.env.BANK_ACCOUNT_NAME && process.env.BANK_ACCOUNT_NUMBER && process.env.BANK_NAME), method:'bank_transfer', label:'Manual bank transfer', bankName:process.env.BANK_NAME||'', accountName:process.env.BANK_ACCOUNT_NAME||'', accountNumber:process.env.BANK_ACCOUNT_NUMBER||'', sortCode:process.env.BANK_SORT_CODE||'', iban:process.env.BANK_IBAN||'', swift:process.env.BANK_SWIFT||'', instructions:process.env.BANK_TRANSFER_INSTRUCTIONS||'Use your booking reference as the transfer description.' };
+    const details = { enabled: enabled && Boolean(process.env.BANK_ACCOUNT_NAME && process.env.BANK_ACCOUNT_NUMBER && process.env.BANK_NAME && /^[A-Z]{3}$/.test(String(process.env.BANK_ACCOUNT_CURRENCY || '').toUpperCase())), currency:String(process.env.BANK_ACCOUNT_CURRENCY || '').toUpperCase(), method:'bank_transfer', label:'Manual bank transfer', bankName:process.env.BANK_NAME||'', accountName:process.env.BANK_ACCOUNT_NAME||'', accountNumber:process.env.BANK_ACCOUNT_NUMBER||'', sortCode:process.env.BANK_SORT_CODE||'', iban:process.env.BANK_IBAN||'', swift:process.env.BANK_SWIFT||'', instructions:process.env.BANK_TRANSFER_INSTRUCTIONS||'Use your booking reference as the transfer description.' };
     res.json({ ok:true, methods:details.enabled?[details]:[], message:details.enabled?'':'Manual bank transfer is not configured yet. Please contact our reservations team.' });
   });
   app.post('/api/bookings/:reference/payments', requireGuest, (req,res) => {
@@ -257,6 +257,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     if(booking.status==='cancelled'||booking.payment_status==='paid')return res.status(409).json({ok:false,error:'This booking cannot accept another payment submission.'});
     const enabled=String(process.env.MANUAL_BANK_TRANSFER_ENABLED||'false').toLowerCase()==='true'&&Boolean(process.env.BANK_ACCOUNT_NAME&&process.env.BANK_ACCOUNT_NUMBER&&process.env.BANK_NAME);
     if(!enabled)return res.status(503).json({ok:false,error:'Manual bank transfer is not currently configured. Please contact our reservations team.'});
+    if(booking.currency!==String(process.env.BANK_ACCOUNT_CURRENCY||'').toUpperCase())return res.status(422).json({ok:false,error:'Manual bank transfer is not available in this booking currency. Please contact our reservations team for an approved payment method.'});
     const payerName=String(req.body?.payerName||'').trim().slice(0,120), transactionReference=String(req.body?.transactionReference||'').trim().slice(0,120), transferDate=String(req.body?.transferDate||''), notes=String(req.body?.notes||'').trim().slice(0,500), amountMinor=Number(req.body?.amountMinor);
     const validDate=/^\d{4}-\d{2}-\d{2}$/.test(transferDate)&&!Number.isNaN(Date.parse(transferDate+'T00:00:00Z'));
     if(payerName.length<2||transactionReference.length<4||!validDate||!Number.isSafeInteger(amountMinor)||amountMinor!==booking.total_minor)return res.status(422).json({ok:false,error:'Enter the payer name, transaction reference, transfer date and exact booking amount.'});
