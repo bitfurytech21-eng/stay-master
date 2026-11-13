@@ -35,7 +35,7 @@ async function search(event){
    const box=$('#units-'+p.id);
    try{
     const data=await api('/api/booking/availability?'+new URLSearchParams({propertyId:p.id,checkIn,checkOut,guests}));
-    box.innerHTML=data.units.length?data.units.map(u=>'<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+escapeHtml(u.max_guests)+' guests · '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>').join(''):'<small>No matching units available for these dates.</small>';
+    box.innerHTML=data.units.length?data.units.map(u=>'<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+escapeHtml(u.max_guests)+' guests · '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>').join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
    }catch(e){box.textContent=e.message;}
   }));
   msg($('#searchMessage'),'Availability is based on inventory entered by the property team. Requests remain pending until confirmed.','');
