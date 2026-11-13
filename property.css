@@ -1,0 +1,36 @@
+/* Property-page content styles.
+   Kept separate from styles.css so the property-page work does not require
+   rewriting the 1,600-line main stylesheet. Loaded after styles.css. */
+
+/* Facility cards: a short name heading with the real description under it. */
+.fac-item h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.fac-item h3:last-child { margin-bottom: 0; }
+
+/* FAQ: grouped headings above the question list. */
+.faq-group {
+  margin: 34px 0 0;
+  padding-top: 22px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--dark-green);
+}
+.faq-group:first-child { margin-top: 0; padding-top: 0; }
+
+/* Neighbourhood / directions block on the location section. */
+.getting-here h3 {
+  margin: 26px 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--dark-green);
+}
+.getting-here h3:first-child { margin-top: 0; }
+.getting-here ul { margin: 0 0 4px; padding-left: 18px; }
+.getting-here li { margin-bottom: 6px; font-size: .9rem; line-height: 1.55; }

@@ -28,6 +28,9 @@ def build_building(b):
     facs = p['facs']
     apt_more = p['apt_more']
     nav_items = p['nav_items']
+    faq_html = p['faq_html']
+    loc_html = p['loc_html']
+    apt_intro = p['apt_intro']
 
     body = '''<section class="bhero">
   <div class="wrap">
@@ -113,8 +116,7 @@ def build_building(b):
       <div class="getting-here">
         <h3>Our address</h3>
         <p>%s</p>
-        <h3>Getting here</h3>
-        <p>%s is in %s. Use the map to plan your route, or open the address in your maps app for live directions and public transport.</p>
+        %s
         <ul>
           <li>Check-in from %s, check-out by %s.</li>
           <li>Reception and support are remote \u2014 details are sent before arrival.</li>
@@ -145,36 +147,7 @@ def build_building(b):
       <p class="eyebrow">FAQ</p>
       <h2>Common questions</h2>
     </div>
-    <div class="faq">
-      <details>
-        <summary>What exactly is %s \u2014 hotel, aparthotel, or serviced apartments?</summary>
-        <p>%s offers serviced apartments that combine private living spaces with hotel-style conveniences, including virtual guest support, housekeeping and access to laundry facilities.</p>
-      </details>
-      <details>
-        <summary>What type of traveller is %s best suited for?</summary>
-        <p>It suits business travellers, couples and families seeking spacious serviced apartments with kitchen facilities in %s.</p>
-      </details>
-      <details>
-        <summary>Is it suitable for a long-term stay of several weeks or more?</summary>
-        <p>Yes. Fully equipped kitchens, laundry facilities and apartment-style layouts make it comfortable for extended stays.</p>
-      </details>
-      <details>
-        <summary>Do the apartments have fully equipped kitchens?</summary>
-        <p>Yes \u2014 each apartment includes a kitchen with stovetop, fridge, cookware and utensils, plus coffee-making facilities.</p>
-      </details>
-      <details>
-        <summary>Is there Wi-Fi throughout the property?</summary>
-        <p>Yes, complimentary high-speed Wi-Fi covers every apartment and all shared areas for guests.</p>
-      </details>
-      <details>
-        <summary>What are the check-in and check-out times?</summary>
-        <p>Check-in is from %s and check-out is by %s. Guests receive arrival instructions before their stay.</p>
-      </details>
-      <details>
-        <summary>How do I get the best rate?</summary>
-        <p>Book directly with master and get 5%% off. Rates and live availability are confirmed on the reservation system.</p>
-      </details>
-    </div>
+    <div class="faq">%s</div>
   </div>
 </section>
 
@@ -196,15 +169,14 @@ def build_building(b):
          ''.join(nav_items),
          e(c['name']), e(b['kind']), e(b['name']),
          e(b['intro']), e(b['more']),
-         b['apartments'], e(b['aptIntro']), apt_more, ''.join(apts),
+         b['apartments'], e(apt_intro), apt_more, ''.join(apts),
          facs,
          e(c['name']), e(b['address']),
          b['lat'], b['lon'], e(b['name']), b['name'], e(b['address']),
-         e(b['address']), e(b['name']), e(c['name']),
+         e(b['address']), loc_html,
          e(b['checkin']), e(b['checkout']),
          e(b['checkin']), e(b['checkout']), b['apartments'], e(b['bedrooms']),
-         e(b['name']), e(b['name']), e(b['name']), e(c['name']),
-         e(b['checkin']), e(b['checkout']),
+         faq_html,
          e(b['name']), ''.join(grid_cells),
          cta_band(b))
 

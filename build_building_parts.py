@@ -84,6 +84,17 @@ def building_parts(b):
 
     facs = ''.join('<div class="fac-item">%s<p>%s</p></div>' % (FAC_ICON, e(f)) for f in b['facilities'])
 
+    # Real per-property content (facility descriptions, the property's own FAQ,
+    # neighbourhood copy and directions) extracted from the live site. Falls
+    # back to the generic markup below when a building has no extraction.
+    from build_property_content import property_content
+    pc = property_content(b)
+    if pc['fac_cards']:
+        facs = pc['fac_cards']
+    faq_html = pc['faq_html']
+    loc_html = pc['loc_html']
+    apt_intro = pc['apt_intro'] or b['aptIntro']
+
     apt_more = ''
     if b['aptMore']:
         apt_more = '''<div id="aptMore" hidden><p>%s</p></div>
@@ -117,4 +128,5 @@ def building_parts(b):
         'c': c, 'n': n, 'cells': ''.join(cells), 'grid_cells': ''.join(grid_cells),
         'apts': ''.join(apts), 'facs': facs, 'apt_more': apt_more,
         'nav_items': ''.join(nav_items),
+        'faq_html': faq_html, 'loc_html': loc_html, 'apt_intro': apt_intro,
     }
