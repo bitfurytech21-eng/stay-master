@@ -91,3 +91,10 @@ test('translation frontend does not contain a provider API key', async () => {
   assert.match(source, /fetch\('\/api\/translate'/);
   assert.doesNotMatch(source, /AIza[0-9A-Za-z_-]{20,}/);
 });
+
+
+test('visitor language preference persists between page visits', async () => {
+  const source = await readFile(path.resolve(here, '../../translator.js'), 'utf8');
+  assert.match(source, /localStorage\.setItem\('stayMasterLanguage'/);
+  assert.match(source, /localStorage\.getItem\('stayMasterLanguage'/);
+});
