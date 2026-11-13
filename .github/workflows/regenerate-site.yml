@@ -4,6 +4,10 @@ on:
     branches: [main]
     paths:
       - 'build.py'
+      - 'build_pages.py'
+      - 'build_city.py'
+      - 'build_building.py'
+      - 'build_building_parts.py'
       - 'build_extra.py'
       - 'make_404.py'
       - 'data/**'
