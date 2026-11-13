@@ -1367,6 +1367,12 @@ body.lb-open { overflow: hidden; }
 
 /* ---------- prose ---------- */
 .prose { max-width: 74ch; }
+/* Long unbreakable tokens (email addresses, URLs, phone strings) must wrap
+   instead of forcing horizontal scroll on narrow screens. */
+.prose, .prose p, .prose li, .prose dd, .prose td, .prose h2, .prose h3 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .prose p { margin: 0 0 18px; font-size: .95rem; line-height: 1.75; }
 .prose p:last-child { margin-bottom: 0; }
 
@@ -1538,3 +1544,64 @@ body.lb-open { overflow: hidden; }
 .site-footer a { color: inherit; }
 .site-footer .loc-col h3 a:hover,
 .site-footer .legal-links a:hover { color: var(--bright-green); }
+
+/* ---------- enquiry form (contact page) ---------- */
+.enquiry-form {
+  max-width: 620px;
+  margin: 26px 0 0;
+  display: grid;
+  gap: 16px;
+}
+.ef-row { display: grid; gap: 6px; }
+.ef-row--split { grid-template-columns: 1fr 1fr; gap: 18px; }
+.ef-row--split > div { display: grid; gap: 6px; }
+.enquiry-form label {
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--bright-grey);
+  font-weight: 600;
+}
+.enquiry-form input,
+.enquiry-form select,
+.enquiry-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: .95rem;
+  color: var(--dark-grey);
+  background: #fff;
+  border: 1px solid rgba(0, 51, 25, .28);
+  border-radius: 0;
+  box-sizing: border-box;
+}
+.enquiry-form input:focus,
+.enquiry-form select:focus,
+.enquiry-form textarea:focus {
+  outline: 2px solid var(--dark-green);
+  outline-offset: 1px;
+  border-color: var(--dark-green);
+}
+.enquiry-form textarea { resize: vertical; min-height: 120px; }
+.enquiry-form input[aria-invalid="true"],
+.enquiry-form textarea[aria-invalid="true"],
+.enquiry-form select[aria-invalid="true"] { border-color: var(--red); }
+.ef-error { margin: 0; color: var(--red); font-size: .82rem; }
+.ef-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.ef-submit { justify-self: start; margin-top: 4px; }
+.ef-submit[disabled] { opacity: .6; cursor: progress; }
+.ef-status { margin: 0; font-size: .9rem; }
+.ef-status--ok { color: var(--dark-green); font-weight: 600; }
+.ef-status--err { color: var(--red); }
+.ef-note { margin: 0; font-size: .88rem; color: var(--bright-grey); }
+.enquiry-form .ef-status:empty { display: none; }
+
+@media (max-width: 560px) {
+  .ef-row--split { grid-template-columns: 1fr; }
+}

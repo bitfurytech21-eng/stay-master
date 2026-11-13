@@ -1,21 +1,3 @@
-# Python
 __pycache__/
-*.py[cod]
-*.egg-info/
-.venv/
-venv/
-
-# OS
+*.pyc
 .DS_Store
-Thumbs.db
-desktop.ini
-
-# Editors
-.vscode/
-.idea/
-*.swp
-*~
-
-# Local scratch
-*.log
-.cache/

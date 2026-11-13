@@ -191,6 +191,114 @@
     });
   });
 
+  /* ---------- enquiry form: post to the API, honest states only ---------- */
+  var enquiryForm = document.getElementById('enquiryForm');
+  if (enquiryForm) {
+    var efStatus = document.getElementById('efStatus');
+    var efSubmit = enquiryForm.querySelector('.ef-submit');
+
+    function setFieldError(name, msg) {
+      var field = enquiryForm.querySelector('[name="' + name + '"]');
+      var box = enquiryForm.querySelector('.ef-error[data-for="' + name + '"]');
+      if (msg) {
+        if (field) field.setAttribute('aria-invalid', 'true');
+        if (box) { box.textContent = msg; box.hidden = false; }
+      } else {
+        if (field) field.removeAttribute('aria-invalid');
+        if (box) { box.textContent = ''; box.hidden = true; }
+      }
+    }
+
+    function clearErrors() {
+      ['name', 'email', 'message', 'departure'].forEach(function (n) {
+        setFieldError(n, null);
+      });
+    }
+
+    function say(text, kind) {
+      if (!efStatus) return;
+      efStatus.textContent = text;
+      efStatus.className = 'ef-status' + (kind ? ' ef-status--' + kind : '');
+    }
+
+    enquiryForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      clearErrors();
+
+      var data = {};
+      new FormData(enquiryForm).forEach(function (v, k) { data[k] = v; });
+
+      // Client-side mirror of the server rules, so the guest gets instant feedback.
+      var problems = false;
+      if (!data.name || data.name.trim().length < 2) {
+        setFieldError('name', 'Please tell us your name.');
+        problems = true;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((data.email || '').trim())) {
+        setFieldError('email', 'Please enter a valid email address.');
+        problems = true;
+      }
+      if (!data.message || data.message.trim().length < 10) {
+        setFieldError('message', 'Please add a little more detail (at least 10 characters).');
+        problems = true;
+      }
+      if (data.arrival && data.departure && data.departure < data.arrival) {
+        setFieldError('departure', 'Departure cannot be before arrival.');
+        problems = true;
+      }
+      if (problems) {
+        say('Please check the highlighted fields.', 'err');
+        var firstBad = enquiryForm.querySelector('[aria-invalid="true"]');
+        if (firstBad) firstBad.focus();
+        return;
+      }
+
+      var endpoint = enquiryForm.getAttribute('action') || '/api/enquiries';
+      if (efSubmit) { efSubmit.disabled = true; efSubmit.textContent = 'Sending\u2026'; }
+      say('Sending your enquiry\u2026');
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (body) {
+          return { ok: res.ok, status: res.status, body: body };
+        });
+      }).then(function (r) {
+        if (r.status === 422 && r.body && r.body.fields) {
+          Object.keys(r.body.fields).forEach(function (k) {
+            setFieldError(k, r.body.fields[k]);
+          });
+          say('Please check the highlighted fields.', 'err');
+          return;
+        }
+        if (r.status === 429) {
+          say(r.body.error || 'Too many enquiries. Please try again later.', 'err');
+          return;
+        }
+        if (!r.ok || !r.body || r.body.ok !== true) {
+          say((r.body && r.body.error) ||
+              'Sorry, we could not send your enquiry. Please email easytravelagency@trustagent.space.', 'err');
+          return;
+        }
+        // Never claim the email went out when the server says it did not.
+        if (r.body.mailed === false && r.body.message) {
+          say(r.body.message, 'ok');
+        } else {
+          say('Thank you \u2014 your enquiry has been sent. We will reply to ' +
+              (data.email || 'your email') + ' shortly.', 'ok');
+        }
+        enquiryForm.reset();
+      }).catch(function () {
+        say('We could not reach the server. Please check your connection, or email ' +
+            'easytravelagency@trustagent.space.', 'err');
+      }).then(function () {
+        if (efSubmit) { efSubmit.disabled = false; efSubmit.textContent = 'Send enquiry'; }
+      });
+    });
+  }
+
   /* ---------- home search: route to the chosen city ---------- */
   var searchForm = document.getElementById('searchForm');
   if (searchForm) {

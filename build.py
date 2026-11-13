@@ -7,6 +7,7 @@ per building, all sharing styles.css / script.js and the images/ tree.
 import json
 import os
 import html
+import re
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = json.load(open(os.path.join(ROOT, 'data', 'site.json'), encoding='utf-8'))
@@ -20,6 +21,18 @@ def e(s):
     return html.escape(str(s), quote=True)
 
 
+CONTACT_EMAIL = 'easytravelagency@trustagent.space'
+
+
+def mailto(subject, body=''):
+    """Build a mailto: URL with a prefilled subject and body."""
+    from urllib.parse import quote
+    url = 'mailto:%s?subject=%s' % (CONTACT_EMAIL, quote(subject))
+    if body:
+        url += '&body=' + quote(body)
+    return url
+
+
 def buildings_in(city_slug):
     return [b for b in BUILDINGS if b['city'] == city_slug]
 
@@ -28,7 +41,45 @@ def page_path(b):
     return b['slug'].replace('/', '-') + '.html'
 
 
+# --- standalone sub-pages per building (written by build_extra.py) ----------
+# building slug -> {sub-key: filename}, so the building subnav can point at the
+# real pages instead of leaving them unreachable.
+def _subpages():
+    p = os.path.join(ROOT, 'data', 'extra.json')
+    out = {}
+    if not os.path.exists(p):
+        return out
+    d = json.load(open(p, encoding='utf-8'))
+    for k in d:
+        if not k.startswith('sub') or '__' not in k:
+            continue
+        parent, sub = k[3:].split('__', 1)
+        slug = parent.replace('_', '/', 1)
+        slug = {'tel-aviv/master-mazeh': 'tel-aviv/mazeh-tel-aviv'}.get(slug, slug)
+        if sub == 'poznaj-nasze-apartamenty':
+            continue
+        out.setdefault(slug, {})[sub] = '%s-%s.html' % (slug.replace('/', '-'), sub)
+    return out
+
+
+SUBPAGES = _subpages()
+
+
 _IMG_CACHE = {}
+
+# apartment-name -> live slug map, written by build_extra.py
+_APTMAP = {}
+_ap = os.path.join(ROOT, 'data', 'aptmap.json')
+if os.path.exists(_ap):
+    _APTMAP = json.load(open(_ap, encoding='utf-8'))
+
+
+def apt_href(b, name):
+    """Link an apartment card to its detail page (live slug when known)."""
+    slug = _APTMAP.get('%s|%s' % (b['slug'], name))
+    if not slug:
+        slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
+    return '%s-apartments-%s.html' % (b['slug'].replace('/', '-'), slug)
 
 
 def img(b, n):
@@ -47,11 +98,16 @@ def img(b, n):
 
 # ---------------------------------------------------------------- chrome
 
-def header(active=''):
+def header(active='', book_href=None, book_label='Book Now'):
     cities = ''.join(
         '<li><a href="%s.html"%s>%s</a></li>' % (
             c['slug'], ' aria-current="page"' if c['slug'] == active else '', e(c['name']))
         for c in CITIES)
+    if book_href is None:
+        book_href = 'https://master.reserve-online.net/?lang=en'
+        book_attrs = ' target="_blank" rel="noopener"'
+    else:
+        book_attrs = ''
     return '''<header class="site-header" id="siteHeader">
   <div class="header-inner">
     <a class="logo" href="index.html" aria-label="master — home">
@@ -60,15 +116,15 @@ def header(active=''):
 
     <nav class="primary-nav" aria-label="Primary">
       <a href="index.html#where">Cities</a>
-      <a href="index.html#where">Luxury Apartments</a>
-      <a href="index.html#welcome">Why Master</a>
-      <a href="index.html#offer">Special Offers</a>
-      <a href="index.html#footer">About us</a>
+      <a href="luxury-apartments.html">Luxury Apartments</a>
+      <a href="why-master.html">Why Master</a>
+      <a href="special-offers.html">Special Offers</a>
+      <a href="about.html">About us</a>
       <a href="mailto:easytravelagency@trustagent.space">Contact Us</a>
     </nav>
 
     <div class="header-actions">
-      <a class="btn-book" href="https://master.reserve-online.net/?lang=en" target="_blank" rel="noopener">Book Now</a>
+      <a class="btn-book" href="%s"%s>%s</a>
       <button class="hamburger" id="menuToggle" aria-expanded="false" aria-controls="mainMenu" aria-label="Open menu">
         <span class="inside"></span>
       </button>
@@ -83,10 +139,13 @@ def header(active=''):
     <div class="menu-col">
       <p class="menu-label">Discover</p>
       <ul class="menu-list">
-        <li><a href="index.html#where">Luxury Apartments</a></li>
-        <li><a href="index.html#offer">Special Offers</a></li>
-        <li><a href="index.html#welcome">Why Master</a></li>
-        <li><a href="index.html#footer">About us</a></li>
+        <li><a href="luxury-apartments.html">Luxury Apartments</a></li>
+        <li><a href="special-offers.html">Special Offers</a></li>
+        <li><a href="why-master.html">Why Master</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="locations.html">Locations</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact-us.html">Contact &amp; enquiries</a></li>
         <li><a href="mailto:easytravelagency@trustagent.space">Contact Us</a></li>
         <li><a href="https://master.reserve-online.net/?lang=en&amp;view=amend" target="_blank" rel="noopener">Manage your bookings</a></li>
       </ul>
@@ -101,7 +160,7 @@ def header(active=''):
       </ul>
     </div>
   </div>
-</header>''' % cities
+</header>''' % (e(book_href), book_attrs, e(book_label), cities)
 
 
 def footer():
@@ -143,12 +202,14 @@ def footer():
         </a>
         <div class="footer-legal">
           <ul class="legal-links">
-            <li><a href="index.html#where">Luxury Apartments</a></li>
-            <li><a href="index.html#offer">Special Offers</a></li>
-            <li><a href="index.html#footer">About us</a></li>
+            <li><a href="luxury-apartments.html">Luxury Apartments</a></li>
+            <li><a href="special-offers.html">Special Offers</a></li>
+            <li><a href="about.html">About us</a></li>
             <li><a href="mailto:easytravelagency@trustagent.space">Contact Us</a></li>
-            <li><a href="index.html#footer">Privacy</a></li>
-            <li><a href="index.html#footer">Terms of use</a></li>
+            <li><a href="contact-us.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms-of-use.html">Terms of use</a></li>
+            <li><a href="black-friday-sale-terms-and-conditions.html">Offer terms</a></li>
           </ul>
           <p class="footer-email"><a href="mailto:easytravelagency@trustagent.space">easytravelagency@trustagent.space</a></p>
           <p class="copyright">&copy; 2025 master</p>
@@ -159,7 +220,7 @@ def footer():
 </footer>''' % ''.join(cols)
 
 
-def shell(title, desc, body, active=''):
+def shell(title, desc, body, active='', book_href=None, book_label='Book Now'):
     return '''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,7 +230,7 @@ def shell(title, desc, body, active=''):
 <meta name="description" content="%s">
 <meta name="theme-color" content="#003319">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -187,11 +248,21 @@ def shell(title, desc, body, active=''):
 <script src="script.js?v=3"></script>
 </body>
 </html>
-''' % (e(title), e(desc), header(active), body, footer())
+''' % (e(title), e(desc), header(active, book_href, book_label), body, footer())
 
 
 def cta_band(b=None):
-    book = b['book'] if b else 'https://master.reserve-online.net/?lang=en'
+    if b:
+        # Building pages: the booking action opens a mail draft to the agency.
+        book = mailto(
+            'Booking enquiry — %s' % b['name'],
+            'Hello,\n\nI would like to enquire about availability at %s, %s.\n\n'
+            'Arrival:\nDeparture:\nGuests:\nApartment type:\n\nThank you.' % (
+                b['name'], b['address']))
+        label = 'Enquire by email'
+    else:
+        book = 'https://master.reserve-online.net/?lang=en'
+        label = 'Book Now'
     where = (' — ' + e(b['name'])) if b else ''
     return '''<section class="cta-band" id="offer">
   <div class="wrap">
@@ -200,10 +271,10 @@ def cta_band(b=None):
         <h2>Book directly with master and get 5%% off</h2>
         <p>Save More, Stay More: Book Directly With master For A 5%% Discount Today!%s</p>
       </div>
-      <a class="btn-cream" href="%s" target="_blank" rel="noopener">Book Now</a>
+      <a class="btn-cream" href="%s">%s</a>
     </div>
   </div>
-</section>''' % (where, book)
+</section>''' % (where, e(book), label)
 
 
 def families(city):
@@ -214,7 +285,7 @@ def families(city):
       <h2>Where Families Stay Smarter</h2>
       <p>%s</p>
     </div>
-    <a class="btn-outline" href="%s.html">Find out more</a>
+    <a class="btn-outline" href="%s-family-apartments.html">Find out more</a>
   </div>
 </section>''' % (e(city['name']), e(city['family']), city['slug'])
 
@@ -444,21 +515,26 @@ def build_building(b):
     apts = []
     for idx, (name, guests, beds, baths, sqm) in enumerate(b['apts']):
         photo = img(b, (idx % n) + 1)
+        apt_mail = mailto(
+            'Booking enquiry — %s, %s' % (name, b['name']),
+            'Hello,\n\nI would like to enquire about availability for the %s at %s, %s.\n\n'
+            'Arrival:\nDeparture:\nGuests:\n\nThank you.' % (name, b['name'], b['address']))
+        apt_link = apt_href(b, name)
         apts.append('''<article class="apt-card">
   <div class="apt-card-media">
     <img src="%s" alt="%s" width="1024" height="683" loading="lazy" decoding="async">
   </div>
   <div class="apt-card-body">
-    <h3>%s</h3>
+    <h3><a href="%s">%s</a></h3>
     <ul class="apt-specs">
       <li><span>Guests</span><strong>%s</strong></li>
       <li><span>Bedrooms</span><strong>%d</strong></li>
       <li><span>Bathrooms</span><strong>%d</strong></li>
       <li><span>Size</span><strong>%d m²</strong></li>
     </ul>
-    <a class="btn-outline" href="%s" target="_blank" rel="noopener">Check Availability</a>
+    <a class="btn-outline" href="%s">Check Availability</a>
   </div>
-</article>''' % (photo, e(name), e(name), e(guests), beds, baths, sqm, b['book']))
+</article>''' % (photo, e(name), apt_link, e(name), e(guests), beds, baths, sqm, e(apt_mail)))
 
     facs = ''.join('<div class="fac-item">%s<p>%s</p></div>' % (FAC_ICON, e(f)) for f in b['facilities'])
 
@@ -466,6 +542,30 @@ def build_building(b):
     if b['aptMore']:
         apt_more = '''<div id="aptMore" hidden><p>%s</p></div>
       <button class="read-toggle" type="button" data-readmore="aptMore" aria-expanded="false" aria-controls="aptMore">Read more</button>''' % e(b['aptMore'])
+
+    # Building subnav: link the standalone pages where they exist, and fall back
+    # to the on-page section anchor where they do not. Without this the per-
+    # building sub-pages were generated but nothing ever linked to them.
+    subs = SUBPAGES.get(b['slug'], {})
+
+    def first_sub(*keys):
+        for k in keys:
+            if k in subs:
+                return subs[k]
+        return None
+
+    def nav_item(label, filename, anchor):
+        href = filename if filename else '#' + anchor
+        return '<li><a href="%s">%s</a></li>' % (href, label)
+
+    nav_items = [nav_item('Overview', None, 'overview')]
+    nav_items.append(nav_item('The Apartments', first_sub('apartments'), 'apartments'))
+    nav_items.append(nav_item('Facilities', first_sub('facilities', 'services-facilities'), 'facilities'))
+    nav_items.append(nav_item('The neighbourhood', first_sub('location', 'the-location'), 'location'))
+    nav_items.append(nav_item('Good to know', None, 'goodtoknow'))
+    nav_items.append(nav_item('FAQ', first_sub('faq'), 'faq'))
+    nav_items.append(nav_item('Reviews', first_sub('reviews'), 'reviews'))
+    nav_items.append(nav_item('Special Offers', first_sub('special-offers'), 'offer'))
 
     osm = 'https://www.openstreetmap.org/?mlat=%s&amp;mlon=%s#map=17/%s/%s' % (b['lat'], b['lon'], b['lat'], b['lon'])
     gmaps = 'https://www.google.com/maps/search/?api=1&amp;query=' + e(b['address'].replace(' ', '+'))
@@ -495,12 +595,7 @@ def build_building(b):
 <nav class="subnav" aria-label="Building sections">
   <div class="wrap">
     <ul>
-      <li><a href="#overview">Overview</a></li>
-      <li><a href="#apartments">The Apartments</a></li>
-      <li><a href="#facilities">Facilities</a></li>
-      <li><a href="#location">The neighbourhood</a></li>
-      <li><a href="#goodtoknow">Good to know</a></li>
-      <li><a href="#faq">FAQ</a></li>
+%s
     </ul>
   </div>
 </nav>
@@ -641,6 +736,7 @@ def build_building(b):
          e(b['name']), e(b['address']),
          b['apartments'], e(b['bedrooms']), e(b['checkin']),
          ''.join(cells),
+         ''.join(nav_items),
          e(c['name']), e(b['kind']), e(b['name']),
          e(b['intro']), e(b['more']),
          b['apartments'], e(b['aptIntro']), apt_more, ''.join(apts),
@@ -669,7 +765,12 @@ def build_building(b):
   <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="Next photo">&#8250;</button>
 </div>'''
 
-    page = shell(title, desc, body, active=c['slug'])
+    page = shell(title, desc, body, active=c['slug'],
+                 book_href=mailto('Booking enquiry \u2014 %s' % b['name'],
+                                  'Hello,\n\nI would like to enquire about availability at %s, %s.\n\n'
+                                  'Arrival:\nDeparture:\nGuests:\nApartment type:\n\nThank you.' % (
+                                      b['name'], b['address'])),
+                 book_label='Enquire by email')
     page = page.replace('</main>', lb + '\n</main>')
     return page
 
