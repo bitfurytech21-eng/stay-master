@@ -56,3 +56,16 @@ test('manual payment API routes enforce submission and administrator verificatio
   assert.match(source, /payment_status='paid'/);
   assert.match(source, /amountMinor!==booking\.total_minor/);
 });
+
+
+test('guest booking frontend has valid JavaScript syntax', () => {
+  const frontendPath = path.resolve(here, '../../booking.js');
+  const result = spawnSync(process.execPath, ['--check', frontendPath], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test('admin booking frontend has valid JavaScript syntax', () => {
+  const frontendPath = path.resolve(here, '../../booking-admin.js');
+  const result = spawnSync(process.execPath, ['--check', frontendPath], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
