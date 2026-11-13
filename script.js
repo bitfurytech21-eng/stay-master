@@ -323,4 +323,14 @@
       window.location.href = 'booking.html?city=' + encodeURIComponent(dest) + (query ? '&' + query : '');
     });
   }
+  /* ---------- replace legacy footer social destinations with the company website ---------- */
+  document.querySelectorAll('.footer-social').forEach(function (footerSocial) {
+    footerSocial.innerHTML =
+      '<h2 class="lucky">Share our website</h2>' +
+      '<ul><li><a href="/" aria-label="Visit the master company website" title="Visit the master company website">' +
+      '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' +
+      '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>' +
+      '</svg></a></li></ul>';
+  });
+
 })();
