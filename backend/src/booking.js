@@ -94,6 +94,8 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     CREATE INDEX IF NOT EXISTS idx_booking_dates ON bookings(unit_id, check_in, check_out, status);
     CREATE INDEX IF NOT EXISTS idx_guest_bookings ON bookings(guest_id, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_booking_city ON booking_properties(city, active);
+    CREATE TABLE IF NOT EXISTS manual_payment_submissions (id INTEGER PRIMARY KEY AUTOINCREMENT, booking_id INTEGER NOT NULL REFERENCES bookings(id), guest_id INTEGER NOT NULL REFERENCES guests(id), method TEXT NOT NULL DEFAULT 'bank_transfer', amount_minor INTEGER NOT NULL, currency TEXT NOT NULL, payer_name TEXT NOT NULL, transaction_reference TEXT NOT NULL UNIQUE COLLATE NOCASE, transfer_date TEXT NOT NULL, notes TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'submitted', admin_note TEXT NOT NULL DEFAULT '', submitted_at TEXT NOT NULL, reviewed_at TEXT);
+    CREATE INDEX IF NOT EXISTS idx_manual_payments_booking ON manual_payment_submissions(booking_id, submitted_at DESC);
   `);
   seedBookingCatalog(db);
 
@@ -244,10 +246,37 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     return res.status(201).json({ ok: true, reference, status: 'pending', paymentStatus: 'unpaid', totalMinor: total, currency: unit.currency, emailNotification, message: 'Your booking request has been recorded. This is not yet a confirmed reservation and no payment has been collected. Our team will verify availability and contact you.' });
   });
 
+  app.get('/api/payments/methods', (req, res) => {
+    const enabled = String(process.env.MANUAL_BANK_TRANSFER_ENABLED || 'false').toLowerCase() === 'true';
+    const details = { enabled: enabled && Boolean(process.env.BANK_ACCOUNT_NAME && process.env.BANK_ACCOUNT_NUMBER && process.env.BANK_NAME), method:'bank_transfer', label:'Manual bank transfer', bankName:process.env.BANK_NAME||'', accountName:process.env.BANK_ACCOUNT_NAME||'', accountNumber:process.env.BANK_ACCOUNT_NUMBER||'', sortCode:process.env.BANK_SORT_CODE||'', iban:process.env.BANK_IBAN||'', swift:process.env.BANK_SWIFT||'', instructions:process.env.BANK_TRANSFER_INSTRUCTIONS||'Use your booking reference as the transfer description.' };
+    res.json({ ok:true, methods:details.enabled?[details]:[], message:details.enabled?'':'Manual bank transfer is not configured yet. Please contact our reservations team.' });
+  });
+  app.post('/api/bookings/:reference/payments', requireGuest, (req,res) => {
+    const booking=db.prepare('SELECT * FROM bookings WHERE reference=? AND guest_id=?').get(req.params.reference,req.guest.id);
+    if(!booking)return res.status(404).json({ok:false,error:'Booking not found.'});
+    if(booking.status==='cancelled'||booking.payment_status==='paid')return res.status(409).json({ok:false,error:'This booking cannot accept another payment submission.'});
+    const enabled=String(process.env.MANUAL_BANK_TRANSFER_ENABLED||'false').toLowerCase()==='true'&&Boolean(process.env.BANK_ACCOUNT_NAME&&process.env.BANK_ACCOUNT_NUMBER&&process.env.BANK_NAME);
+    if(!enabled)return res.status(503).json({ok:false,error:'Manual bank transfer is not currently configured. Please contact our reservations team.'});
+    const payerName=String(req.body?.payerName||'').trim().slice(0,120), transactionReference=String(req.body?.transactionReference||'').trim().slice(0,120), transferDate=String(req.body?.transferDate||''), notes=String(req.body?.notes||'').trim().slice(0,500), amountMinor=Number(req.body?.amountMinor);
+    const validDate=/^\d{4}-\d{2}-\d{2}$/.test(transferDate)&&!Number.isNaN(Date.parse(transferDate+'T00:00:00Z'));
+    if(payerName.length<2||transactionReference.length<4||!validDate||!Number.isSafeInteger(amountMinor)||amountMinor!==booking.total_minor)return res.status(422).json({ok:false,error:'Enter the payer name, transaction reference, transfer date and exact booking amount.'});
+    if(db.prepare("SELECT id FROM manual_payment_submissions WHERE booking_id=? AND status='submitted'").get(booking.id))return res.status(409).json({ok:false,error:'A payment submission is already awaiting review for this booking.'});
+    try {
+      const result=db.prepare('INSERT INTO manual_payment_submissions (booking_id,guest_id,amount_minor,currency,payer_name,transaction_reference,transfer_date,notes,submitted_at) VALUES(?,?,?,?,?,?,?,?,?)').run(booking.id,req.guest.id,amountMinor,booking.currency,payerName,transactionReference,transferDate,notes,new Date().toISOString());
+      db.prepare("UPDATE bookings SET payment_status='pending',updated_at=? WHERE id=?").run(new Date().toISOString(),booking.id);
+      return res.status(201).json({ok:true,submissionId:Number(result.lastInsertRowid),status:'submitted',message:'Your payment details have been submitted. Our team will verify the transfer before marking this booking as paid.'});
+    } catch(error) {
+      if(String(error.code||'').includes('CONSTRAINT'))return res.status(409).json({ok:false,error:'That transaction reference has already been submitted.'});
+      console.error('Manual payment submission failed:',error);
+      return res.status(500).json({ok:false,error:'We could not save your payment details. Please try again.'});
+    }
+  });
+
   app.get('/api/bookings/mine', requireGuest, (req, res) => {
     const bookings = db.prepare(`
       SELECT b.reference,b.check_in,b.check_out,b.guests,b.nights,b.currency,b.total_minor,b.status,b.payment_status,b.created_at,
-        p.name AS property_name,p.city,u.name AS unit_name
+        p.name AS property_name,p.city,u.name AS unit_name,
+        (SELECT s.status FROM manual_payment_submissions s WHERE s.booking_id=b.id ORDER BY s.submitted_at DESC LIMIT 1) AS latest_payment_submission
       FROM bookings b JOIN booking_properties p ON p.id=b.property_id
       JOIN booking_units u ON u.id=b.unit_id WHERE b.guest_id=? ORDER BY b.created_at DESC
     `).all(req.guest.id);
@@ -282,6 +311,29 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
       .run(propertyId,name,maxGuests,rate,currency,new Date().toISOString());
     res.status(201).json({ ok: true, id: Number(result.lastInsertRowid) });
   });
+  app.get('/api/admin/booking/payments', requireAdmin, (req,res) => {
+    const rows=db.prepare("SELECT s.*,b.reference AS booking_reference,g.name AS guest_name,g.email AS guest_email,p.name AS property_name FROM manual_payment_submissions s JOIN bookings b ON b.id=s.booking_id JOIN guests g ON g.id=s.guest_id JOIN booking_properties p ON p.id=b.property_id ORDER BY CASE s.status WHEN 'submitted' THEN 0 ELSE 1 END,s.submitted_at DESC LIMIT 250").all();
+    res.json({ok:true,payments:rows});
+  });
+  app.patch('/api/admin/booking/payments/:id', requireAdmin, (req,res) => {
+    const id=Number(req.params.id), status=String(req.body?.status||''), adminNote=String(req.body?.adminNote||'').trim().slice(0,500);
+    if(!Number.isInteger(id)||!['verified','rejected'].includes(status))return res.status(422).json({ok:false,error:'Choose verified or rejected.'});
+    const submission=db.prepare('SELECT * FROM manual_payment_submissions WHERE id=?').get(id);
+    if(!submission)return res.status(404).json({ok:false,error:'Payment submission not found.'});
+    if(submission.status!=='submitted')return res.status(409).json({ok:false,error:'This payment submission has already been reviewed.'});
+    const now=new Date().toISOString();
+    const tx=db.transaction(()=>{
+      db.prepare('UPDATE manual_payment_submissions SET status=?,admin_note=?,reviewed_at=? WHERE id=?').run(status,adminNote,now,id);
+      if(status==='verified')db.prepare("UPDATE bookings SET payment_status='paid',updated_at=? WHERE id=?").run(now,submission.booking_id);
+      else {
+        const pending=db.prepare("SELECT id FROM manual_payment_submissions WHERE booking_id=? AND status='submitted' AND id<>?").get(submission.booking_id,id);
+        const verified=db.prepare("SELECT id FROM manual_payment_submissions WHERE booking_id=? AND status='verified'").get(submission.booking_id);
+        if(!pending&&!verified)db.prepare("UPDATE bookings SET payment_status='unpaid',updated_at=? WHERE id=?").run(now,submission.booking_id);
+      }
+    });
+    tx();res.json({ok:true,status});
+  });
+
   app.get('/api/admin/booking/reservations', requireAdmin, (req, res) => {
     const rows = db.prepare(`
       SELECT b.*,g.name AS guest_name,g.email AS guest_email,p.name AS property_name,u.name AS unit_name
