@@ -268,7 +268,36 @@ app.get('/api/enquiries', (req, res) => {
   res.json({ ok: true, count: rows.length, enquiries: rows });
 });
 
-mountBookingRoutes(app, db);
+async function notifyBookingRequest(details) {
+  if (!mailConfigured) return false;
+  const message = [
+    'A new booking request was submitted on the master website.', '',
+    'Reference: ' + details.reference,
+    'Guest: ' + details.guestName + ' (' + details.guestEmail + ')',
+    'Property: ' + details.propertyName,
+    'Apartment: ' + details.unitName,
+    'Dates: ' + details.checkIn + ' to ' + details.checkOut,
+    'Guests: ' + details.guests,
+    'Total: ' + (details.totalMinor / 100).toFixed(2) + ' ' + details.currency,
+    'Payment: not collected; awaiting team confirmation.'
+  ].join('\\n');
+  await transporter.sendMail({
+    from: FROM_EMAIL || 'website@example.com',
+    to: TO_EMAIL,
+    replyTo: details.guestEmail,
+    subject: 'New booking request ' + details.reference,
+    text: message,
+  });
+  await transporter.sendMail({
+    from: FROM_EMAIL || 'website@example.com',
+    to: details.guestEmail,
+    subject: 'We received your booking request ' + details.reference,
+    text: 'Hello ' + details.guestName + ',\\n\\nWe received your booking request for ' + details.propertyName + ' from ' + details.checkIn + ' to ' + details.checkOut + '. This is a request, not a confirmed reservation, and no payment has been collected. Our team will contact you after checking the details.\\n\\nReference: ' + details.reference,
+  });
+  return true;
+}
+
+mountBookingRoutes(app, db, { notifyBookingRequest });
 
 app.use((req, res) => res.status(404).json({ ok: false, error: 'Not found' }));
 
