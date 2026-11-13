@@ -28,8 +28,6 @@ def build_building(b):
     facs = p['facs']
     apt_more = p['apt_more']
     nav_items = p['nav_items']
-    osm = p['osm']
-    gmaps = p['gmaps']
 
     body = '''<section class="bhero">
   <div class="wrap">
@@ -39,7 +37,7 @@ def build_building(b):
     <div class="bhero-top">
       <div>
         <h1>%s</h1>
-        <p class="addr">%s &nbsp;·&nbsp; <a href="#location">Map</a></p>
+        <p class="addr">%s &nbsp;\u00b7&nbsp; <a href="#location">Map</a></p>
       </div>
       <ul class="bhero-facts">
         <li><strong>%d</strong>Apartments</li>
@@ -64,7 +62,7 @@ def build_building(b):
 <section class="section" id="overview">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">%s · %s</p>
+      <p class="eyebrow">%s \u00b7 %s</p>
       <h2>%s</h2>
     </div>
     <div class="prose">
@@ -109,10 +107,8 @@ def build_building(b):
         <div class="map-leaflet loc-map" data-map data-lat="%s" data-lon="%s" data-label="%s" data-zoom="16"
              role="application" aria-label="Interactive map showing %s. Use arrow keys to pan, plus and minus to zoom."></div>
         <div class="map-fallback" hidden>
-          <p>The interactive map could not load.</p>
-          <a class="map-link" href="%s" target="_blank" rel="noopener">View %s on OpenStreetMap</a>
+          <p>The interactive map could not load. The address is %s.</p>
         </div>
-        <a class="map-link" href="%s" target="_blank" rel="noopener">Open in Maps</a>
       </div>
       <div class="getting-here">
         <h3>Our address</h3>
@@ -121,7 +117,7 @@ def build_building(b):
         <p>%s is in %s. Use the map to plan your route, or open the address in your maps app for live directions and public transport.</p>
         <ul>
           <li>Check-in from %s, check-out by %s.</li>
-          <li>Reception and support are remote — details are sent before arrival.</li>
+          <li>Reception and support are remote \u2014 details are sent before arrival.</li>
         </ul>
       </div>
     </div>
@@ -151,7 +147,7 @@ def build_building(b):
     </div>
     <div class="faq">
       <details>
-        <summary>What exactly is %s — hotel, aparthotel, or serviced apartments?</summary>
+        <summary>What exactly is %s \u2014 hotel, aparthotel, or serviced apartments?</summary>
         <p>%s offers serviced apartments that combine private living spaces with hotel-style conveniences, including virtual guest support, housekeeping and access to laundry facilities.</p>
       </details>
       <details>
@@ -164,7 +160,7 @@ def build_building(b):
       </details>
       <details>
         <summary>Do the apartments have fully equipped kitchens?</summary>
-        <p>Yes — each apartment includes a kitchen with stovetop, fridge, cookware and utensils, plus coffee-making facilities.</p>
+        <p>Yes \u2014 each apartment includes a kitchen with stovetop, fridge, cookware and utensils, plus coffee-making facilities.</p>
       </details>
       <details>
         <summary>Is there Wi-Fi throughout the property?</summary>
@@ -203,8 +199,7 @@ def build_building(b):
          b['apartments'], e(b['aptIntro']), apt_more, ''.join(apts),
          facs,
          e(c['name']), e(b['address']),
-         b['lat'], b['lon'], e(b['name']), b['name'],
-         osm, e(b['name']), gmaps,
+         b['lat'], b['lon'], e(b['name']), b['name'], e(b['address']),
          e(b['address']), e(b['name']), e(c['name']),
          e(b['checkin']), e(b['checkout']),
          e(b['checkin']), e(b['checkout']), b['apartments'], e(b['bedrooms']),
@@ -214,7 +209,7 @@ def build_building(b):
          cta_band(b))
 
     title = '%s | %s | master' % (b['name'], c['name'])
-    desc = '%s — %d serviced apartments at %s. %s' % (b['name'], b['apartments'], b['address'], b['bedrooms'])
+    desc = '%s \u2014 %d serviced apartments at %s. %s' % (b['name'], b['apartments'], b['address'], b['bedrooms'])
 
     lb = '''<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
   <button class="lb-close" id="lbClose" type="button" aria-label="Close photo viewer">&times;</button>
@@ -227,7 +222,7 @@ def build_building(b):
 </div>'''
 
     page = shell(title, desc, body, active=c['slug'],
-                 book_href=mailto('Booking enquiry — %s' % b['name'],
+                 book_href=mailto('Booking enquiry \u2014 %s' % b['name'],
                                   'Hello,\n\nI would like to enquire about availability at %s, %s.\n\n'
                                   'Arrival:\nDeparture:\nGuests:\nApartment type:\n\nThank you.' % (
                                       b['name'], b['address'])),
