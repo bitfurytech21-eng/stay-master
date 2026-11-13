@@ -35,6 +35,26 @@ function verifyPassword(password, salt, expected) {
   return actual.length === stored.length && crypto.timingSafeEqual(actual, stored);
 }
 
+const AUTH_WINDOW_MS = 15 * 60 * 1000;
+const AUTH_MAX_ATTEMPTS = 10;
+const authAttempts = new Map();
+function authRateLimited(ip) {
+  const now = Date.now();
+  const recent = (authAttempts.get(ip) || []).filter((time) => now - time < AUTH_WINDOW_MS);
+  if (recent.length >= AUTH_MAX_ATTEMPTS) {
+    authAttempts.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  authAttempts.set(ip, recent);
+  if (authAttempts.size > 5000) {
+    for (const [key, times] of authAttempts) {
+      if (!times.some((time) => now - time < AUTH_WINDOW_MS)) authAttempts.delete(key);
+    }
+  }
+  return false;
+}
+
 export function mountBookingRoutes(app, db, { notifyBookingRequest = async () => false } = {}) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS guests (
@@ -133,6 +153,9 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
   }
 
   app.post('/api/auth/register', (req, res) => {
+    if (authRateLimited(req.ip || req.socket.remoteAddress || 'unknown')) {
+      return res.status(429).json({ ok:false, error:'Too many account attempts. Please wait 15 minutes and try again.' });
+    }
     const name = String(req.body?.name || '').trim().slice(0, 120);
     const email = String(req.body?.email || '').trim().toLowerCase().slice(0, 200);
     const password = String(req.body?.password || '');
@@ -153,8 +176,14 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
   });
 
   app.post('/api/auth/login', (req, res) => {
+    if (authRateLimited(req.ip || req.socket.remoteAddress || 'unknown')) {
+      return res.status(429).json({ ok:false, error:'Too many sign-in attempts. Please wait 15 minutes and try again.' });
+    }
     const email = String(req.body?.email || '').trim().toLowerCase();
     const password = String(req.body?.password || '');
+    if (!emailRe.test(email) || password.length < 1 || password.length > 200) {
+      return res.status(422).json({ ok:false, error:'Enter a valid email and password.' });
+    }
     const row = db.prepare('SELECT * FROM guests WHERE email=?').get(email);
     if (!row || !verifyPassword(password, row.password_salt, row.password_hash)) {
       return res.status(401).json({ ok: false, error: 'Email or password is incorrect.' });
