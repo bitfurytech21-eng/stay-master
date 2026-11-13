@@ -2,6 +2,25 @@
 
 Static marketing site (202 pages) plus a small Node backend for the enquiry form.
 
+## Render commands (important)
+
+This repository is **not a Python web application**. The Python files are offline
+content-generation scripts; they are not the production server. Do not configure
+the Render web service with `pip install -r requirements.txt` or a Python
+`gunicorn` start command. There is no root `requirements.txt`.
+
+The committed `render.yaml` is the recommended setup and defines two Render
+services:
+
+| Render service | Runtime / root directory | Build command | Start command / publish path |
+|---|---|---|---|
+| `stay-master` (website) | Static / repository root | Leave empty (no build needed) | Publish directory: `.` |
+| `stay-master-api` (enquiry API) | Node / `backend` | `npm ci` | `npm start` |
+
+If configuring manually, create the website as a **Static Site** and the API as
+a separate **Web Service** with the settings above. The API uses Node 20; its
+package start script runs `node src/server.js`.
+
 ## Layout
 
 ```
@@ -55,15 +74,15 @@ Behaviour worth knowing:
 ## Deploying to Render
 
 1. Push this repo to GitHub.
-2. Render Dashboard → **New** → **Blueprint** → select the repo. `render.yaml`
-   creates both services.
+2. Render Dashboard → **New** → **Blueprint** → select this repo. `render.yaml`
+   creates both services with the commands listed above.
 3. On the **stay-master-api** service, set the secrets marked `sync: false`:
    `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`,
    `ENQUIRY_FROM`, `ADMIN_TOKEN`, `ALLOWED_ORIGINS`.
    For Gmail use an App Password, not the account password.
 4. Confirm the API host in `render.yaml` (`stay-master-api.onrender.com`) matches
    the name Render assigned, then redeploy the static service.
-5. Check `https://<api-host>/api/health` returns `{"ok":true,"mailConfigured":true}`.
+5. Check `https://<api-host>/api/health` returns JSON with `ok: true`.
 
 The API mounts a 1 GB disk at `/var/data` so the SQLite database survives
 deploys. Without a disk, submissions are lost on every deploy.
