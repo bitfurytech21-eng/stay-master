@@ -1,0 +1,95 @@
+name: Deploy site to GitHub Pages
+
+# Publishes the committed static site so the repository has a real, working
+# deployed link instead of only files sitting in the repo.
+#
+# The frontend finds the backend through api-config.js. On Pages there is no
+# /api proxy, so this workflow injects the API origin into every page as a
+# <meta name="stay-master-api"> tag, taken from the repository variable
+# STAY_MASTER_API_BASE (Settings -> Secrets and variables -> Actions ->
+# Variables). Set it to the deployed API origin, e.g.
+#   https://stay-master-api.onrender.com
+# If the variable is unset the site still deploys and simply uses same-origin
+# /api paths, which is correct when the site is served by the Render service
+# that proxies /api.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Regenerate pages from templates
+        run: |
+          python build.py
+          python build_extra.py
+          python make_404.py
+
+      - name: Point the frontend at the deployed API
+        env:
+          API_BASE: ${{ vars.STAY_MASTER_API_BASE }}
+        run: |
+          python - <<'PY'
+          import os, pathlib, re
+
+          base = (os.environ.get("API_BASE") or "").strip().rstrip("/")
+          if not base:
+              print("STAY_MASTER_API_BASE is not set - keeping same-origin /api paths.")
+              raise SystemExit(0)
+
+          tag = '<meta name="stay-master-api" content="%s">' % base
+          changed = 0
+          for path in pathlib.Path(".").glob("*.html"):
+              text = path.read_text(encoding="utf-8")
+              if 'name="stay-master-api"' in text:
+                  continue
+              # Insert right after the viewport meta so it is available before
+              # any script runs.
+              new, n = re.subn(
+                  r'(<meta name="viewport"[^>]*>)',
+                  r'\1\n' + tag,
+                  text,
+                  count=1,
+              )
+              if n:
+                  path.write_text(new, encoding="utf-8")
+                  changed += 1
+          print("Injected API base into %d pages: %s" % (changed, base))
+          PY
+
+      - name: Disable Jekyll processing
+        run: touch .nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
