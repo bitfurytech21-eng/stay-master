@@ -128,3 +128,21 @@ form at the API by building with `ENQUIRY_ENDPOINT=http://localhost:3000/api/enq
   renders them client-side, so those pages point guests at the booking platforms
   and do not invent testimonials.
 - The site is static; nothing on it stores data in the browser.
+
+
+## Automatic website translation
+
+The public site and guest booking page include a language selector. It can use the
+visitor's browser language as an initial preference and supports manual switching.
+Visible page text and common accessibility/form labels are translated in batches
+through the same-origin backend endpoint `POST /api/translate`; the provider
+credential is never placed in browser JavaScript.
+
+To enable live translation, create/enable **Cloud Translation API** in a Google
+Cloud project, configure billing and API restrictions, then add
+`GOOGLE_TRANSLATE_API_KEY` to the Render environment for `stay-master-api`.
+Keep this key server-side and restrict it to the Cloud Translation API. Without
+the key, the selector reports that translation is not configured; the original
+English site remains usable. The endpoint limits request batches and applies a
+per-IP request limit. Translation is machine-generated and should be reviewed
+for legal, pricing, booking, and other critical wording.
