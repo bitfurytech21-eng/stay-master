@@ -7,6 +7,7 @@ on:
       - 'build_extra.py'
       - 'make_404.py'
       - 'data/**'
+      - '.github/workflows/regenerate-site.yml'
   workflow_dispatch:
 permissions:
   contents: write
