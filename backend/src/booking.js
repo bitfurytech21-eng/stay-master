@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { seedBookingCatalog } from './catalog.js';
 
 const COOKIE = 'stay_master_session';
 const SESSION_DAYS = 14;
@@ -94,6 +95,7 @@ export function mountBookingRoutes(app, db) {
     CREATE INDEX IF NOT EXISTS idx_guest_bookings ON bookings(guest_id, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_booking_city ON booking_properties(city, active);
   `);
+  seedBookingCatalog(db);
 
   const guestById = db.prepare('SELECT id,name,email,created_at FROM guests WHERE id=?');
   function currentGuest(req) {
