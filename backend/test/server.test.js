@@ -44,3 +44,15 @@ test('booking engine includes guest auth, availability checks and admin controls
   assert.match(source, /\/api\/admin\/booking\/reservations/);
   assert.match(source, /payment_status/);
 });
+
+
+test('manual payment API routes enforce submission and administrator verification', async () => {
+  const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
+  assert.match(source, /\/api\/payments\/methods/);
+  assert.match(source, /\/api\/bookings\/:reference\/payments/);
+  assert.match(source, /\/api\/admin\/booking\/payments/);
+  assert.match(source, /transaction_reference TEXT NOT NULL UNIQUE/);
+  assert.match(source, /status === 'verified'/);
+  assert.match(source, /payment_status='paid'/);
+  assert.match(source, /amountMinor!==booking\.total_minor/);
+});
