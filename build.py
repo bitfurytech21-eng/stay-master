@@ -250,17 +250,9 @@ def shell(title, desc, body, active='', book_href=None, book_label='Book Now'):
 
 
 def cta_band(b=None):
-    if b:
-        # Building pages: the booking action opens a mail draft to the agency.
-        book = mailto(
-            'Booking enquiry — %s' % b['name'],
-            'Hello,\n\nI would like to enquire about availability at %s, %s.\n\n'
-            'Arrival:\nDeparture:\nGuests:\nApartment type:\n\nThank you.' % (
-                b['name'], b['address']))
-        label = 'Enquire by email'
-    else:
-        book = 'https://master.reserve-online.net/?lang=en'
-        label = 'Book Now'
+    # All booking calls now use the first-party reservation platform.
+    book = 'booking.html'
+    label = 'Book Now'
     where = (' — ' + e(b['name'])) if b else ''
     return '''<section class="cta-band" id="offer">
   <div class="wrap">
