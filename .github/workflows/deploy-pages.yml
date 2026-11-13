@@ -3,11 +3,11 @@ name: Deploy site to GitHub Pages
 # Publishes the committed static site so the repository has a real, working
 # deployed link instead of only files sitting in the repo.
 #
-# The frontend finds the backend through api-config.js. On Pages there is no
-# /api proxy, so this workflow injects the API origin into every page as a
-# <meta name="stay-master-api"> tag, taken from the repository variable
-# STAY_MASTER_API_BASE (Settings -> Secrets and variables -> Actions ->
-# Variables). Set it to the deployed API origin, e.g.
+# The frontend finds the backend through window.STAY_MASTER_API. On Pages there
+# is no /api proxy, so this workflow injects the API origin into every page as
+# a <meta name="stay-master-api"> tag plus an inline resolver, taken from the
+# repository variable STAY_MASTER_API_BASE (Settings -> Secrets and variables ->
+# Actions -> Variables). Set it to the deployed API origin, e.g.
 #   https://stay-master-api.onrender.com
 # If the variable is unset the site still deploys and simply uses same-origin
 # /api paths, which is correct when the site is served by the Render service
@@ -56,6 +56,16 @@ jobs:
               raise SystemExit(0)
 
           tag = '<meta name="stay-master-api" content="%s">' % base
+          # A self-contained resolver, inlined so it works even on pages that do
+          # not load api-config.js. It defines window.STAY_MASTER_API exactly as
+          # api-config.js does, so every script can call STAY_MASTER_API.url().
+          resolver = (
+              '<script>window.STAY_MASTER_API_BASE=%r;'
+              'window.STAY_MASTER_API=(function(){var b=String(window.STAY_MASTER_API_BASE||"")'
+              '.replace(/\\/+$/,"");return{base:b,url:function(p){p=String(p||"");'
+              'if(!p)return b;if(p.charAt(0)!=="/")p="/"+p;return b+p;},'
+              'crossOrigin:b!==""};})();</script>' % base
+          )
           changed = 0
           for path in pathlib.Path(".").glob("*.html"):
               text = path.read_text(encoding="utf-8")
@@ -65,7 +75,7 @@ jobs:
               # any script runs.
               new, n = re.subn(
                   r'(<meta name="viewport"[^>]*>)',
-                  r'\1\n' + tag,
+                  r'\1\n' + tag + '\n' + resolver,
                   text,
                   count=1,
               )
