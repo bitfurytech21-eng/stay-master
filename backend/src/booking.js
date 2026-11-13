@@ -171,7 +171,7 @@ export function mountBookingRoutes(app, db) {
   app.get('/api/auth/me', (req, res) => res.json({ ok: true, user: safeUser(currentGuest(req)) }));
 
   app.get('/api/booking/properties', (req, res) => {
-    const city = String(req.query.city || '').trim();
+    const city = String(req.query.city || '').trim().replace(/-/g, ' ');
     const rows = db.prepare(`
       SELECT p.id,p.slug,p.name,p.city,p.country,p.address,p.description,p.image,
         COUNT(u.id) AS unit_types, MIN(u.nightly_rate_minor) AS from_rate,
@@ -188,7 +188,7 @@ export function mountBookingRoutes(app, db) {
     const checkIn = dateOnly(req.query.checkIn);
     const checkOut = dateOnly(req.query.checkOut);
     const guests = Math.max(1, Math.min(12, Number(req.query.guests) || 1));
-    if (!Number.isInteger(propertyId) || !checkIn || !checkOut || nightsBetween(checkIn, checkOut) < 1 || nightsBetween(checkIn, checkOut) > 90) {
+    if (!Number.isInteger(propertyId) || !checkIn || !checkOut || checkIn < dateOnly(new Date().toISOString().slice(0, 10)) || nightsBetween(checkIn, checkOut) < 1 || nightsBetween(checkIn, checkOut) > 90) {
       return res.status(422).json({ ok: false, error: 'Choose valid dates (1–90 nights).' });
     }
     const units = db.prepare(`
@@ -216,6 +216,7 @@ export function mountBookingRoutes(app, db) {
       return res.status(422).json({ ok: false, error: 'Please select a property, apartment and valid dates.' });
     }
     const nights = nightsBetween(checkIn, checkOut);
+    if (checkIn < dateOnly(new Date().toISOString().slice(0, 10))) return res.status(422).json({ ok: false, error: 'Check-in must be today or a future date.' });
     if (nights < 1 || nights > 90) return res.status(422).json({ ok: false, error: 'Bookings must be between 1 and 90 nights.' });
     const unit = db.prepare(`
       SELECT u.*,p.id AS property_id,p.name AS property_name FROM booking_units u
