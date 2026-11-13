@@ -70,3 +70,24 @@ test('admin booking frontend has valid JavaScript syntax', () => {
   const result = spawnSync(process.execPath, ['--check', frontendPath], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr || result.stdout);
 });
+
+
+test('translation API validates language batches and keeps provider credentials server-side', async () => {
+  const source = await readFile(serverPath, 'utf8');
+  assert.match(source, /app\.post\('\/api\/translate'/);
+  assert.match(source, /GOOGLE_TRANSLATE_API_KEY/);
+  assert.match(source, /texts\.length > 50/);
+  assert.match(source, /SUPPORTED_TRANSLATION_LANGUAGES/);
+});
+
+test('global translator frontend has valid JavaScript syntax and calls the same-origin proxy', () => {
+  const frontendPath = path.resolve(here, '../../translator.js');
+  const result = spawnSync(process.execPath, ['--check', frontendPath], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test('translation frontend does not contain a provider API key', async () => {
+  const source = await readFile(path.resolve(here, '../../translator.js'), 'utf8');
+  assert.match(source, /fetch\('\/api\/translate'/);
+  assert.doesNotMatch(source, /AIza[0-9A-Za-z_-]{20,}/);
+});
