@@ -1,6 +1,6 @@
 # master — serviced apartments site
 
-Static marketing site (202 pages) plus a small Node backend for the enquiry form.
+Static marketing site plus a Node backend for enquiries and the first-party booking platform.
 
 ## Render commands (important)
 
@@ -25,12 +25,14 @@ package start script runs `node src/server.js`.
 
 ```
 .                     static site — every .html, styles.css, script.js, images/
-backend/              enquiry API (Node 20, Express, SQLite, Nodemailer)
+backend/              API (Node 20, Express, SQLite, Nodemailer; enquiries + booking)
 render.yaml           Render blueprint for both services
 404.html              custom not-found page
 build.py              generates the city / building / apartment pages
 build_extra.py        generates the imported top-level, family, sub and apartment pages
 make_404.py           regenerates 404.html from the site template
+booking.html          guest booking search, account sign-in and booking history
+booking-admin.html    private booking inventory and reservation administration
 data/                 extracted content + page metadata used by the generators
 ```
 
@@ -71,6 +73,25 @@ Behaviour worth knowing:
 - **Validation** is enforced on both sides: name, valid email, message of at
   least 10 characters, and departure not before arrival.
 
+
+## First-party booking platform
+
+The booking engine is now served from this repository:
+
+- Guest booking and account page: `/booking.html`
+- Private booking administration: `/booking-admin.html` (requires the API `ADMIN_TOKEN`)
+- Guest accounts use scrypt password hashing and secure, HTTP-only session cookies.
+- The property catalogue is seeded from the existing Stay Master locations.
+- The admin team must add actual apartment inventory and verified nightly rates before a unit can appear as bookable. The platform does not invent prices or availability.
+- Booking requests are stored as **pending** and send email notifications when SMTP is configured. A request is not a confirmed reservation.
+- Payment status remains unpaid until staff verify an actual payment. No live payment processor is configured by this change; do not mark a booking paid until funds are verified.
+- Admin API endpoints support adding apartment inventory and reviewing/updating booking and payment statuses.
+
+Core booking API routes include `/api/auth/register`, `/api/auth/login`,
+`/api/auth/me`, `/api/booking/properties`, `/api/booking/availability`,
+`/api/bookings`, `/api/bookings/mine`, and protected
+`/api/admin/booking/*` endpoints.
+
 ## Deploying to Render
 
 1. Push this repo to GitHub.
@@ -103,5 +124,5 @@ form at the API by building with `ENQUIRY_ENDPOINT=http://localhost:3000/api/enq
 
 - Reviews and special-offer pages carry no scraped review data: the source site
   renders them client-side, so those pages point guests at the booking platforms
-  rather than inventing testimonials.
+  and do not invent testimonials.
 - The site is static; nothing on it stores data in the browser.
