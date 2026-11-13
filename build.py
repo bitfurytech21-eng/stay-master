@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Static site generator for the master rebuild.\n\nAll booking calls route through the first-party Stay Master booking platform.
+"""Static site generator for the master rebuild.
+
+All booking calls route through the first-party Stay Master booking platform.
 
 Reads data/site.json and writes index.html, one page per city and one page
 per building, all sharing styles.css / script.js and the images/ tree.
@@ -27,7 +29,6 @@ CONTACT_EMAIL = 'easytravelagency@trustagent.space'
 
 def mailto(subject, body=''):
     """Build a mailto: URL with a prefilled subject and body."""
-    from urllib.parse import quote
     url = 'mailto:%s?subject=%s' % (CONTACT_EMAIL, quote(subject))
     if body:
         url += '&body=' + quote(body)
@@ -65,6 +66,28 @@ def _subpages():
 
 SUBPAGES = _subpages()
 
+# building slug -> {apartment name: live room code}, taken from the real site
+_ROOMS = {}
+_rp = os.path.join(ROOT, 'data', 'rooms.json')
+if os.path.exists(_rp):
+    _ROOMS = json.load(open(_rp, encoding='utf-8'))
+
+
+def booking_href(b, name):
+    """Deep-link an apartment into the first-party booking engine.
+
+    The engine reads city, unit and dates from the query string, so the guest
+    lands on the right apartment with the search already run. Where the live
+    site publishes a room code we pass it through, so the engine can preselect
+    the exact room type.
+    """
+    city = CITY_BY_SLUG[b['city']]['slug']
+    href = 'booking.html?city=%s&unit=%s' % (city, quote(name))
+    code = _ROOMS.get(b['slug'], {}).get(name)
+    if code:
+        href += '&room=' + quote(code)
+    return href
+
 
 _IMG_CACHE = {}
 
@@ -81,29 +104,6 @@ def apt_href(b, name):
     if not slug:
         slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
     return '%s-apartments-%s.html' % (b['slug'].replace('/', '-'), slug)
-
-
-# building slug -> {apartment name: live room code}, taken from the real site
-_ROOMS = {}
-_rp = os.path.join(ROOT, 'data', 'rooms.json')
-if os.path.exists(_rp):
-    _ROOMS = json.load(open(_rp, encoding='utf-8'))
-
-
-def booking_href(b, name):
-    """Deep-link an apartment straight into the first-party booking engine.
-
-    The engine reads city, unit, guests and dates from the query string, so the
-    guest lands on the right apartment with the search already run. Where the
-    live site publishes a room code for the apartment we pass it through, so the
-    booking engine can preselect the exact room type.
-    """
-    city = CITY_BY_SLUG[b['city']]['slug']
-    href = 'booking.html?city=%s&unit=%s' % (city, quote(name))
-    code = _ROOMS.get(b['slug'], {}).get(name)
-    if code:
-        href += '&room=' + quote(code)
-    return href
 
 
 def img(b, n):
@@ -198,3 +198,214 @@ def footer():
 
     return '''<footer class="site-footer" id="footer">
   <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="images/master-logo.svg" alt="master" width="120" height="26">
+        <p>Serviced apartments in the heart of Europe's most loved cities.</p>
+      </div>
+      <div class="footer-locs">%s</div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 master. All rights reserved.</p>
+      <ul class="footer-legal">
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="cookies.html">Cookies</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>''' % ''.join(cols)
+
+
+def shell(title, meta, body, active=''):
+    return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>%s</title>
+<meta name="description" content="%s">
+<link rel="icon" href="images/favicon.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+%s
+<main id="main">%s</main>
+%s
+<script src="script.js"></script>
+<script src="translator.js"></script>
+</body>
+</html>''' % (e(title), e(meta), header(active), body, footer())
+
+
+def cta_band():
+    return '''<section class="cta-band">
+  <div class="wrap cta-inner">
+    <h2>Ready to stay with master?</h2>
+    <p>Book direct for the best available rate and a warm welcome in every city.</p>
+    <a class="btn-solid" href="booking.html">Check availability</a>
+  </div>
+</section>'''
+
+
+def families(c):
+    bs = buildings_in(c['slug'])
+    if not bs:
+        return ''
+    cards = ''.join(building_card(b) for b in bs)
+    return '''<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Where to stay</p>
+      <h2>Our buildings in %s</h2>
+    </div>
+    <div class="building-grid">%s</div>
+  </div>
+</section>''' % (e(c['name']), cards)
+
+
+def building_card(b):
+    return '''<article class="building-card">
+  <a class="building-photo" href="%s">
+    <img src="%s" alt="%s" loading="lazy" width="640" height="480">
+  </a>
+  <div class="building-body">
+    <h3><a href="%s">%s</a></h3>
+    <p class="building-city">%s</p>
+    <p class="building-count">%d apartment%s</p>
+  </div>
+</article>''' % (page_path(b), e(img(b, 1)), e(b['name']), page_path(b), e(b['name']),
+                e(CITY_BY_SLUG[b['city']]['name']), len(b['apartments']),
+                '' if len(b['apartments']) == 1 else 's')
+
+
+# ---------------------------------------------------------------- home
+
+def build_home():
+    """Fallback homepage, used only when index.html is absent.
+
+    The shipped homepage is hand-maintained (see _hand_maintained_home); this
+    keeps a fresh checkout working if that file is ever missing.
+    """
+    cards = ''.join(
+        '''<a class="city-card" href="%s.html">
+  <img src="%s" alt="%s" loading="lazy" width="600" height="800">
+  <span class="city-card-name">%s</span>
+</a>''' % (c['slug'], e(c['hero']), e(c['name']), e(c['name']))
+        for c in CITIES)
+    body = '''<section class="home-hero">
+  <div class="wrap">
+    <h1>Where home meets hotel</h1>
+    <p>Serviced apartments in Europe's most loved cities.</p>
+    <a class="btn-solid" href="booking.html">Book your stay</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Where we are</p>
+      <h2>Our cities</h2>
+    </div>
+    <div class="city-grid">%s</div>
+  </div>
+</section>
+
+%s''' % (cards, cta_band())
+    return shell('master — serviced apartments',
+                 'Serviced apartments in Europe\'s most loved cities.', body)
+
+
+# ---------------------------------------------------------------- city
+
+def build_city(c):
+    bs = buildings_in(c['slug'])
+    cards = ''.join(building_card(b) for b in bs)
+    n = len(bs)
+    count = '%d Building%s in %s' % (n, '' if n == 1 else 's', c['name'])
+
+    body = '''<section class="city-hero">
+  <div class="hero-media">
+    <img src="%s" alt="" width="1024" height="683">
+  </div>
+  <div class="wrap city-hero-inner">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="index.html">master</a><span aria-hidden="true">&gt;</span><span aria-current="page">%s</span>
+    </nav>
+    <h1>%s</h1>
+    <p class="count">%s</p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="building-grid">%s</div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The neighbourhood</p>
+      <h2>master experience in %s</h2>
+    </div>
+    <div class="prose">
+      <p>%s</p>
+      <div id="cityMore" hidden><p>%s</p></div>
+      <button class="read-toggle" type="button" data-readmore="cityMore" aria-expanded="false" aria-controls="cityMore">Read more</button>
+    </div>
+  </div>
+</section>
+
+%s
+
+%s''' % (c['hero'], e(c['name']), e(c['name']), e(count), cards,
+         e(c['name']), e(c['intro']), e(c['more']), families(c), cta_band())
+
+    return shell(c['title'], c['meta'], body, active=c['slug'])
+
+
+# The building-page renderer lives in its own module; import it last so the
+# helpers above are already defined when it imports them back.
+from build_building import build_building  # noqa: E402
+
+
+# ---------------------------------------------------------------- write
+
+def _hand_maintained_home():
+    """Return the hand-maintained homepage, or None if it is not present.
+
+    index.html is a bespoke design that does not share the city/building page
+    layout, so it is maintained by hand and is its own source of truth.
+    Regenerating the rest of the site must never revert it.
+    """
+    p = os.path.join(ROOT, 'index.html')
+    if not os.path.exists(p):
+        return None
+    with open(p, encoding='utf-8') as f:
+        return f.read()
+
+
+def main():
+    written = []
+
+    def w(name, content):
+        with open(os.path.join(ROOT, name), 'w', encoding='utf-8') as f:
+            f.write(content)
+        written.append(name)
+
+    home = _hand_maintained_home()
+    w('index.html', home if home is not None else build_home())
+    for c in CITIES:
+        w(c['slug'] + '.html', build_city(c))
+    for b in BUILDINGS:
+        w(page_path(b), build_building(b))
+
+    print('wrote %d pages' % len(written))
+    for n in written:
+        print('  ', n)
+
+
+if __name__ == '__main__':
+    main()
