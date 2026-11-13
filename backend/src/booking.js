@@ -259,7 +259,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     if(!enabled)return res.status(503).json({ok:false,error:'Manual bank transfer is not currently configured. Please contact our reservations team.'});
     if(booking.currency!==String(process.env.BANK_ACCOUNT_CURRENCY||'').toUpperCase())return res.status(422).json({ok:false,error:'Manual bank transfer is not available in this booking currency. Please contact our reservations team for an approved payment method.'});
     const payerName=String(req.body?.payerName||'').trim().slice(0,120), transactionReference=String(req.body?.transactionReference||'').trim().slice(0,120), transferDate=String(req.body?.transferDate||''), notes=String(req.body?.notes||'').trim().slice(0,500), amountMinor=Number(req.body?.amountMinor);
-    const validDate=/^\d{4}-\d{2}-\d{2}$/.test(transferDate)&&!Number.isNaN(Date.parse(transferDate+'T00:00:00Z'));
+    const validDate=Boolean(dateOnly(transferDate));
     if(payerName.length<2||transactionReference.length<4||!validDate||!Number.isSafeInteger(amountMinor)||amountMinor!==booking.total_minor)return res.status(422).json({ok:false,error:'Enter the payer name, transaction reference, transfer date and exact booking amount.'});
     if(db.prepare("SELECT id FROM manual_payment_submissions WHERE booking_id=? AND status='submitted'").get(booking.id))return res.status(409).json({ok:false,error:'A payment submission is already awaiting review for this booking.'});
     try {
