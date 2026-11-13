@@ -333,4 +333,10 @@
       '</svg></a></li></ul>';
   });
 
+  /* ---------- global multilingual translation control ---------- */
+  var translatorScript = document.createElement('script');
+  translatorScript.src = 'translator.js?v=1';
+  translatorScript.defer = true;
+  document.head.appendChild(translatorScript);
+
 })();
