@@ -1,0 +1,12 @@
+{
+  "athens/master-plaka-athens": {
+    "Plaka Comfort Studio": "STD",
+    "Plaka Superior Studio with Sofa Bed": "STDSOF",
+    "Plaka Balcony Studio": "STDB",
+    "Plaka One-Bedroom Suite": "1BR",
+    "Plaka One-Bedroom Suite with Balcony": "1BRBAL",
+    "Acropolis View Penthouse Suite": "1BRPNT",
+    "Plaka Family Suite": "FAM",
+    "Acropolis View Family Penthouse Suite": "FAMPNT"
+  }
+}
