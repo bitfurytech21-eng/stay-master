@@ -299,6 +299,83 @@ async function notifyBookingRequest(details) {
 
 mountBookingRoutes(app, db, { notifyBookingRequest });
 
+
+/* ---------------------------------------------------------------- translation proxy
+ * Google Cloud Translation credentials remain server-side. The browser only
+ * sends short batches of visible text to this same-origin endpoint.
+ */
+const translationHits = new Map();
+const translationCache = new Map();
+const TRANSLATION_LIMIT = 30;
+const TRANSLATION_WINDOW_MS = 60 * 1000;
+const SUPPORTED_TRANSLATION_LANGUAGES = new Set([
+  'ar','bg','bn','ca','cs','da','de','el','en','es','et','fa','fi','fr','gu','he',
+  'hi','hr','hu','id','it','ja','kn','ko','lt','lv','ml','mr','ms','nl','no','pa',
+  'pl','pt','ro','ru','sk','sl','sr','sv','sw','ta','te','th','tr','uk','ur','vi',
+  'zh-CN','zh-TW'
+]);
+
+app.post('/api/translate', async (req, res) => {
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  const recent = (translationHits.get(ip) || []).filter((time) => now - time < TRANSLATION_WINDOW_MS);
+  if (recent.length >= TRANSLATION_LIMIT) {
+    return res.status(429).json({ ok: false, error: 'Translation limit reached. Please wait a minute and try again.' });
+  }
+  recent.push(now);
+  translationHits.set(ip, recent);
+
+  const target = String(req.body?.target || '');
+  const texts = req.body?.texts;
+  if (!SUPPORTED_TRANSLATION_LANGUAGES.has(target) || !Array.isArray(texts) ||
+      texts.length < 1 || texts.length > 50 ||
+      texts.some((value) => typeof value !== 'string' || !value.trim() || value.length > 1000)) {
+    return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1–50 text items (maximum 1,000 characters each).' });
+  }
+  const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
+  if (!apiKey) {
+    return res.status(503).json({ ok: false, error: 'Live translation is not configured yet.' });
+  }
+
+  try {
+    const translations = new Array(texts.length);
+    const missing = [];
+    texts.forEach((value, index) => {
+      const key = target + ':' + value;
+      if (translationCache.has(key)) translations[index] = translationCache.get(key);
+      else missing.push({ index, value, key });
+    });
+    if (missing.length) {
+      const response = await fetch('https://translation.googleapis.com/language/translate/v2?key=' + encodeURIComponent(apiKey), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ q: missing.map((item) => item.value), target, format: 'text' }),
+        signal: AbortSignal.timeout(12000),
+      });
+      if (!response.ok) {
+        console.error('Google Translation API returned', response.status);
+        return res.status(502).json({ ok: false, error: 'The translation service is temporarily unavailable.' });
+      }
+      const payload = await response.json();
+      const results = payload?.data?.translations;
+      if (!Array.isArray(results) || results.length !== missing.length) {
+        return res.status(502).json({ ok: false, error: 'The translation service returned an incomplete response.' });
+      }
+      results.forEach((item, index) => {
+        const translated = String(item.translatedText || '');
+        const entry = missing[index];
+        translations[entry.index] = translated;
+        translationCache.set(entry.key, translated);
+      });
+      if (translationCache.size > 5000) translationCache.clear();
+    }
+    return res.json({ ok: true, translations });
+  } catch (error) {
+    console.error('Translation request failed:', error.message);
+    return res.status(502).json({ ok: false, error: 'Translation could not be completed. Please try again.' });
+  }
+});
+
 app.use((req, res) => res.status(404).json({ ok: false, error: 'Not found' }));
 
 const server = app.listen(PORT, () => {
