@@ -52,7 +52,7 @@ test('manual payment API routes enforce submission and administrator verificatio
   assert.match(source, /\/api\/bookings\/:reference\/payments/);
   assert.match(source, /\/api\/admin\/booking\/payments/);
   assert.match(source, /transaction_reference TEXT NOT NULL UNIQUE/);
-  assert.match(source, /status === 'verified'/);
+  assert.match(source, /status\s*===\s*'verified'/);
   assert.match(source, /payment_status='paid'/);
   assert.match(source, /amountMinor!==booking\.total_minor/);
 });
