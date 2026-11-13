@@ -107,3 +107,10 @@ test('booking creation checks overlapping reservations inside the same transacti
   assert.ok(source.includes('const createReservation = db.transaction'));
   assert.ok(source.includes('if (!createReservation())'));
 });
+
+test('guest registration and login have bounded input and per-IP abuse controls', async () => {
+  const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
+  assert.ok(source.includes('const AUTH_MAX_ATTEMPTS = 10'));
+  assert.ok(source.includes('authRateLimited(req.ip'));
+  assert.ok(source.includes('password.length > 200'));
+});
