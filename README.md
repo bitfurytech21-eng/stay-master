@@ -86,7 +86,7 @@ The booking engine is now served from this repository:
 - Booking requests are stored as **pending** and send email notifications when SMTP is configured. A request is not a confirmed reservation.
 - Payment status remains unpaid until staff verify an actual payment. Manual bank transfer checkout is available when configured with MANUAL_BANK_TRANSFER_ENABLED and BANK_* variables. Guest submissions remain pending until an administrator verifies the funds.
 - Admin API endpoints support adding apartment inventory, reviewing/updating reservations, and verifying or rejecting manual payment submissions.
-- Configure `MANUAL_BANK_TRANSFER_ENABLED=true`, `BANK_NAME`, `BANK_ACCOUNT_NAME`, and `BANK_ACCOUNT_NUMBER` on the Render API service before exposing bank-transfer checkout. Optional fields: `BANK_SORT_CODE`, `BANK_IBAN`, `BANK_SWIFT`, `BANK_TRANSFER_INSTRUCTIONS`.
+- Configure `MANUAL_BANK_TRANSFER_ENABLED=true`, `BANK_NAME`, `BANK_ACCOUNT_NAME`, and `BANK_ACCOUNT_NUMBER`, and `BANK_ACCOUNT_CURRENCY` (three-letter ISO code, e.g. EUR) on the Render API service before exposing bank-transfer checkout. Optional fields: `BANK_SORT_CODE`, `BANK_IBAN`, `BANK_SWIFT`, `BANK_TRANSFER_INSTRUCTIONS`.
 - Guests submit payer name, transfer date, and transaction reference. The API checks the declared amount against the booking total and prevents duplicate transaction references. Staff must verify funds in the receiving bank account before approval. Receipt upload and automated bank reconciliation are not included.
 
 Core booking API routes include `/api/auth/register`, `/api/auth/login`,
