@@ -255,7 +255,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     const booking=db.prepare('SELECT * FROM bookings WHERE reference=? AND guest_id=?').get(req.params.reference,req.guest.id);
     if(!booking)return res.status(404).json({ok:false,error:'Booking not found.'});
     if(booking.status==='cancelled'||booking.payment_status==='paid')return res.status(409).json({ok:false,error:'This booking cannot accept another payment submission.'});
-    const enabled=String(process.env.MANUAL_BANK_TRANSFER_ENABLED||'false').toLowerCase()==='true'&&Boolean(process.env.BANK_ACCOUNT_NAME&&process.env.BANK_ACCOUNT_NUMBER&&process.env.BANK_NAME);
+    const enabled=String(process.env.MANUAL_BANK_TRANSFER_ENABLED||'false').toLowerCase()==='true'&&Boolean(process.env.BANK_ACCOUNT_NAME&&process.env.BANK_ACCOUNT_NUMBER&&process.env.BANK_NAME&&/^[A-Z]{3}$/.test(String(process.env.BANK_ACCOUNT_CURRENCY||'').toUpperCase()));
     if(!enabled)return res.status(503).json({ok:false,error:'Manual bank transfer is not currently configured. Please contact our reservations team.'});
     if(booking.currency!==String(process.env.BANK_ACCOUNT_CURRENCY||'').toUpperCase())return res.status(422).json({ok:false,error:'Manual bank transfer is not available in this booking currency. Please contact our reservations team for an approved payment method.'});
     const payerName=String(req.body?.payerName||'').trim().slice(0,120), transactionReference=String(req.body?.transactionReference||'').trim().slice(0,120), transferDate=String(req.body?.transferDate||''), notes=String(req.body?.notes||'').trim().slice(0,500), amountMinor=Number(req.body?.amountMinor);
