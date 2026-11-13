@@ -34,12 +34,14 @@ test('booking API module has valid JavaScript syntax', async () => {
 test('booking engine includes guest auth, availability checks and admin controls', async () => {
   const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
   assert.ok(source.includes('/availability'));
-  assert.ok(source.includes('requireUser'));
+  assert.ok(source.includes('requireGuest'));
 });
 
 test('manual payment API routes enforce submission and administrator verification', async () => {
   const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
-  assert.ok(source.includes('payment_submissions'));
+  assert.ok(source.includes('manual_payment_submissions'));
+  assert.ok(source.includes('/api/admin/booking/payments/:id'));
+  assert.ok(source.includes('/api/admin/booking/units/:id'));
 });
 
 test('guest booking frontend has valid JavaScript syntax', async () => {
