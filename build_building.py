@@ -2,21 +2,22 @@
 """Building (property) page renderer for the master site.
 
 Split out of build.py so each module stays a manageable size. The shared
-helpers live in build.py and are imported at call time (build.py imports this
-module at the end of its own file, so a module-level import back would be
-circular).
+helpers live in build.py and are imported at call time, because build.py
+imports this module at the end of its own file (a module-level import back
+would be circular).
 """
 import os
 
 
-FAC_ICON = ('<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" '
-            'stroke-width="1.4" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>')
-
-
 def _helpers():
-    """Import the shared helpers from build.py at call time."""
     import build
     return build
+
+
+# ---------------------------------------------------------------- building
+
+FAC_ICON = ('<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" '
+            'stroke-width="1.5" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>')
 
 
 def build_building(b):
@@ -32,49 +33,63 @@ def build_building(b):
     cta_band = _m.cta_band
     c = CITY_BY_SLUG[b['city']]
     n = b['count']
-    photos = [img(b, i) for i in range(1, n + 1)]
 
-    # --- gallery: first photo is the hero, the rest fill the grid
-    hero = photos[0]
-    thumbs = ''.join(
-        '<button class="gallery-thumb" type="button" data-full="%s" aria-label="View photo %d">'
-        '<img src="%s" alt="%s photo %d" loading="lazy" width="400" height="300"></button>'
-        % (e(p), i + 1, e(p), e(b['name']), i + 1)
-        for i, p in enumerate(photos))
+    cells = []
+    for i in range(1, 5):
+        overlay = ''
+        if i == 4 and n > 4:
+            overlay = '<span class="more-count">+%d photos</span>' % (n - 4)
+        cells.append('''<div class="bg-cell">
+      <button class="gallery-btn" type="button" data-index="%d" aria-label="Open photo %d of %d">
+        <img src="%s" alt="%s — photo %d" width="1024" height="683" %s decoding="async">%s
+      </button>
+    </div>''' % (i - 1, i, n, img(b, i), e(b['name']), i,
+                 'loading="eager"' if i == 1 else 'loading="lazy"', overlay))
 
-    # --- apartments
-    apts = ''
-    for a in b['apartments']:
-        name = a['name']
-        guests = a.get('guests', 2)
-        beds = a.get('beds', 1)
-        baths = a.get('baths', 1)
-        sqm = a.get('sqm', '')
-        photo = a.get('img') or hero
+    grid_cells = []
+    for i in range(1, n + 1):
+        cls = 'gallery-cell'
+        if i == 1:
+            cls += ' gallery-cell--wide'
+        elif i == 6:
+            cls += ' gallery-cell--tall'
+        grid_cells.append('''<li class="%s">
+          <button class="gallery-btn" type="button" data-index="%d" aria-label="Open photo %d of %d">
+            <img src="%s" alt="%s — photo %d" width="1024" height="683" loading="lazy" decoding="async">
+            <span class="gallery-cap">%s</span>
+          </button>
+        </li>''' % (cls, i - 1, i, n, img(b, i), e(b['name']), i, e(b['name'])))
+
+    apts = []
+    for idx, (name, guests, beds, baths, sqm) in enumerate(b['apts']):
+        photo = img(b, (idx % n) + 1)
+        apt_mail = mailto(
+            'Booking enquiry — %s, %s' % (name, b['name']),
+            'Hello,\n\nI would like to enquire about availability for the %s at %s, %s.\n\n'
+            'Arrival:\nDeparture:\nGuests:\n\nThank you.' % (name, b['name'], b['address']))
         apt_link = apt_href(b, name)
         # "Check Availability" must reach the first-party booking engine, not a
         # mail client: the engine reads city/unit from the query string and runs
         # the availability call against the booking API.
         apt_book = booking_href(b, name)
-        apts += '''<article class="apt-card">
-  <a class="apt-photo" href="%s"><img src="%s" alt="%s" loading="lazy" width="640" height="480"></a>
-  <div class="apt-body">
+        apts.append('''<article class="apt-card">
+  <div class="apt-card-media">
+    <img src="%s" alt="%s" width="1024" height="683" loading="lazy" decoding="async">
+  </div>
+  <div class="apt-card-body">
     <h3><a href="%s">%s</a></h3>
-    <ul class="apt-meta">
-      <li>%s guests</li><li>%s bed%s</li><li>%s bath%s</li>%s
+    <ul class="apt-specs">
+      <li><span>Guests</span><strong>%s</strong></li>
+      <li><span>Bedrooms</span><strong>%d</strong></li>
+      <li><span>Bathrooms</span><strong>%d</strong></li>
+      <li><span>Size</span><strong>%d m²</strong></li>
     </ul>
     <a class="btn-outline" href="%s">Check Availability</a>
   </div>
-</article>''' % (e(apt_link), e(photo), e(name), e(apt_link), e(name),
-                e(guests), e(beds), '' if beds == 1 else 's',
-                e(baths), '' if baths == 1 else 's',
-                ('<li>%s m&sup2;</li>' % e(sqm)) if sqm else '',
-                e(apt_book))
+</article>''' % (photo, e(name), apt_link, e(name), e(guests), beds, baths, sqm, e(apt_book)))
 
-    # --- facilities
     facs = ''.join('<div class="fac-item">%s<p>%s</p></div>' % (FAC_ICON, e(f)) for f in b['facilities'])
 
-    # --- subnav (real sub-pages when they exist)
     subs = SUBPAGES.get(b['slug'], {})
     subnav = ''
     if subs:
@@ -137,8 +152,9 @@ def build_building(b):
   </div>
 </section>
 
-%s''' % (e(hero), e(b['name']), e(c['slug']), e(c['name']), e(b['name']),
-         e(b['name']), e(b.get('address', '')), e(booking_href(b, b['apartments'][0]['name'] if b['apartments'] else '')),
-         subnav, e(b['name']), apts, thumbs, facs, cta_band())
+%s''' % (e(img(b, 1)), e(b['name']), e(c['slug']), e(c['name']), e(b['name']),
+         e(b['name']), e(b.get('address', '')),
+         e(booking_href(b, b['apts'][0][0] if b['apts'] else '')),
+         subnav, e(b['name']), ''.join(apts), ''.join(grid_cells), facs, cta_band())
 
     return shell(b['title'], b['meta'], body, active=c['slug'])
