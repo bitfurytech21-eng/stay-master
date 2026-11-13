@@ -3,6 +3,13 @@ import { seedBookingCatalog } from './catalog.js';
 
 const COOKIE = 'stay_master_session';
 const SESSION_DAYS = 14;
+// When the site and the API are on different origins the session cookie must be
+// SameSite=None; Secure, otherwise the browser refuses to send it on the
+// cross-origin fetch and every request looks signed-out. Same-origin keeps the
+// stricter Lax default.
+const CROSS_SITE = String(process.env.COOKIE_CROSS_SITE || 'false') === 'true';
+const COOKIE_SAMESITE = CROSS_SITE ? 'None' : 'Lax';
+const COOKIE_SECURE = CROSS_SITE || process.env.NODE_ENV === 'production' ? '; Secure' : '';
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function tokenHash(value) {
@@ -149,7 +156,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     const expires = new Date(now.getTime() + SESSION_DAYS * 86400000);
     db.prepare('INSERT INTO guest_sessions(token_hash,guest_id,expires_at,created_at) VALUES(?,?,?,?)')
       .run(tokenHash(token), guestId, expires.toISOString(), now.toISOString());
-    res.setHeader('Set-Cookie', `${COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_DAYS * 86400}${process.env.NODE_ENV === 'production' ? '; Secure' : ''}`);
+    res.setHeader('Set-Cookie', `${COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=${COOKIE_SAMESITE}; Max-Age=${SESSION_DAYS * 86400}${COOKIE_SECURE}`);
   }
 
   app.post('/api/auth/register', (req, res) => {
@@ -195,7 +202,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
   app.post('/api/auth/logout', (req, res) => {
     const raw = parseCookies(req.headers.cookie)[COOKIE];
     if (raw) db.prepare('DELETE FROM guest_sessions WHERE token_hash=?').run(tokenHash(raw));
-    res.setHeader('Set-Cookie', `${COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${process.env.NODE_ENV === 'production' ? '; Secure' : ''}`);
+    res.setHeader('Set-Cookie', `${COOKIE}=; Path=/; HttpOnly; SameSite=${COOKIE_SAMESITE}; Max-Age=0${COOKIE_SECURE}`);
     res.json({ ok: true });
   });
 
@@ -220,7 +227,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     const checkOut = dateOnly(req.query.checkOut);
     const guests = Math.max(1, Math.min(12, Number(req.query.guests) || 1));
     if (!Number.isInteger(propertyId) || !checkIn || !checkOut || checkIn < dateOnly(new Date().toISOString().slice(0, 10)) || nightsBetween(checkIn, checkOut) < 1 || nightsBetween(checkIn, checkOut) > 90) {
-      return res.status(422).json({ ok: false, error: 'Choose valid dates (1–90 nights).' });
+      return res.status(422).json({ ok: false, error: 'Choose valid dates (1\u201390 nights).' });
     }
     const units = db.prepare(`
       SELECT u.id,u.name,u.max_guests,u.nightly_rate_minor,u.currency
