@@ -1,10 +1,10 @@
 /**
  * Enquiry form backend for the master site.
  *
- * POST /api/enquiries  — accepts a contact-us form submission, validates it,
+ * POST /api/enquiries  \u2014 accepts a contact-us form submission, validates it,
  *                        stores it in SQLite, and emails it to the agency.
- * GET  /api/health     — liveness probe for Render.
- * GET  /api/enquiries  — list stored enquiries (requires ADMIN_TOKEN).
+ * GET  /api/health     \u2014 liveness probe for Render.
+ * GET  /api/enquiries  \u2014 list stored enquiries (requires ADMIN_TOKEN).
  *
  * Design notes:
  *  - A submission is ALWAYS stored before mail is attempted, so a mail outage
@@ -84,12 +84,12 @@ function buildMail(row) {
     ``,
     `Name:      ${row.name}`,
     `Email:     ${row.email}`,
-    `Phone:     ${row.phone || '—'}`,
-    `City:      ${row.city || '—'}`,
-    `Arrival:   ${row.arrival || '—'}`,
-    `Departure: ${row.departure || '—'}`,
-    `Guests:    ${row.guests || '—'}`,
-    `Page:      ${row.source_page || '—'}`,
+    `Phone:     ${row.phone || '\u2014'}`,
+    `City:      ${row.city || '\u2014'}`,
+    `Arrival:   ${row.arrival || '\u2014'}`,
+    `Departure: ${row.departure || '\u2014'}`,
+    `Guests:    ${row.guests || '\u2014'}`,
+    `Page:      ${row.source_page || '\u2014'}`,
     `Received:  ${row.created_at}`,
     `Ref:       #${row.id}`,
     ``,
@@ -100,7 +100,7 @@ function buildMail(row) {
     from: FROM_EMAIL || `website@${new URL(process.env.SITE_URL || 'https://example.com').hostname}`,
     to: TO_EMAIL,
     replyTo: row.email,
-    subject: `Website enquiry — ${row.name}${row.city ? ` (${row.city})` : ''} [#${row.id}]`,
+    subject: `Website enquiry \u2014 ${row.name}${row.city ? ` (${row.city})` : ''} [#${row.id}]`,
     text: lines.join('\n'),
   };
 }
@@ -173,6 +173,9 @@ app.use((req, res, next) => {
   if (origin && (ALLOWED_ORIGINS.length === 0 || ALLOWED_ORIGINS.includes(origin))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
+    // The guest session cookie must survive a cross-origin call, which the
+    // browser only allows when the response opts in explicitly.
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   }
@@ -226,7 +229,7 @@ app.post('/api/enquiries', async (req, res) => {
 
   if (!mailConfigured) {
     // Stored, but no mail transport: say so honestly rather than claiming a send.
-    console.warn('SMTP not configured — enquiry stored only, id', id);
+    console.warn('SMTP not configured \u2014 enquiry stored only, id', id);
     return res.status(201).json({
       ok: true, id, mailed: false,
       message: 'Your enquiry was received and saved. Email delivery is not configured on this server yet.',
@@ -279,7 +282,7 @@ async function notifyBookingRequest(details) {
     'Dates: ' + details.checkIn + ' to ' + details.checkOut,
     'Guests: ' + details.guests,
     details.onRequest
-      ? 'Rate: on request — quote this guest before confirming.'
+      ? 'Rate: on request \u2014 quote this guest before confirming.'
       : 'Total: ' + (details.totalMinor / 100).toFixed(2) + ' ' + details.currency,
     'Payment: not collected; awaiting team confirmation.'
   ].join('\n');
@@ -332,7 +335,7 @@ app.post('/api/translate', async (req, res) => {
   if (!SUPPORTED_TRANSLATION_LANGUAGES.has(target) || !Array.isArray(texts) ||
       texts.length < 1 || texts.length > 50 ||
       texts.some((value) => typeof value !== 'string' || !value.trim() || value.length > 1000)) {
-    return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1–50 text items (maximum 1,000 characters each).' });
+    return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1\u201350 text items (maximum 1,000 characters each).' });
   }
   const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
   if (!apiKey) {
