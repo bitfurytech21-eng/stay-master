@@ -312,6 +312,31 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
       .run(propertyId,name,maxGuests,rate,currency,new Date().toISOString());
     res.status(201).json({ ok: true, id: Number(result.lastInsertRowid) });
   });
+  app.get('/api/admin/booking/units', requireAdmin, (req, res) => {
+    const units = db.prepare(`
+      SELECT u.id,u.property_id,u.name,u.max_guests,u.nightly_rate_minor,u.currency,u.active,
+        p.name AS property_name,p.city
+      FROM booking_units u JOIN booking_properties p ON p.id=u.property_id
+      ORDER BY p.city,p.name,u.name
+    `).all();
+    res.json({ ok: true, units });
+  });
+  app.patch('/api/admin/booking/units/:id', requireAdmin, (req, res) => {
+    const id = Number(req.params.id);
+    const name = String(req.body?.name || '').trim().slice(0,160);
+    const maxGuests = Number(req.body?.maxGuests);
+    const rate = Number(req.body?.nightlyRateMinor);
+    const currency = String(req.body?.currency || '').toUpperCase();
+    const active = req.body?.active;
+    if (!Number.isSafeInteger(id) || id < 1 || !name || !Number.isInteger(maxGuests) || maxGuests < 1 || maxGuests > 12 ||
+        !Number.isSafeInteger(rate) || rate < 1 || !/^[A-Z]{3}$/.test(currency) || typeof active !== 'boolean') {
+      return res.status(422).json({ ok:false, error:'Provide a valid unit name, guest limit, positive nightly rate, currency and active status.' });
+    }
+    const result = db.prepare('UPDATE booking_units SET name=?,max_guests=?,nightly_rate_minor=?,currency=?,active=? WHERE id=?')
+      .run(name,maxGuests,rate,currency,active ? 1 : 0,id);
+    if (!result.changes) return res.status(404).json({ ok:false, error:'Apartment unit not found.' });
+    res.json({ ok:true });
+  });
   app.get('/api/admin/booking/payments', requireAdmin, (req,res) => {
     const rows=db.prepare("SELECT s.*,b.reference AS booking_reference,g.name AS guest_name,g.email AS guest_email,p.name AS property_name FROM manual_payment_submissions s JOIN bookings b ON b.id=s.booking_id JOIN guests g ON g.id=s.guest_id JOIN booking_properties p ON p.id=b.property_id ORDER BY CASE s.status WHEN 'submitted' THEN 0 ELSE 1 END,s.submitted_at DESC LIMIT 250").all();
     res.json({ok:true,payments:rows});
