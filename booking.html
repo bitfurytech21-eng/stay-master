@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#003319">
+<title>Book your stay | master</title>
+<meta name="description" content="Search serviced apartments and manage your master stay.">
+<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="booking.css">
+</head>
+<body class="booking-page">
+<a class="skip-link" href="#bookingMain">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="master home"><img src="images/master-logo.svg" alt="master" width="120" height="26"></a>
+    <nav class="primary-nav" aria-label="Primary"><a href="index.html#where">Cities</a><a href="luxury-apartments.html">Apartments</a><a href="why-master.html">Why master</a><a href="contact-us.html">Contact</a></nav>
+    <div class="header-actions"><a class="btn-book" href="#guestAccess">My account</a></div>
+  </div>
+</header>
+<main id="bookingMain">
+<section class="booking-hero"><div class="booking-wrap">
+<p class="eyebrow">Book direct with master</p><h1>Your stay, <em>your space.</em></h1>
+<p>Find your apartment, choose your dates and send a booking request directly to our team.</p>
+<form id="searchForm" class="booking-search">
+<label>Destination<select id="city" required><option value="">All destinations</option><option>London</option><option>Rome</option><option>Barcelona</option><option>Athens</option><option>Warsaw</option><option>Hamburg</option><option>Salzburg</option><option>Tel Aviv</option><option>Bat Yam</option></select></label>
+<label>Check in<input id="checkIn" type="date" required></label>
+<label>Check out<input id="checkOut" type="date" required></label>
+<label>Guests<input id="guests" type="number" min="1" max="12" value="2" required></label>
+<button class="booking-primary" type="submit">Search stays</button>
+</form>
+<div id="searchMessage" class="booking-message" role="status"></div>
+</div></section>
+<section class="booking-content booking-wrap">
+<div class="booking-results-head"><div><p class="eyebrow">Explore our locations</p><h2>Available apartments</h2></div><span id="resultCount">Browse our destinations</span></div>
+<div id="propertyResults" class="property-results"><div class="booking-empty">Choose your destination and dates to search for available apartments.</div></div>
+</section>
+<section id="guestAccess" class="guest-section"><div class="booking-wrap guest-grid">
+<div><p class="eyebrow">Your master account</p><h2>Keep every stay in one place.</h2><p>Create an account to submit booking requests and see your reservation history. A request is not confirmed until our team confirms availability and payment.</p></div>
+<div class="guest-card">
+<div class="auth-tabs"><button type="button" class="active" data-auth-tab="login">Sign in</button><button type="button" data-auth-tab="register">Create account</button></div>
+<form id="loginForm" class="auth-form"><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button class="booking-primary" type="submit">Sign in</button></form>
+<form id="registerForm" class="auth-form" hidden><label>Full name<input name="name" autocomplete="name" required minlength="2"></label><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Password<input name="password" type="password" autocomplete="new-password" minlength="10" required><small>Use at least 10 characters.</small></label><button class="booking-primary" type="submit">Create account</button></form>
+<div id="authMessage" class="booking-message" role="status"></div>
+<div id="accountPanel" hidden><h3 id="welcomeName"></h3><button type="button" id="logoutButton" class="booking-secondary">Sign out</button><h3 class="booking-history-title">Your booking requests</h3><div id="bookingHistory"></div></div>
+</div>
+</div></section>
+</main>
+<footer class="booking-footer"><div class="booking-wrap"><a href="index.html">master</a><span>Serviced apartments & aparthotels</span><a href="contact-us.html">Contact our team</a></div></footer>
+<script src="booking.js" defer></script>
+</body></html>
