@@ -397,7 +397,21 @@ def build_aptmap():
     to happen for 'Studio' vs 'Inner Lightwell Studio' and left the other
     page unreachable).
     """
-    gap = json.load(open('/tmp/gap.json', encoding='utf-8'))
+    gap_path = '/tmp/gap.json'
+    if not os.path.exists(gap_path):
+        # The extraction file is a local, optional build input and is not part
+        # of the repository. Reuse the last committed map on clean builds.
+        aptmap_path = os.path.join(ROOT, 'data', 'aptmap.json')
+        if os.path.exists(aptmap_path):
+            print('warning: /tmp/gap.json not found; reusing data/aptmap.json', file=sys.stderr)
+            with open(aptmap_path, encoding='utf-8') as f:
+                return json.load(f)
+        raise FileNotFoundError(
+            'Missing /tmp/gap.json and data/aptmap.json; provide the apartment extraction input.'
+        )
+
+    with open(gap_path, encoding='utf-8') as f:
+        gap = json.load(f)
     m = {}
     for b in B.BUILDINGS:
         live = gap['apts'].get(b['slug'])
