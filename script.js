@@ -306,7 +306,13 @@
       e.preventDefault();
       var city = searchForm.querySelector('#searchCity');
       var dest = city && city.value ? city.value : 'london';
-      window.location.href = dest + '.html';
+      var params = new URLSearchParams();
+      var checkin = searchForm.querySelector('#searchIn');
+      var checkout = searchForm.querySelector('#searchOut');
+      if (checkin && checkin.value) params.set('checkin', checkin.value);
+      if (checkout && checkout.value) params.set('checkout', checkout.value);
+      var query = params.toString();
+      window.location.href = dest + '.html' + (query ? '?' + query : '');
     });
   }
 })();
