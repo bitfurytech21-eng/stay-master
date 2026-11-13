@@ -1,7 +1,13 @@
 (() => {
 const $ = (s) => document.querySelector(s);
+// Resolve API paths through api-config.js so the frontend can talk to the
+// deployed backend even when the HTML is served from a different origin.
+const apiUrl = (p) => (window.STAY_MASTER_API ? window.STAY_MASTER_API.url(p) : p);
+// Cookies must be sent with 'include' when the API is on another origin,
+// otherwise the guest session would be dropped on every request.
+const credentialsMode = () => (window.STAY_MASTER_API && window.STAY_MASTER_API.crossOrigin ? 'include' : 'same-origin');
 const api = async (url, options={}) => {
-  const response = await fetch(url,{credentials:'same-origin',headers:{'Content-Type':'application/json',...(options.headers||{})},...options});
+  const response = await fetch(apiUrl(url),{credentials:credentialsMode(),headers:{'Content-Type':'application/json',...(options.headers||{})},...options});
   const data = await response.json().catch(()=>({}));
   if(!response.ok) throw new Error(data.error || 'The request could not be completed.');
   return data;
