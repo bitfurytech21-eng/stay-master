@@ -17,6 +17,7 @@ import express from 'express';
 import Database from 'better-sqlite3';
 import nodemailer from 'nodemailer';
 import crypto from 'node:crypto';
+import { mountBookingRoutes } from './booking.js';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -266,6 +267,8 @@ app.get('/api/enquiries', (req, res) => {
   ).all(limit);
   res.json({ ok: true, count: rows.length, enquiries: rows });
 });
+
+mountBookingRoutes(app, db);
 
 app.use((req, res) => res.status(404).json({ ok: false, error: 'Not found' }));
 
