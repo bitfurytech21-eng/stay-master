@@ -101,7 +101,9 @@ Core booking API routes include `/api/auth/register`, `/api/auth/login`,
    creates both services with the commands listed above.
 3. On the **stay-master-api** service, set the secrets marked `sync: false`:
    `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`,
-   `ENQUIRY_FROM`, `ADMIN_TOKEN`, `ALLOWED_ORIGINS`.
+   `ENQUIRY_FROM`, `ADMIN_TOKEN`, `ALLOWED_ORIGINS`, and `GOOGLE_TRANSLATE_API_KEY`.
+   The Google key is required for live automatic translation; restrict it to Cloud
+   Translation API and never place it in frontend files.
    For Gmail use an App Password, not the account password.
 4. Confirm the API host in `render.yaml` (`stay-master-api.onrender.com`) matches
    the name Render assigned, then redeploy the static service.
