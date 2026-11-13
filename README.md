@@ -84,12 +84,14 @@ The booking engine is now served from this repository:
 - The property catalogue is seeded from the existing Stay Master locations.
 - The admin team must add actual apartment inventory and verified nightly rates before a unit can appear as bookable. The platform does not invent prices or availability.
 - Booking requests are stored as **pending** and send email notifications when SMTP is configured. A request is not a confirmed reservation.
-- Payment status remains unpaid until staff verify an actual payment. No live payment processor is configured by this change; do not mark a booking paid until funds are verified.
-- Admin API endpoints support adding apartment inventory and reviewing/updating booking and payment statuses.
+- Payment status remains unpaid until staff verify an actual payment. Manual bank transfer checkout is available when configured with MANUAL_BANK_TRANSFER_ENABLED and BANK_* variables. Guest submissions remain pending until an administrator verifies the funds.
+- Admin API endpoints support adding apartment inventory, reviewing/updating reservations, and verifying or rejecting manual payment submissions.
+- Configure `MANUAL_BANK_TRANSFER_ENABLED=true`, `BANK_NAME`, `BANK_ACCOUNT_NAME`, and `BANK_ACCOUNT_NUMBER` on the Render API service before exposing bank-transfer checkout. Optional fields: `BANK_SORT_CODE`, `BANK_IBAN`, `BANK_SWIFT`, `BANK_TRANSFER_INSTRUCTIONS`.
+- Guests submit payer name, transfer date, and transaction reference. The API checks the declared amount against the booking total and prevents duplicate transaction references. Staff must verify funds in the receiving bank account before approval. Receipt upload and automated bank reconciliation are not included.
 
 Core booking API routes include `/api/auth/register`, `/api/auth/login`,
 `/api/auth/me`, `/api/booking/properties`, `/api/booking/availability`,
-`/api/bookings`, `/api/bookings/mine`, and protected
+`/api/bookings`, `/api/bookings/mine`, `/api/payments/methods`, `/api/bookings/:reference/payments`, and protected
 `/api/admin/booking/*` endpoints.
 
 ## Deploying to Render
