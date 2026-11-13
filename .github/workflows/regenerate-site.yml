@@ -1,0 +1,38 @@
+name: Regenerate static website pages
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'build.py'
+      - 'build_extra.py'
+      - 'make_404.py'
+      - 'data/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate committed HTML
+        run: |
+          python build.py
+          python build_extra.py
+          python make_404.py
+      - name: Commit generated pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- '*.html'
+          if git diff --cached --quiet; then
+            echo "No generated HTML changes."
+            exit 0
+          fi
+          git commit -m "Regenerate static pages from site templates"
+          git push
