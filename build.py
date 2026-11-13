@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static site generator for the master rebuild.
+"""Static site generator for the master rebuild.\n\nAll booking calls route through the first-party Stay Master booking platform.
 
 Reads data/site.json and writes index.html, one page per city and one page
 per building, all sharing styles.css / script.js and the images/ tree.
