@@ -67,7 +67,7 @@ services:
     healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
-        value: "20"
+        value: "22.22.0"
       # Where enquiry submissions are stored. Mount a Render disk at /var/data
       # so the SQLite file survives deploys and restarts.
       - key: DATA_DIR
