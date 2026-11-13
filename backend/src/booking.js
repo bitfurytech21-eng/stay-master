@@ -232,6 +232,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     `).get(unitId, req.body.checkOut, req.body.checkIn);
     if (conflict) return res.status(409).json({ ok: false, error: 'Those dates have just become unavailable. Please search again.' });
     const total = unit.nightly_rate_minor * nights;
+    if (!Number.isSafeInteger(total) || total < 1) return res.status(422).json({ ok:false, error:'The total price is outside the supported booking amount. Please contact our reservations team.' });
     const now = new Date().toISOString();
     const reference = 'SM-' + crypto.randomBytes(5).toString('hex').toUpperCase();
     const insert = db.prepare(`
