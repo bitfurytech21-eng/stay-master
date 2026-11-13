@@ -226,11 +226,6 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
       WHERE u.id=? AND p.id=? AND u.active=1 AND p.active=1 AND u.max_guests>=?
     `).get(unitId, propertyId, guests);
     if (!unit) return res.status(404).json({ ok: false, error: 'This apartment is no longer available.' });
-    const conflict = db.prepare(`
-      SELECT id FROM bookings WHERE unit_id=? AND status IN ('pending','confirmed')
-      AND check_in < ? AND check_out > ? LIMIT 1
-    `).get(unitId, req.body.checkOut, req.body.checkIn);
-    if (conflict) return res.status(409).json({ ok: false, error: 'Those dates have just become unavailable. Please search again.' });
     const total = unit.nightly_rate_minor * nights;
     // A 0 nightly rate means the apartment is priced on request: the request is
     // still recorded, but no amount is quoted and no payment is expected yet.
@@ -242,7 +237,18 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
       INSERT INTO bookings(reference,guest_id,property_id,unit_id,check_in,check_out,guests,nights,currency,total_minor,status,payment_status,special_requests,created_at,updated_at)
       VALUES(?,?,?,?,?,?,?,?,?,?,'pending','unpaid',?,?,?)
     `);
-    insert.run(reference, req.guest.id, propertyId, unitId, req.body.checkIn, req.body.checkOut, guests, nights, unit.currency, total, requests, now, now);
+    // Keep the overlap check and insert in one SQLite transaction so two
+    // guests cannot both pass the check for the same apartment and dates.
+    const createReservation = db.transaction(() => {
+      const conflict = db.prepare(`
+        SELECT id FROM bookings WHERE unit_id=? AND status IN ('pending','confirmed')
+        AND check_in < ? AND check_out > ? LIMIT 1
+      `).get(unitId, req.body.checkOut, req.body.checkIn);
+      if (conflict) return false;
+      insert.run(reference, req.guest.id, propertyId, unitId, req.body.checkIn, req.body.checkOut, guests, nights, unit.currency, total, requests, now, now);
+      return true;
+    });
+    if (!createReservation()) return res.status(409).json({ ok: false, error: 'Those dates have just become unavailable. Please search again.' });
     let emailNotification = false;
     try {
       emailNotification = await notifyBookingRequest({ reference, guestName: req.guest.name, guestEmail: req.guest.email, propertyName: unit.property_name, unitName: unit.name, checkIn: req.body.checkIn, checkOut: req.body.checkOut, guests, totalMinor: total, currency: unit.currency, onRequest: rateOnRequest });
