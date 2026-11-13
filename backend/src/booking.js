@@ -35,7 +35,7 @@ function verifyPassword(password, salt, expected) {
   return actual.length === stored.length && crypto.timingSafeEqual(actual, stored);
 }
 
-export function mountBookingRoutes(app, db) {
+export function mountBookingRoutes(app, db, { notifyBookingRequest = async () => false } = {}) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS guests (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -205,7 +205,7 @@ export function mountBookingRoutes(app, db) {
     res.json({ ok: true, checkIn: req.query.checkIn, checkOut: req.query.checkOut, nights: nightsBetween(checkIn, checkOut), units });
   });
 
-  app.post('/api/bookings', requireGuest, (req, res) => {
+  app.post('/api/bookings', requireGuest, async (req, res) => {
     const unitId = Number(req.body?.unitId);
     const propertyId = Number(req.body?.propertyId);
     const checkIn = dateOnly(req.body?.checkIn);
@@ -237,7 +237,11 @@ export function mountBookingRoutes(app, db) {
       VALUES(?,?,?,?,?,?,?,?,?,?,'pending','unpaid',?,?,?)
     `);
     insert.run(reference, req.guest.id, propertyId, unitId, req.body.checkIn, req.body.checkOut, guests, nights, unit.currency, total, requests, now, now);
-    return res.status(201).json({ ok: true, reference, status: 'pending', paymentStatus: 'unpaid', totalMinor: total, currency: unit.currency, message: 'Your booking request has been recorded. Payment is not yet collected; the team will confirm availability and payment instructions.' });
+    let emailNotification = false;
+    try {
+      emailNotification = await notifyBookingRequest({ reference, guestName: req.guest.name, guestEmail: req.guest.email, propertyName: unit.property_name, unitName: unit.name, checkIn: req.body.checkIn, checkOut: req.body.checkOut, guests, totalMinor: total, currency: unit.currency });
+    } catch (error) { console.error('Booking notification failed for', reference, error.message); }
+    return res.status(201).json({ ok: true, reference, status: 'pending', paymentStatus: 'unpaid', totalMinor: total, currency: unit.currency, emailNotification, message: 'Your booking request has been recorded. This is not yet a confirmed reservation and no payment has been collected. Our team will verify availability and contact you.' });
   });
 
   app.get('/api/bookings/mine', requireGuest, (req, res) => {
