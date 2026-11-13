@@ -5,10 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aparthotels &amp; Serviced Apartments in Salzburg | Austria | master</title>
 <meta name="description" content="Two master properties in Salzburg — Mirabell beside the palace gardens and Linzergasse at the entrance to the UNESCO Old City.">
-<link rel="icon" href="images/favicon.svg">
-<link rel="stylesheet" href="styles.css">
+<meta name="theme-color" content="#003319">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
     <a class="logo" href="index.html" aria-label="master — home">
@@ -62,7 +66,9 @@
     </div>
   </div>
 </header>
-<main id="main"><section class="city-hero">
+
+<main id="main">
+<section class="city-hero">
   <div class="hero-media">
     <img src="images/buildings/salzburg-master-mirabell-01.jpg" alt="" width="1024" height="683">
   </div>
@@ -77,23 +83,33 @@
 
 <section class="section section--tight">
   <div class="wrap">
-    <div class="building-grid"><article class="building-card">
-  <a class="building-photo" href="salzburg-master-mirabell.html">
-    <img src="images/buildings/salzburg-master-mirabell-01.jpg" alt="Mirabell Salzburg" loading="lazy" width="640" height="480">
-  </a>
-  <div class="building-body">
-    <h3><a href="salzburg-master-mirabell.html">Mirabell Salzburg</a></h3>
-    <p class="building-city">Salzburg</p>
-    <p class="building-count">10 apartments</p>
+    <div class="building-grid"><article class="bcard">
+  <div class="bcard-media">
+    <img src="images/buildings/salzburg-master-mirabell-01.jpg" alt="Mirabell Salzburg — Salzburg" width="1024" height="683" loading="lazy" decoding="async">
+    <span class="bcard-tag">Serviced Apartments</span>
   </div>
-</article><article class="building-card">
-  <a class="building-photo" href="salzburg-master-linzergasse.html">
-    <img src="images/buildings/salzburg-master-linzergasse-01.jpg" alt="Linzergasse Salzburg" loading="lazy" width="640" height="480">
-  </a>
-  <div class="building-body">
+  <div class="bcard-body">
+    <h3><a href="salzburg-master-mirabell.html">Mirabell Salzburg</a></h3>
+    <p class="bcard-addr">Rainerstrasse 7, Salzburg</p>
+    <ul class="bcard-meta">
+      <li><strong>50</strong>Apartments</li>
+      <li><strong>Studio, One- and Two-Bedroom &amp; Penthouses</strong>Bedrooms</li>
+    </ul>
+    <a class="btn-outline bcard-cta" href="salzburg-master-mirabell.html">Check Availability</a>
+  </div>
+</article><article class="bcard">
+  <div class="bcard-media">
+    <img src="images/buildings/salzburg-master-linzergasse-01.jpg" alt="Linzergasse Salzburg — Salzburg" width="1024" height="683" loading="lazy" decoding="async">
+    <span class="bcard-tag">Serviced Apartments</span>
+  </div>
+  <div class="bcard-body">
     <h3><a href="salzburg-master-linzergasse.html">Linzergasse Salzburg</a></h3>
-    <p class="building-city">Salzburg</p>
-    <p class="building-count">3 apartments</p>
+    <p class="bcard-addr">Schallmooser Hauptstrasse 2, Salzburg</p>
+    <ul class="bcard-meta">
+      <li><strong>21</strong>Apartments</li>
+      <li><strong>Studio &amp; One Bedroom</strong>Bedrooms</li>
+    </ul>
+    <a class="btn-outline bcard-cta" href="salzburg-master-linzergasse.html">Check Availability</a>
   </div>
 </article></div>
   </div>
@@ -113,48 +129,33 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section section--sand">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Where to stay</p>
-      <h2>Our buildings in Salzburg</h2>
+      <p class="eyebrow">Salzburg with the family</p>
+      <h2>Where Families Stay Smarter</h2>
+      <p>Family-friendly stays near top attractions – that&#x27;s master!</p>
     </div>
-    <div class="building-grid"><article class="building-card">
-  <a class="building-photo" href="salzburg-master-mirabell.html">
-    <img src="images/buildings/salzburg-master-mirabell-01.jpg" alt="Mirabell Salzburg" loading="lazy" width="640" height="480">
-  </a>
-  <div class="building-body">
-    <h3><a href="salzburg-master-mirabell.html">Mirabell Salzburg</a></h3>
-    <p class="building-city">Salzburg</p>
-    <p class="building-count">10 apartments</p>
-  </div>
-</article><article class="building-card">
-  <a class="building-photo" href="salzburg-master-linzergasse.html">
-    <img src="images/buildings/salzburg-master-linzergasse-01.jpg" alt="Linzergasse Salzburg" loading="lazy" width="640" height="480">
-  </a>
-  <div class="building-body">
-    <h3><a href="salzburg-master-linzergasse.html">Linzergasse Salzburg</a></h3>
-    <p class="building-city">Salzburg</p>
-    <p class="building-count">3 apartments</p>
-  </div>
-</article></div>
+    <a class="btn-outline" href="salzburg-family-apartments.html">Find out more</a>
   </div>
 </section>
 
-<section class="cta-band">
-  <div class="wrap cta-inner">
-    <h2>Ready to stay with master?</h2>
-    <p>Book direct for the best available rate and a warm welcome in every city.</p>
-    <a class="btn-solid" href="booking.html">Check availability</a>
+<section class="cta-band" id="offer">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2>Book directly with master and get 5% off</h2>
+        <p>Save More, Stay More: Book Directly With master For A 5% Discount Today!</p>
+      </div>
+      <a class="btn-cream" href="booking.html">Book Now</a>
+    </div>
   </div>
-</section></main>
+</section>
+</main>
+
 <footer class="site-footer" id="footer">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-brand">
-        <img src="images/master-logo.svg" alt="master" width="120" height="26">
-        <p>Serviced apartments in the heart of Europe's most loved cities.</p>
-      </div>
       <div class="footer-locations"><div class="loc-col">
           <h3><a href="london.html">London</a></h3>
           <ul><li><a href="london-master-st-pauls.html">master St. Paul&#x27;s</a></li><li><a href="london-master-cannon.html">master Cannon</a></li><li><a href="london-master-farringdon.html">master Farringdon</a></li></ul>
@@ -199,18 +200,32 @@
         </ul>
       </div>
     </div>
+
     <div class="footer-bottom">
-      <p>&copy; 2025 master. All rights reserved.</p>
-      <ul class="footer-legal">
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="cookies.html">Cookies</a></li>
-        <li><a href="contact-us.html">Contact</a></li>
-      </ul>
+      <div class="footer-credit">
+        <a class="footer-logo" href="index.html" aria-label="master">
+          <img src="images/master-logo.svg" alt="master" width="110" height="24" loading="lazy">
+        </a>
+        <div class="footer-legal">
+          <ul class="legal-links">
+            <li><a href="luxury-apartments.html">Luxury Apartments</a></li>
+            <li><a href="special-offers.html">Special Offers</a></li>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="mailto:easytravelagency@trustagent.space">Contact Us</a></li>
+            <li><a href="contact-us.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms-of-use.html">Terms of use</a></li>
+            <li><a href="black-friday-sale-terms-and-conditions.html">Offer terms</a></li>
+          </ul>
+          <p class="footer-email"><a href="mailto:easytravelagency@trustagent.space">easytravelagency@trustagent.space</a></p>
+          <p class="copyright">&copy; 2025 master</p>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
-<script src="script.js"></script>
-<script src="translator.js"></script>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>
