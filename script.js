@@ -73,7 +73,9 @@
 
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+        // Plain-text attribution: OpenStreetMap's licence requires the credit,
+        // but we do not add an outbound link to a third-party site.
+        attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
 
       var pinIcon = L.divIcon({
@@ -254,11 +256,13 @@
       }
 
       var endpoint = enquiryForm.getAttribute('action') || '/api/enquiries';
+      if (window.STAY_MASTER_API) endpoint = window.STAY_MASTER_API.url(endpoint);
       if (efSubmit) { efSubmit.disabled = true; efSubmit.textContent = 'Sending\u2026'; }
       say('Sending your enquiry\u2026');
 
       fetch(endpoint, {
         method: 'POST',
+        credentials: (window.STAY_MASTER_API && window.STAY_MASTER_API.crossOrigin) ? 'include' : 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       }).then(function (res) {
@@ -299,14 +303,6 @@
     });
   }
 
-  /* ---------- route legacy booking-engine links into the first-party booking platform ---------- */
-  document.querySelectorAll('a[href*="reserve-online.net"]').forEach(function (link) {
-    var target = link.getAttribute('href') || '';
-    link.href = target.indexOf('view=amend') !== -1 ? 'booking.html#guestAccess' : 'booking.html';
-    link.removeAttribute('target');
-    link.removeAttribute('rel');
-  });
-
   /* ---------- home search: route into the direct booking platform ---------- */
   var searchForm = document.getElementById('searchForm');
   if (searchForm) {
@@ -323,16 +319,6 @@
       window.location.href = 'booking.html?city=' + encodeURIComponent(dest) + (query ? '&' + query : '');
     });
   }
-  /* ---------- replace legacy footer social destinations with the company website ---------- */
-  document.querySelectorAll('.footer-social').forEach(function (footerSocial) {
-    footerSocial.innerHTML =
-      '<h2 class="lucky">Share our website</h2>' +
-      '<ul><li><a href="/" aria-label="Visit the master company website" title="Visit the master company website">' +
-      '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' +
-      '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>' +
-      '</svg></a></li></ul>';
-  });
-
   /* ---------- global multilingual translation control ---------- */
   var translatorScript = document.createElement('script');
   translatorScript.src = 'translator.js?v=1';

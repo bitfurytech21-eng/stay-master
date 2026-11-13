@@ -2,13 +2,13 @@
   'use strict';
 
   var languages = [
-    ['en','English'],['ar','العربية'],['zh-CN','简体中文'],['zh-TW','繁體中文'],
-    ['fr','Français'],['de','Deutsch'],['es','Español'],['it','Italiano'],
-    ['pt','Português'],['ru','Русский'],['ja','日本語'],['ko','한국어'],
-    ['hi','हिन्दी'],['nl','Nederlands'],['tr','Türkçe'],['pl','Polski'],
-    ['el','Ελληνικά'],['sv','Svenska'],['da','Dansk'],['no','Norsk'],
-    ['fi','Suomi'],['he','עברית'],['id','Bahasa Indonesia'],['th','ไทย'],
-    ['vi','Tiếng Việt'],['uk','Українська'],['ur','اردو'],['sw','Kiswahili']
+    ['en','English'],['ar','\u0627\u0644\u0639\u0631\u0628\u064a\u0629'],['zh-CN','\u7b80\u4f53\u4e2d\u6587'],['zh-TW','\u7e41\u9ad4\u4e2d\u6587'],
+    ['fr','Fran\u00e7ais'],['de','Deutsch'],['es','Espa\u00f1ol'],['it','Italiano'],
+    ['pt','Portugu\u00eas'],['ru','\u0420\u0443\u0441\u0441\u043a\u0438\u0439'],['ja','\u65e5\u672c\u8a9e'],['ko','\ud55c\uad6d\uc5b4'],
+    ['hi','\u0939\u093f\u0928\u094d\u0926\u0940'],['nl','Nederlands'],['tr','T\u00fcrk\u00e7e'],['pl','Polski'],
+    ['el','\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac'],['sv','Svenska'],['da','Dansk'],['no','Norsk'],
+    ['fi','Suomi'],['he','\u05e2\u05d1\u05e8\u05d9\u05ea'],['id','Bahasa Indonesia'],['th','\u0e44\u0e17\u0e22'],
+    ['vi','Ti\u1ebfng Vi\u1ec7t'],['uk','\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430'],['ur','\u0627\u0631\u062f\u0648'],['sw','Kiswahili']
   ];
   var originals = new WeakMap();
   var translated = new WeakMap();
@@ -45,8 +45,10 @@
   }
 
   async function translateBatch(values, target) {
-    var response = await fetch('/api/translate', {
+    var endpoint = window.STAY_MASTER_API ? window.STAY_MASTER_API.url('/api/translate') : '/api/translate';
+    var response = await fetch(endpoint, {
       method: 'POST',
+      credentials: (window.STAY_MASTER_API && window.STAY_MASTER_API.crossOrigin) ? 'include' : 'same-origin',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ target: target, texts: values })
     });
@@ -63,7 +65,7 @@
     if (observer) observer.disconnect();
     var status = document.getElementById('languageStatus');
     var select = document.getElementById('siteLanguage');
-    if (status) status.textContent = target === 'en' ? 'Showing English' : 'Translating page…';
+    if (status) status.textContent = target === 'en' ? 'Showing English' : 'Translating page\u2026';
     if (select) select.disabled = true;
 
     try {
