@@ -26,7 +26,7 @@ async function search(event){
  if(!checkIn||!checkOut||checkOut<=checkIn){msg($('#searchMessage'),'Choose a valid check-in and check-out date.','error');return;}
  if(new Date(checkIn+'T00:00:00')<new Date(new Date().toDateString())){msg($('#searchMessage'),'Check-in must be today or a future date.','error');return;}
  lastSearch={checkIn,checkOut,guests};
- const button=$('#searchForm button');button.disabled=true;button.textContent='Searching…';
+ const button=$('#searchForm button');button.disabled=true;button.textContent='Searching\u2026';
  try{
   const properties=await loadProperties(cities[cityName]||'');
   results.innerHTML=properties.length?properties.map(propertyCard).join(''):'<div class="booking-empty">No properties have been published to the booking inventory yet. Please contact our team for assistance.</div>';
@@ -35,7 +35,13 @@ async function search(event){
    const box=$('#units-'+p.id);
    try{
     const data=await api('/api/booking/availability?'+new URLSearchParams({propertyId:p.id,checkIn,checkOut,guests}));
-    box.innerHTML=data.units.length?data.units.map(u=>'<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+escapeHtml(u.max_guests)+' guests · '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+((u.nightly_rate_minor*data.nights)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small></span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>').join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
+    box.innerHTML=data.units.length?data.units.map(u=>{
+     const onRequest=u.nightly_rate_minor===0;
+     const price=onRequest
+       ? '<strong>Rate on request</strong> <small>our team will send you a quote for '+data.nights+' nights</small>'
+       : escapeHtml(u.max_guests)+' guests \u00b7 '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+((u.nightly_rate_minor*data.nights)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small>';
+     return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+price+'</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>';
+    }).join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
    }catch(e){box.textContent=e.message;}
   }));
   msg($('#searchMessage'),'Availability is based on inventory entered by the property team. Requests remain pending until confirmed.','');
@@ -66,7 +72,7 @@ async function authSubmit(form,endpoint){
 $('#loginForm').addEventListener('submit',e=>{e.preventDefault();authSubmit(e.currentTarget,'/api/auth/login');});
 $('#registerForm').addEventListener('submit',e=>{e.preventDefault();authSubmit(e.currentTarget,'/api/auth/register');});
 async function openManualCheckout(reference,amountMinor,currency){
- const panel=$('#manualCheckout');panel.hidden=false;panel.innerHTML='<h3>Manual bank transfer checkout</h3><p>Loading payment instructions…</p>';panel.scrollIntoView({behavior:'smooth',block:'center'});
+ const panel=$('#manualCheckout');panel.hidden=false;panel.innerHTML='<h3>Manual bank transfer checkout</h3><p>Loading payment instructions\u2026</p>';panel.scrollIntoView({behavior:'smooth',block:'center'});
  try{
   const methods=await api('/api/payments/methods');
   if(!methods.methods.length){panel.innerHTML='<h3>Manual checkout unavailable</h3><p>'+escapeHtml(methods.message)+'</p><p>Contact our reservations team for payment instructions.</p>';return;}
@@ -83,11 +89,46 @@ async function loadAccount(){
   const me=await api('/api/auth/me');if(!me.user){$('#accountPanel').hidden=true;return;}
   $('#accountPanel').hidden=false;$('#welcomeName').textContent='Welcome, '+me.user.name;
   const data=await api('/api/bookings/mine');
-  $('#bookingHistory').innerHTML=data.bookings.length?data.bookings.map(b=>'<div class="history-row"><strong>'+escapeHtml(b.reference)+' · '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' · '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' · '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+' / submission '+escapeHtml(b.latest_payment_submission||'none')+(b.latest_payment_submission==='submitted'?'<br><span>Payment submission awaiting review</span>':(b.payment_status!=='paid'&&b.status!=='cancelled'?'<br><button type="button" class="booking-secondary" data-pay-booking="'+escapeHtml(b.reference)+'" data-amount="'+b.total_minor+'" data-currency="'+escapeHtml(b.currency)+'">Manual checkout · '+(b.total_minor/100).toFixed(2)+' '+escapeHtml(b.currency)+'</button>':''))+'</div>').join(''):'<p>You have no booking requests yet.</p>';
+  $('#bookingHistory').innerHTML=data.bookings.length?data.bookings.map(b=>{
+   // A 0 total means the apartment is priced on request: there is nothing to
+   // pay yet, so never offer a checkout button for it.
+   const priced=b.total_minor>0;
+   const total=priced?((b.total_minor/100).toFixed(2)+' '+escapeHtml(b.currency)):'Rate on request';
+   const payButton=(priced&&b.payment_status!=='paid'&&b.status!=='cancelled')?'<br><button type="button" class="booking-secondary" data-pay-booking="'+escapeHtml(b.reference)+'" data-amount="'+b.total_minor+'" data-currency="'+escapeHtml(b.currency)+'">Manual checkout \u00b7 '+total+'</button>':'';
+   return '<div class="history-row"><strong>'+escapeHtml(b.reference)+' \u00b7 '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' \u00b7 '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' \u00b7 '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+' / submission '+escapeHtml(b.latest_payment_submission||'none')+(b.latest_payment_submission==='submitted'?'<br><span>Payment submission awaiting review</span>':payButton)+'<br><span>'+total+'</span></div>';
+  }).join(''):'<p>You have no booking requests yet.</p>';
  }catch(e){/* signed-out state is shown by default */}
 }
 $('#logoutButton').addEventListener('click',async()=>{try{await api('/api/auth/logout',{method:'POST',body:'{}'});$('#accountPanel').hidden=true;msg($('#authMessage'),'You have signed out.');}catch(e){msg($('#authMessage'),e.message,'error');}});
 const params=new URLSearchParams(location.search);if(params.has('city')){$('#city').value=Object.keys(cities).find(k=>cities[k]===params.get('city'))||'';}
 if(params.has('checkin'))$('#checkIn').value=params.get('checkin');if(params.has('checkout'))$('#checkOut').value=params.get('checkout');
+if(params.has('guests')){const g=Math.max(1,Math.min(12,Number(params.get('guests'))||2));$('#guests').value=String(g);}
 loadAccount();
+// Arriving from the homepage search widget: run the search straight away.
+if(params.has('checkin')&&params.has('checkout')){search();}
+// Arriving from a property page's "Check Availability": highlight that apartment.
+if(params.has('unit')){
+  // A property page links here without dates. Fill a sensible default window
+  // (30 days out, 3 nights) so the apartment is actually shown, then search.
+  if(!params.has('checkin')||!params.has('checkout')){
+    const d=new Date();d.setDate(d.getDate()+30);
+    const a=new Date(d);a.setDate(a.getDate()+3);
+    const iso=x=>x.toISOString().slice(0,10);
+    if(!$('#checkIn').value)$('#checkIn').value=iso(d);
+    if(!$('#checkOut').value)$('#checkOut').value=iso(a);
+    search();
+  }
+  const wanted=params.get('unit');
+  const mark=()=>{
+    const rows=[...document.querySelectorAll('.unit-row')];
+    const hit=rows.find(r=>{
+      const n=r.querySelector('strong');
+      return n && n.textContent.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')===wanted;
+    });
+    if(hit){hit.classList.add('unit-row--highlight');hit.scrollIntoView({behavior:'smooth',block:'center'});}
+  };
+  // Results may still be loading; watch for them briefly.
+  let tries=0;
+  const t=setInterval(()=>{mark();if(++tries>20)clearInterval(t);},250);
+}
 })();
