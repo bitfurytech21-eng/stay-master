@@ -132,7 +132,10 @@
       select.appendChild(option);
     });
     select.value = 'en';
-    select.addEventListener('change', function () {\n      try { localStorage.setItem('stayMasterLanguage', select.value); } catch (error) {}\n      translatePage(select.value);\n    });
+    select.addEventListener('change', function () {
+      try { localStorage.setItem('stayMasterLanguage', select.value); } catch (error) {}
+      translatePage(select.value);
+    });
 
     if (window.MutationObserver) {
       observer = new MutationObserver(function (records) {
