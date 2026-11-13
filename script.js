@@ -299,7 +299,15 @@
     });
   }
 
-  /* ---------- home search: route to the chosen city ---------- */
+  /* ---------- route legacy booking-engine links into the first-party booking platform ---------- */
+  document.querySelectorAll('a[href*="reserve-online.net"]').forEach(function (link) {
+    var target = link.getAttribute('href') || '';
+    link.href = target.indexOf('view=amend') !== -1 ? 'booking.html#guestAccess' : 'booking.html';
+    link.removeAttribute('target');
+    link.removeAttribute('rel');
+  });
+
+  /* ---------- home search: route into the direct booking platform ---------- */
   var searchForm = document.getElementById('searchForm');
   if (searchForm) {
     searchForm.addEventListener('submit', function (e) {
@@ -312,7 +320,7 @@
       if (checkin && checkin.value) params.set('checkin', checkin.value);
       if (checkout && checkout.value) params.set('checkout', checkout.value);
       var query = params.toString();
-      window.location.href = dest + '.html' + (query ? '?' + query : '');
+      window.location.href = 'booking.html?city=' + encodeURIComponent(dest) + (query ? '&' + query : '');
     });
   }
 })();
