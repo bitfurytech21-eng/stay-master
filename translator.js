@@ -132,7 +132,7 @@
       select.appendChild(option);
     });
     select.value = 'en';
-    select.addEventListener('change', function () { translatePage(select.value); });
+    select.addEventListener('change', function () {\n      try { localStorage.setItem('stayMasterLanguage', select.value); } catch (error) {}\n      translatePage(select.value);\n    });
 
     if (window.MutationObserver) {
       observer = new MutationObserver(function (records) {
@@ -176,12 +176,15 @@
       observer.observe(document.body, { childList: true, subtree: true });
     }
 
+    var saved = '';
+    try { saved = localStorage.getItem('stayMasterLanguage') || ''; } catch (error) {}
     var preferred = (navigator.languages && navigator.languages[0] || navigator.language || 'en').toLowerCase();
-    var match = languages.find(function (item) { return item[0].toLowerCase() === preferred; }) ||
+    var detected = languages.find(function (item) { return item[0].toLowerCase() === preferred; }) ||
       languages.find(function (item) { return item[0].toLowerCase() === preferred.split('-')[0]; });
-    if (match && match[0] !== 'en') {
+    var match = languages.find(function (item) { return item[0] === saved; }) || detected;
+    if (match) {
       select.value = match[0];
-      translatePage(match[0]);
+      if (match[0] !== 'en') translatePage(match[0]);
     }
   }
 
