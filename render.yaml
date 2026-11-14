@@ -5,9 +5,9 @@ services:
   - type: web
     name: stay-master-backend2
     runtime: node
-    rootDir: .
-    buildCommand: npm --prefix backend ci
-    startCommand: npm --prefix backend start
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
     plan: starter
     healthCheckPath: /api/health
     envVars:
