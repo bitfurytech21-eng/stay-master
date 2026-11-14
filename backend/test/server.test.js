@@ -3,9 +3,46 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
+
+
+test('all application JavaScript files pass the Node parser', async () => {
+  const files = [
+    '../src/server.js',
+    '../src/booking.js',
+    '../src/catalog.js',
+    '../src/rates.js',
+    '../../api-config.js',
+    '../../booking.js',
+    '../../booking-admin.js',
+    '../../script.js',
+    '../../translator.js',
+  ];
+  for (const relativePath of files) {
+    const filePath = path.resolve(here, relativePath);
+    const result = spawnSync(process.execPath, ['--check', filePath], { encoding: 'utf8' });
+    assert.equal(result.status, 0, relativePath + ': ' + (result.stderr || result.stdout || 'JavaScript syntax check failed'));
+  }
+});
+
+test('Render deployment uses one backend-rooted Node service', async () => {
+  const yaml = await readFile(path.resolve(here, '../../render.yaml'), 'utf8');
+  assert.match(yaml, /^\s+rootDir: backend$/m);
+  assert.match(yaml, /^\s+buildCommand: npm ci$/m);
+  assert.match(yaml, /^\s+startCommand: npm start$/m);
+  assert.match(yaml, /^\s+healthCheckPath: \/api\/health$/m);
+  assert.doesNotMatch(yaml, /^\s+rootDir: \.$/m);
+  assert.doesNotMatch(yaml, /npm --prefix backend/);
+});
+
+test('static frontend middleware uses valid URL-path regexes and keeps backend files private', async () => {
+  const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
+  assert.ok(source.includes("/^\\\\/(?:backend|\\\\.git|\\\\.github|node_modules)(?:\\\\/|$)/i"));
+  assert.ok(source.includes("if (/\\\\.(?:html|js|css)$/"));
+});
 
 test('backend server has valid JavaScript syntax', async () => {
   const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
