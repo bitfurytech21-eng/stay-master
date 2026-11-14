@@ -314,21 +314,55 @@ mountBookingRoutes(app, db, { notifyBookingRequest });
 
 
 /* ---------------------------------------------------------------- translation proxy
- * Requests are forwarded to the private, self-hosted LibreTranslate service.
- * No third-party API key is required; the translator host is configured by
- * Render's private service networking.
+ * Uses MyMemory's public translation endpoint. No API key or extra Render
+ * service is required. The provider's free anonymous quota is limited, so
+ * requests are cached in memory and text is sent in short chunks.
  */
 const translationHits = new Map();
 const translationCache = new Map();
-const TRANSLATION_LIMIT = 30;
+const TRANSLATION_LIMIT = 20;
 const TRANSLATION_WINDOW_MS = 60 * 1000;
 const SUPPORTED_TRANSLATION_LANGUAGES = new Set([
   'ar','zh-CN','zh-TW','fr','de','es','it','pt','ru','ja','ko','hi',
   'nl','tr','pl','el','sv','da','no','fi','he','id','th','vi','uk','ur','sw'
 ]);
-const LIBRE_LANGUAGE_CODES = { 'zh-CN': 'zh', 'zh-TW': 'zt', no: 'nb' };
-const LIBRETRANSLATE_URL = String(process.env.LIBRETRANSLATE_URL || '').replace(/\/+$/, '');
-const LIBRETRANSLATE_HOST = String(process.env.LIBRETRANSLATE_HOST || 'stay-master-translator').trim();
+
+function splitTranslationText(value, maxLength = 450) {
+  const chunks = [];
+  let remaining = String(value || '').trim();
+  while (remaining.length > maxLength) {
+    let cut = remaining.lastIndexOf(' ', maxLength);
+    if (cut < Math.floor(maxLength * 0.55)) cut = maxLength;
+    chunks.push(remaining.slice(0, cut));
+    remaining = remaining.slice(cut).trim();
+  }
+  if (remaining) chunks.push(remaining);
+  return chunks;
+}
+
+async function translateWithMyMemory(value, target) {
+  const chunks = splitTranslationText(value);
+  const translated = [];
+  for (const chunk of chunks) {
+    const params = new URLSearchParams({
+      q: chunk,
+      langpair: 'autodetect|' + target
+    });
+    const response = await fetch('https://api.mymemory.translated.net/get?' + params.toString(), {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!response.ok) throw new Error('Translation provider returned HTTP ' + response.status);
+    const payload = await response.json();
+    const result = payload?.responseData?.translatedText;
+    if (payload?.responseStatus !== 200 || typeof result !== 'string') {
+      throw new Error(payload?.responseDetails || 'Translation provider returned no translation.');
+    }
+    translated.push(result);
+  }
+  return translated.join(' ');
+}
 
 app.post('/api/translate', async (req, res) => {
   const ip = req.ip || req.socket.remoteAddress || 'unknown';
@@ -348,60 +382,25 @@ app.post('/api/translate', async (req, res) => {
     return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1–40 text items (maximum 1,000 characters each).' });
   }
 
-  const baseUrl = LIBRETRANSLATE_URL || `http://${LIBRETRANSLATE_HOST}:5000`;
   try {
-    const translations = new Array(texts.length);
-    const missing = [];
-    texts.forEach((value, index) => {
+    const translations = [];
+    for (const value of texts) {
       const key = target + ':' + value;
-      if (translationCache.has(key)) translations[index] = translationCache.get(key);
-      else missing.push({ index, value, key });
-    });
-
-    if (missing.length) {
-      const form = new URLSearchParams();
-      form.append('source', 'auto');
-      form.append('target', LIBRE_LANGUAGE_CODES[target] || target);
-      form.append('format', 'text');
-      // LibreTranslate accepts q as a repeated form field for batch requests.
-      missing.forEach((item) => form.append('q', item.value));
-
-      const response = await fetch(baseUrl + '/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: form,
-        signal: AbortSignal.timeout(45000),
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        console.error('Self-hosted translation service returned', response.status, payload.error || '');
-        return res.status(response.status === 429 ? 429 : 502).json({
-          ok: false,
-          error: response.status === 400
-            ? 'This language pair is not currently available on the translation server.'
-            : 'The self-hosted translation service is temporarily unavailable.',
-        });
+      if (translationCache.has(key)) {
+        translations.push(translationCache.get(key));
+        continue;
       }
-
-      const rawResults = payload?.translatedText;
-      const results = Array.isArray(rawResults) ? rawResults : [rawResults];
-      if (results.length !== missing.length || results.some((value) => typeof value !== 'string')) {
-        return res.status(502).json({ ok: false, error: 'The translation service returned an incomplete response.' });
-      }
-      results.forEach((value, index) => {
-        const translated = String(value || '');
-        const entry = missing[index];
-        translations[entry.index] = translated;
-        translationCache.set(entry.key, translated);
-      });
+      const result = await translateWithMyMemory(value, target);
+      translations.push(result);
+      translationCache.set(key, result);
       if (translationCache.size > 5000) translationCache.clear();
     }
     return res.json({ ok: true, translations });
   } catch (error) {
-    console.error('Self-hosted translation request failed:', error.message);
+    console.error('MyMemory translation request failed:', error.message);
     return res.status(503).json({
       ok: false,
-      error: 'The translation server is starting or temporarily unavailable. Please try again shortly.',
+      error: 'Free translation is temporarily unavailable or its daily allowance has been reached. Please try again later.',
     });
   }
 });
