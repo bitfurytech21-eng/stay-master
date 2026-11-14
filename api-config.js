@@ -1,11 +1,10 @@
 /* Where the frontend finds the backend — the single place a host is declared.
  *
- * Default is a SAME-ORIGIN base (''): the site is served by the Render static
- * service, which rewrites /api/* to the API service, so '' is always correct
- * there and no CORS or cookie setup is needed.
+ * Default is SAME-ORIGIN (''): the Node backend serves the frontend files and
+ * the /api routes from one Render service and one public origin.
  *
- * When the HTML is served by a host that does NOT proxy /api (GitHub Pages, a
- * CDN, a preview URL), set the API origin in ONE place, either:
+ * For an intentional external frontend deployment, set the API origin in ONE
+ * place, either:
  *   <meta name="stay-master-api" content="https://stay-master-backend2.onrender.com">
  * or, before this file loads:
  *   <script>window.STAY_MASTER_API_BASE = 'https://stay-master-backend2.onrender.com';</script>
@@ -15,7 +14,9 @@
 (function () {
   'use strict';
 
-  var base = 'https://stay-master-backend2.onrender.com';
+  // Frontend and API are served from the same Render origin. Keep this empty
+  // unless a deliberate external API origin is configured at deployment time.
+  var base = '';
   if (typeof window.STAY_MASTER_API_BASE === 'string') {
     base = window.STAY_MASTER_API_BASE;
   } else {
