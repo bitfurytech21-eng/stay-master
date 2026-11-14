@@ -325,4 +325,18 @@
   translatorScript.defer = true;
   document.head.appendChild(translatorScript);
 
+
+  /* ---------- shared property photo albums and detail styling ---------- */
+  if (document.querySelector('main .bhero') && !document.querySelector('[data-property-gallery-loader]')) {
+    var galleryCss = document.createElement('link');
+    galleryCss.rel = 'stylesheet';
+    galleryCss.href = 'property-gallery.css?v=1';
+    galleryCss.setAttribute('data-property-gallery-loader', 'true');
+    document.head.appendChild(galleryCss);
+    var galleryScript = document.createElement('script');
+    galleryScript.src = 'property-gallery.js?v=1';
+    galleryScript.defer = true;
+    document.head.appendChild(galleryScript);
+  }
+
 })();

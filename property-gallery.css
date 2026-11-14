@@ -1,0 +1,44 @@
+/* Property photo albums and shared property-detail visual refinement. */
+.property-gallery-feature{background:var(--dark-crem,#f3f0e8);padding:clamp(48px,7vw,86px) 0;color:var(--dark-green,#173b2a)}
+.property-gallery-inner{width:min(1180px,calc(100% - 40px));margin:0 auto}
+.property-gallery-kicker{margin:0 0 10px;color:var(--red,#9b3d32);font:11px var(--font-mono,monospace);letter-spacing:.14em;text-transform:uppercase}
+.property-gallery-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:28px}
+.property-gallery-heading h2{margin:0;font:300 clamp(32px,4.5vw,54px)/1.05 var(--font-display,Georgia,serif);color:var(--dark-green,#173b2a)}
+.property-gallery-heading p{margin:10px 0 0;color:var(--bright-grey,#6f746d);font-size:14px}
+.property-gallery-total{font:11px var(--font-mono,monospace);color:var(--bright-grey,#6f746d);white-space:nowrap}
+.property-album-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,300px));gap:18px}
+.property-album-card{display:block;width:100%;padding:12px;text-align:left;border:1px solid var(--line,#d9d4c8);background:#fff;color:var(--dark-green,#173b2a);cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+.property-album-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px #16231c18}
+.property-album-preview{height:150px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#e8e4da}
+.property-album-preview img{position:absolute;width:66%;height:82%;object-fit:cover;border:3px solid #fff;box-shadow:0 5px 16px #0002;transform:rotate(calc((var(--album-index) - 1)*5deg)) translateX(calc((var(--album-index) - 1)*22px))}
+.property-album-details{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 2px 2px}
+.property-album-details strong{font:17px var(--font-display,Georgia,serif);font-weight:400}
+.property-album-details small{font:10px var(--font-mono,monospace);color:var(--bright-grey,#6f746d);white-space:nowrap}
+.property-photo-viewer[hidden],.property-album-grid[hidden]{display:none}
+.property-viewer-top{display:flex;align-items:center;gap:16px;margin:26px 0 12px}
+.property-viewer-top h3{margin:0;font:22px var(--font-display,Georgia,serif);font-weight:400}
+.property-gallery-back,.property-gallery-controls button{border:1px solid var(--line,#d9d4c8);background:#fff;color:var(--dark-green,#173b2a);padding:10px 15px;font:11px var(--font-mono,monospace);cursor:pointer}
+.property-gallery-controls button:last-child{background:var(--dark-green,#173b2a);color:#fff;border-color:var(--dark-green,#173b2a)}
+.property-gallery-controls button:disabled{opacity:.4;cursor:not-allowed}
+.property-scene{height:clamp(300px,55vw,440px);perspective:1100px;overflow:hidden;touch-action:pan-y;cursor:grab;outline-offset:4px}
+.property-ring{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.property-ring.is-dragging{transition:none}
+.property-photo-face{position:absolute;left:50%;top:50%;width:min(300px,68vw);height:min(370px,78%);margin:0;border:1px solid var(--line,#d9d4c8);border-radius:4px;overflow:hidden;background:#e8e4da;backface-visibility:hidden}
+.property-photo-face img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.property-photo-caption{text-align:center;min-height:28px;margin:12px 0;color:var(--bright-grey,#6f746d);font-size:13px}
+.property-gallery-controls{display:flex;justify-content:center;align-items:center;gap:14px}
+.property-gallery-count{min-width:54px;text-align:center;color:var(--bright-grey,#6f746d);font:11px var(--font-mono,monospace)}
+.bhero{padding-bottom:clamp(34px,5vw,64px)}
+.bhero .bhero-gallery{overflow:hidden;border-radius:3px}
+.bhero-gallery .bg-cell img,.bhero-gallery img{display:block;width:100%;height:100%;object-fit:cover}
+main>.section:not(.cta-band){padding-top:clamp(42px,6vw,76px);padding-bottom:clamp(42px,6vw,76px)}
+main>.section .wrap{max-width:1180px}
+main>.section .apt-specs{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px;padding:0;list-style:none}
+main>.section .apt-specs li{min-width:112px;padding:13px 16px;background:#f4f1e9;border:1px solid var(--line,#d9d4c8);color:var(--dark-green,#173b2a);font-size:12px}
+main>.section .prose{max-width:850px;line-height:1.8}
+main>.section .prose h2{margin:34px 0 14px;font:400 clamp(23px,3vw,32px)/1.2 var(--font-display,Georgia,serif);color:var(--dark-green,#173b2a)}
+main>.section .prose ul{padding-left:20px}
+main>.section .prose li{margin:0 0 7px}
+.cta-band{margin-top:0}
+@media(max-width:640px){.property-gallery-heading{align-items:start;flex-direction:column;gap:8px}.property-album-grid{grid-template-columns:1fr}.property-album-preview{height:170px}.property-viewer-top{align-items:flex-start;flex-direction:column;gap:10px}.property-gallery-controls{gap:8px}.property-gallery-controls button{padding:9px 11px}}
+@media(prefers-reduced-motion:reduce){.property-ring,.property-album-card{transition:none}}
