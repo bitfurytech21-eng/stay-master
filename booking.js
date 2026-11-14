@@ -41,25 +41,17 @@ function loadInventory(){
   return inventoryPromise;
 }
 
-// Returns {source:'api'|'static', properties:[...]}. Never throws: if the API
-// is unreachable the static inventory is used instead, so a search always
-// produces a result rather than an error.
-// Once the API has failed, stop retrying it for the rest of the page load: a
-// dead host should not add a failed request to every search.
-let apiDown = false;
+// Booking searches must use live backend inventory. A static catalogue may
+// be useful for marketing pages, but it cannot establish availability or create
+// a reservation, so never silently substitute it for the booking API.
 async function loadProperties(city=''){
-  if(!apiDown){
-    try{
-      const params=new URLSearchParams();if(city)params.set('city',city);
-      const data=await api('/api/booking/properties?'+params.toString());
-      if(data && Array.isArray(data.properties) && data.properties.length){
-        return {source:'api',properties:data.properties};
-      }
-    }catch(e){apiDown=true;/* fall back to the static inventory */}
+  const params=new URLSearchParams();
+  if(city)params.set('city',city);
+  const data=await api('/api/booking/properties?'+params.toString());
+  if(!data || !Array.isArray(data.properties)){
+    throw new Error('The booking service returned an invalid property list. Please try again.');
   }
-  const all=await loadInventory();
-  const properties=city?all.filter(p=>p.citySlug===city):all;
-  return {source:'static',properties};
+  return {source:'api',properties:data.properties};
 }
 
 function propertyCard(p){
@@ -117,10 +109,6 @@ async function search(event){
   await Promise.all(properties.map(async p=>{
    const box=$('#units-'+(p.id||p.slug));
    if(!box)return;
-   if(source==='static'){
-    box.innerHTML=staticUnitsHtml(p,guests);
-    return;
-   }
    try{
     const data=await api('/api/booking/availability?'+new URLSearchParams({propertyId:p.id,checkIn,checkOut,guests}));
     box.innerHTML=data.units.length?data.units.map(u=>{
@@ -131,21 +119,16 @@ async function search(event){
      return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+price+'</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>';
     }).join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
    }catch(e){
-    // The API answered the property list but not availability: show the
-    // published inventory rather than an error.
-    box.innerHTML=staticUnitsHtml(p,guests);
+    box.innerHTML='<small class="booking-error">Live availability could not be loaded. Please retry or contact our reservations team.</small>';
    }
   }));
-  msg($('#searchMessage'),source==='static'
-   ? 'Showing our published apartments and nightly rates. Every booking is confirmed by our team.'
-   : 'Availability is based on inventory entered by the property team. Requests remain pending until confirmed.','');
+  msg($('#searchMessage'),'Live availability is supplied by the booking server. Requests remain pending until our team confirms them.','');
  }catch(e){msg($('#searchMessage'),e.message,'error');}
  finally{button.disabled=false;button.textContent='Search stays';}
 }
 $('#searchForm').addEventListener('submit',search);
 
-// A booking request that could not reach the API is not silently dropped: the
-// guest is told plainly and given a working way to send the same details.
+// If the backend is unreachable, do not imply a booking was submitted.
 function offerEmailFallback(unitName,propertyName){
  const subject='Booking request: '+unitName+' at '+propertyName;
  const body=['Hello master team,','','I would like to request this apartment:','',
