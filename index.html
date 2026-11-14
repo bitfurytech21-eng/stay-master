@@ -142,12 +142,23 @@ form.addEventListener('submit',function(event){
 <script>
 (function(){
 'use strict';
-var scenes=[['London',160],['Rome',40],['Barcelona',18],['Athens',200],['Warsaw',225],['Hamburg',210],['Salzburg',130],['Tel Aviv',190]];
+var scenes=[
+ ['London','images/buildings/london-master-st-pauls-01.jpg'],
+ ['Rome','images/buildings/rome-master-trevi-01.jpg'],
+ ['Barcelona','images/buildings/barcelona-master-la-rambla-01.jpg'],
+ ['Athens','images/buildings/athens-master-plaka-athens-01.jpg'],
+ ['Warsaw','images/buildings/warsaw-master-wola-01.jpg'],
+ ['Hamburg','images/buildings/hamburg-master-altona-01.jpg'],
+ ['Salzburg','images/buildings/salzburg-master-mirabell-01.jpg'],
+ ['Tel Aviv','images/buildings/tel-aviv-mazeh-tel-aviv-01.jpg']
+];
 var host=document.getElementById('hs'),dots=document.getElementById('dots'),caption=document.getElementById('cap');
 if(host&&dots&&caption){
  scenes.forEach(function(scene,i){
   var panel=document.createElement('div');panel.className='sl'+(i===0?' on':'');
-  panel.style.background='linear-gradient(125deg,hsl('+scene[1]+' 43% 19%),hsl('+(scene[1]+32)+' 48% 42%))';
+  panel.style.backgroundImage="url('"+scene[1]+"')";
+  panel.style.backgroundSize='cover';
+  panel.style.backgroundPosition='center 45%';
   host.appendChild(panel);
   var dot=document.createElement('button');dot.type='button';dot.setAttribute('aria-label','Show '+scene[0]+' background');if(i===0)dot.className='on';dot.addEventListener('click',function(){show(i);restart();});dots.appendChild(dot);
  });
