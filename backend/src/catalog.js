@@ -1,3 +1,5 @@
+import { rateTable } from './rates.js';
+
 export const propertyCatalog = [
   {slug:'london-master-st-pauls',name:"master St. Paul's",city:'London',country:'United Kingdom',address:'9 Creed Lane, London EC4V 5BR, UK',image:'images/buildings/london-master-st-pauls-01.jpg'},
   {slug:'london-master-cannon',name:'master Cannon',city:'London',country:'United Kingdom',address:'2 Suffolk Lane, London EC4R 0AT, UK',image:'images/buildings/london-master-cannon-01.jpg'},
@@ -17,10 +19,10 @@ export const propertyCatalog = [
 /**
  * Bookable apartment types, taken from the real apartment list in data/site.json.
  *
- * nightlyRateMinor is deliberately 0 for every unit: the site does not publish
- * rates, so a 0 rate means "rate on request". The booking flow records the
- * request and the team quotes the price — it never invents a nightly rate.
- * Rates can be set per unit from the admin panel once they are agreed.
+ * Rates are not declared here: they come from rateTable (see rates.js), keyed by
+ * this property slug and the unit name below. A unit with no rate entry is
+ * seeded at 0, which the booking engine reads as "rate on request" - it never
+ * invents a nightly rate.
  */
 export const unitCatalog = [
   {property:'london-master-st-pauls',name:"Inner Lightwell Studio",maxGuests:2},
@@ -98,23 +100,53 @@ export const unitCatalog = [
   {property:'bat-yam-master-bat-yam',name:"One Bedroom Suite with sofabed",maxGuests:3},
 ];
 
+/**
+ * Seed properties and apartment units, with their published nightly rates.
+ *
+ * Rates come from rateTable (generated from data/rates.json by
+ * make_backend_rates.py), so the backend and the static site quote the same
+ * price for the same apartment. A unit with no entry in rateTable is seeded at
+ * 0, which the booking engine reads as "rate on request" - it never invents a
+ * price.
+ *
+ * Existing rows are updated too. A deployment that was seeded before rates
+ * existed has every unit at 0; without this the API would keep reporting
+ * "rate on request" forever. Only rows still at 0 are touched, so a rate an
+ * administrator has set is never overwritten.
+ */
 export function seedBookingCatalog(db) {
   const insertProperty = db.prepare(`INSERT OR IGNORE INTO booking_properties
     (slug,name,city,country,address,image,created_at) VALUES(?,?,?,?,?,?,?)`);
   const now = new Date().toISOString();
+  let priced = 0;
+  let updated = 0;
   const seed = db.transaction(() => {
     for (const p of propertyCatalog) insertProperty.run(p.slug,p.name,p.city,p.country,p.address,p.image,now);
 
     const propertyId = db.prepare('SELECT id FROM booking_properties WHERE slug=?');
-    const unitExists = db.prepare('SELECT id FROM booking_units WHERE property_id=? AND name=?');
+    const unitExists = db.prepare('SELECT id,nightly_rate_minor FROM booking_units WHERE property_id=? AND name=?');
     const insertUnit = db.prepare(`INSERT INTO booking_units
-      (property_id,name,max_guests,nightly_rate_minor,currency,created_at) VALUES(?,?,?,0,'EUR',?)`);
+      (property_id,name,max_guests,nightly_rate_minor,currency,created_at) VALUES(?,?,?,?,?,?)`);
+    const updateUnit = db.prepare(`UPDATE booking_units
+      SET nightly_rate_minor=?,currency=? WHERE id=? AND nightly_rate_minor=0`);
     for (const u of unitCatalog) {
       const property = propertyId.get(u.property);
       if (!property) continue;
-      if (unitExists.get(property.id, u.name)) continue;
-      insertUnit.run(property.id, u.name, u.maxGuests, now);
+      const rate = (rateTable[u.property] || {})[u.name];
+      const minor = rate ? Math.round(rate.nightly * 100) : 0;
+      const currency = rate ? rate.currency : 'EUR';
+      if (minor > 0) priced += 1;
+      const existing = unitExists.get(property.id, u.name);
+      if (existing) {
+        if (minor > 0 && existing.nightly_rate_minor === 0) {
+          updated += updateUnit.run(minor, currency, existing.id).changes;
+        }
+        continue;
+      }
+      insertUnit.run(property.id, u.name, u.maxGuests, minor, currency, now);
     }
   });
   seed();
+  if (updated) console.log(`Booking catalog: applied published rates to ${updated} existing unit(s).`);
+  return { priced, updated };
 }
