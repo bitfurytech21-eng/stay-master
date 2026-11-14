@@ -18,6 +18,11 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+
+# Only one generator may commit regenerated pages at a time.
+concurrency:
+  group: regenerate-static-pages
+  cancel-in-progress: false
 jobs:
   generate:
     runs-on: ubuntu-latest
