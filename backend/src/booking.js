@@ -278,7 +278,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     const reference = 'SM-' + crypto.randomBytes(5).toString('hex').toUpperCase();
     const insert = db.prepare(`
       INSERT INTO bookings(reference,guest_id,property_id,unit_id,check_in,check_out,guests,nights,currency,total_minor,status,payment_status,special_requests,created_at,updated_at)
-      VALUES(?,?,?,?,?,?,?,?,?,?,'pending','unpaid',?,?,?)
+      VALUES(?,?,?,?,?,?,?,?,?,?,'pending',?,?,?,?)
     `);
     // Keep the overlap check and insert in one SQLite transaction so two
     // guests cannot both pass the check for the same apartment and dates.
@@ -288,7 +288,7 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
         AND check_in < ? AND check_out > ? LIMIT 1
       `).get(unitId, req.body.checkOut, req.body.checkIn);
       if (conflict) return false;
-      insert.run(reference, req.guest.id, propertyId, unitId, req.body.checkIn, req.body.checkOut, guests, nights, unit.currency, total, requests, now, now);
+      insert.run(reference, req.guest.id, propertyId, unitId, req.body.checkIn, req.body.checkOut, guests, nights, unit.currency, total, rateOnRequest ? 'unpaid' : 'pending', requests, now, now);
       return true;
     });
     if (!createReservation()) return res.status(409).json({ ok: false, error: 'Those dates have just become unavailable. Please search again.' });
@@ -296,35 +296,20 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
     try {
       emailNotification = await notifyBookingRequest({ reference, guestName: req.guest.name, guestEmail: req.guest.email, propertyName: unit.property_name, unitName: unit.name, checkIn: req.body.checkIn, checkOut: req.body.checkOut, guests, totalMinor: total, currency: unit.currency, onRequest: rateOnRequest });
     } catch (error) { console.error('Booking notification failed for', reference, error.message); }
-    return res.status(201).json({ ok: true, reference, status: 'pending', paymentStatus: 'unpaid', totalMinor: total, currency: unit.currency, rateOnRequest, emailNotification, message: rateOnRequest ? 'Your booking request has been recorded. This apartment is priced on request, so our team will confirm availability and send you a quote. No payment has been collected.' : 'Your booking request has been recorded. This is not yet a confirmed reservation and no payment has been collected. Our team will verify availability and contact you.' });
+    return res.status(201).json({ ok: true, reference, status: 'pending', paymentStatus: rateOnRequest ? 'unpaid' : 'pending', totalMinor: total, currency: unit.currency, rateOnRequest, emailNotification, message: rateOnRequest ? 'Your booking request has been recorded. This apartment is priced on request, so our team will confirm availability and send you a quote. No payment is due yet.' : 'Your booking request has been recorded. Payment is pending. Request the payment details by email; our team will verify receipt before marking it as paid.' });
   });
 
-  app.get('/api/payments/methods', (req, res) => {
-    const enabled = String(process.env.MANUAL_BANK_TRANSFER_ENABLED || 'false').toLowerCase() === 'true';
-    const details = { enabled: enabled && Boolean(process.env.BANK_ACCOUNT_NAME && process.env.BANK_ACCOUNT_NUMBER && process.env.BANK_NAME && /^[A-Z]{3}$/.test(String(process.env.BANK_ACCOUNT_CURRENCY || '').toUpperCase())), currency:String(process.env.BANK_ACCOUNT_CURRENCY || '').toUpperCase(), method:'bank_transfer', label:'Manual bank transfer', bankName:process.env.BANK_NAME||'', accountName:process.env.BANK_ACCOUNT_NAME||'', accountNumber:process.env.BANK_ACCOUNT_NUMBER||'', sortCode:process.env.BANK_SORT_CODE||'', iban:process.env.BANK_IBAN||'', swift:process.env.BANK_SWIFT||'', instructions:process.env.BANK_TRANSFER_INSTRUCTIONS||'Use your booking reference as the transfer description.' };
-    res.json({ ok:true, methods:details.enabled?[details]:[], message:details.enabled?'':'Manual bank transfer is not configured yet. Please contact our reservations team.' });
+  // Bank details are provided privately by the payment team after an email request.
+  // Never expose configured account numbers through a public API.
+  app.get('/api/payments/methods', requireAdmin, (req, res) => {
+    res.status(410).json({ ok:false, error:'Payment details are issued individually by the payment team.' });
   });
-  app.post('/api/bookings/:reference/payments', requireGuest, (req,res) => {
-    const booking=db.prepare('SELECT * FROM bookings WHERE reference=? AND guest_id=?').get(req.params.reference,req.guest.id);
-    if(!booking)return res.status(404).json({ok:false,error:'Booking not found.'});
-    if(booking.status==='cancelled'||booking.payment_status==='paid')return res.status(409).json({ok:false,error:'This booking cannot accept another payment submission.'});
-    if(booking.total_minor<=0)return res.status(409).json({ok:false,error:'This booking is priced on request and cannot accept payment until the team has issued a confirmed quote.'});
-    const enabled=String(process.env.MANUAL_BANK_TRANSFER_ENABLED||'false').toLowerCase()==='true'&&Boolean(process.env.BANK_ACCOUNT_NAME&&process.env.BANK_ACCOUNT_NUMBER&&process.env.BANK_NAME&&/^[A-Z]{3}$/.test(String(process.env.BANK_ACCOUNT_CURRENCY||'').toUpperCase()));
-    if(!enabled)return res.status(503).json({ok:false,error:'Manual bank transfer is not currently configured. Please contact our reservations team.'});
-    if(booking.currency!==String(process.env.BANK_ACCOUNT_CURRENCY||'').toUpperCase())return res.status(422).json({ok:false,error:'Manual bank transfer is not available in this booking currency. Please contact our reservations team for an approved payment method.'});
-    const payerName=String(req.body?.payerName||'').trim().slice(0,120), transactionReference=String(req.body?.transactionReference||'').trim().slice(0,120), transferDate=String(req.body?.transferDate||''), notes=String(req.body?.notes||'').trim().slice(0,500), amountMinor=Number(req.body?.amountMinor);
-    const validDate=Boolean(dateOnly(transferDate));
-    if(payerName.length<2||transactionReference.length<4||!validDate||!Number.isSafeInteger(amountMinor)||amountMinor!==booking.total_minor)return res.status(422).json({ok:false,error:'Enter the payer name, transaction reference, transfer date and exact booking amount.'});
-    if(db.prepare("SELECT id FROM manual_payment_submissions WHERE booking_id=? AND status='submitted'").get(booking.id))return res.status(409).json({ok:false,error:'A payment submission is already awaiting review for this booking.'});
-    try {
-      const result=db.prepare('INSERT INTO manual_payment_submissions (booking_id,guest_id,amount_minor,currency,payer_name,transaction_reference,transfer_date,notes,submitted_at) VALUES(?,?,?,?,?,?,?,?,?)').run(booking.id,req.guest.id,amountMinor,booking.currency,payerName,transactionReference,transferDate,notes,new Date().toISOString());
-      db.prepare("UPDATE bookings SET payment_status='pending',updated_at=? WHERE id=?").run(new Date().toISOString(),booking.id);
-      return res.status(201).json({ok:true,submissionId:Number(result.lastInsertRowid),status:'submitted',message:'Your payment details have been submitted. Our team will verify the transfer before marking this booking as paid.'});
-    } catch(error) {
-      if(String(error.code||'').includes('CONSTRAINT'))return res.status(409).json({ok:false,error:'That transaction reference has already been submitted.'});
-      console.error('Manual payment submission failed:',error);
-      return res.status(500).json({ok:false,error:'We could not save your payment details. Please try again.'});
-    }
+
+  // The previous public transfer-submission flow is retired. Customers must
+  // request payment details by email; the team verifies receipt and updates
+  // payment_status through the authenticated admin reservation endpoint.
+  app.post('/api/bookings/:reference/payments', requireGuest, (req, res) => {
+    res.status(410).json({ ok:false, error:'Please request payment details by email. Your payment remains pending until our team verifies receipt.' });
   });
 
   app.get('/api/bookings/mine', requireGuest, (req, res) => {
