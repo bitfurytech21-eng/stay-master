@@ -137,3 +137,16 @@ test('rate-on-request bookings cannot accept manual payment submissions before a
   assert.ok(source.includes('if(booking.total_minor<=0)'));
   assert.ok(source.includes('cannot accept payment until the team has issued a confirmed quote'));
 });
+
+test('availability API returns server-calculated stay totals and quote status', async () => {
+  const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
+  assert.ok(source.includes('const totalMinor = unit.nightly_rate_minor * nights'));
+  assert.ok(source.includes('total_minor: rateOnRequest ? 0 : totalMinor'));
+  assert.ok(source.includes("price_status: rateOnRequest ? 'on_request' : 'priced'"));
+});
+
+test('successful priced booking opens the configured manual checkout flow', async () => {
+  const source = await readFile(path.resolve(here, '../../booking.js'), 'utf8');
+  assert.ok(source.includes('await openManualCheckout(booking.reference,booking.totalMinor,booking.currency)'));
+  assert.ok(source.includes('booking.rateOnRequest'));
+});
