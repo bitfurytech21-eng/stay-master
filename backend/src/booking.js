@@ -240,7 +240,14 @@ export function mountBookingRoutes(app, db, { notifyBookingRequest = async () =>
       )
       ORDER BY u.nightly_rate_minor ASC
     `).all(propertyId, guests, req.query.checkOut, req.query.checkIn);
-    res.json({ ok: true, checkIn: req.query.checkIn, checkOut: req.query.checkOut, nights: nightsBetween(checkIn, checkOut), units });
+    const nights = nightsBetween(checkIn, checkOut);
+    const pricedUnits = units.map((unit) => {
+      const totalMinor = unit.nightly_rate_minor * nights;
+      const rateOnRequest = unit.nightly_rate_minor === 0;
+      return { ...unit, nights, total_minor: rateOnRequest ? 0 : totalMinor,
+        rate_on_request: rateOnRequest, price_status: rateOnRequest ? 'on_request' : 'priced' };
+    });
+    res.json({ ok: true, checkIn: req.query.checkIn, checkOut: req.query.checkOut, nights, units: pricedUnits });
   });
 
   app.post('/api/bookings', requireGuest, async (req, res) => {
