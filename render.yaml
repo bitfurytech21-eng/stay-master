@@ -95,8 +95,12 @@ services:
         sync: false
       - key: ALLOWED_ORIGINS
         sync: false
-      - key: GOOGLE_TRANSLATE_API_KEY
-        sync: false
+      # Private-network connection to the self-hosted LibreTranslate service.
+      - key: LIBRETRANSLATE_HOST
+        fromService:
+          name: stay-master-translator
+          type: pserv
+          property: host
       # Manual checkout is disabled until verified bank settlement details are configured.
       - key: MANUAL_BANK_TRANSFER_ENABLED
         value: "false"
@@ -120,3 +124,31 @@ services:
       name: enquiries-data
       mountPath: /var/data
       sizeGB: 1
+
+  # ------------------------------------------------ self-hosted translation
+  # LibreTranslate runs privately inside Render; it is not exposed publicly.
+  # First startup downloads open-source language models to the persistent disk.
+  - type: pserv
+    name: stay-master-translator
+    runtime: image
+    region: oregon
+    plan: 1c-2g
+    image:
+      url: docker.io/libretranslate/libretranslate:latest
+    envVars:
+      - key: LT_HOST
+        value: 0.0.0.0
+      - key: LT_PORT
+        value: "5000"
+      - key: LT_DISABLE_WEB_UI
+        value: "true"
+      - key: LT_REQ_LIMIT
+        value: "60"
+      - key: LT_CHAR_LIMIT
+        value: "1000"
+      - key: LT_THREADS
+        value: "2"
+    disk:
+      name: translation-models
+      mountPath: /home/libretranslate/.local
+      sizeGB: 10
