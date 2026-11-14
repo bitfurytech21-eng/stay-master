@@ -91,6 +91,27 @@ def booking_href(b, name):
 
 _IMG_CACHE = {}
 
+# Per-unit nightly rates, written by make_rates.py. A unit missing here has no
+# published rate and is shown as "Rate on request" rather than a fake price.
+_RATES = {}
+_rp = os.path.join(ROOT, 'data', 'rates.json')
+if os.path.exists(_rp):
+    _RATES = json.load(open(_rp, encoding='utf-8')).get('rates', {})
+
+
+def nightly_rate(b, name):
+    """Return (amount, currency) for an apartment, or (0, '') when unpriced."""
+    rate = _RATES.get(b['slug'], {}).get(name) or {}
+    return int(rate.get('nightly') or 0), rate.get('currency') or ''
+
+
+def rate_label(b, name):
+    """Human-readable rate line for an apartment card."""
+    amount, currency = nightly_rate(b, name)
+    if amount <= 0:
+        return 'Rate on request'
+    return 'From %s %s / night' % (format(amount, ','), currency)
+
 # apartment-name -> live slug map, written by build_extra.py
 _APTMAP = {}
 _ap = os.path.join(ROOT, 'data', 'aptmap.json')

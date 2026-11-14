@@ -28,6 +28,7 @@ def building_parts(b):
     img = _m.img
     apt_href = _m.apt_href
     booking_href = _m.booking_href
+    rate_label = _m.rate_label
     mailto = _m.mailto
     c = CITY_BY_SLUG[b['city']]
     n = b['count']
@@ -66,12 +67,14 @@ def building_parts(b):
         # mail client: the engine reads city/unit from the query string and runs
         # the availability call against the booking API.
         apt_book = booking_href(b, name)
+        apt_rate = rate_label(b, name)
         apts.append('''<article class="apt-card">
   <div class="apt-card-media">
     <img src="%s" alt="%s" width="1024" height="683" loading="lazy" decoding="async">
   </div>
   <div class="apt-card-body">
     <h3><a href="%s">%s</a></h3>
+    <p class="apt-rate">%s</p>
     <ul class="apt-specs">
       <li><span>Guests</span><strong>%s</strong></li>
       <li><span>Bedrooms</span><strong>%d</strong></li>
@@ -80,7 +83,7 @@ def building_parts(b):
     </ul>
     <a class="btn-outline" href="%s">Check Availability</a>
   </div>
-</article>''' % (photo, e(name), apt_link, e(name), e(guests), beds, baths, sqm, e(apt_book)))
+</article>''' % (photo, e(name), apt_link, e(name), e(apt_rate), e(guests), beds, baths, sqm, e(apt_book)))
 
     facs = ''.join('<div class="fac-item">%s<p>%s</p></div>' % (FAC_ICON, e(f)) for f in b['facilities'])
 

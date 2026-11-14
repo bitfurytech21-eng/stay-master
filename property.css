@@ -34,3 +34,13 @@
 .getting-here h3:first-child { margin-top: 0; }
 .getting-here ul { margin: 0 0 4px; padding-left: 18px; }
 .getting-here li { margin-bottom: 6px; font-size: .9rem; line-height: 1.55; }
+
+/* ---------- APARTMENT CARD RATE ---------- */
+.apt-rate {
+  margin: 2px 0 10px;
+  font-family: var(--mono, monospace);
+  font-size: .78rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--brown, #957039);
+}
