@@ -10,6 +10,7 @@ on:
       - 'build_building_parts.py'
       - 'build_property_content.py'
       - 'build_inventory.py'
+      - 'make_rates.py'
       - 'build_extra.py'
       - 'make_404.py'
       - 'data/**'
@@ -34,6 +35,7 @@ jobs:
           python build.py
           python build_extra.py
           python make_404.py
+          python make_rates.py
           python build_inventory.py
       - name: Commit generated pages
         run: |

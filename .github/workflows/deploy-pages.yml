@@ -42,6 +42,7 @@ jobs:
           python build.py
           python build_extra.py
           python make_404.py
+          python make_rates.py
           python build_inventory.py
 
       - name: Point the frontend at the deployed API
