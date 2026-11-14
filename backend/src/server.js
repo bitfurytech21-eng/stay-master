@@ -411,6 +411,17 @@ const FRONTEND_DIR = path.resolve(
   process.cwd(),
   process.env.FRONTEND_DIR || (fs.existsSync(path.join(process.cwd(), 'index.html')) ? '.' : '..'),
 );
+// Do not expose backend source, repository metadata, or deployment files
+// through the public static website.
+app.use((req, res, next) => {
+  const pathname = decodeURIComponent(req.path || '/');
+  if (/^\\/(?:backend|\\.git|\\.github|node_modules)(?:\\/|$)/i.test(pathname) ||
+      /^\\/(?:render\\.yaml|README\\.md|\\.gitignore)$/i.test(pathname)) {
+    return res.status(404).end();
+  }
+  next();
+});
+
 app.use(express.static(FRONTEND_DIR, {
   index: 'index.html',
   dotfiles: 'ignore',
