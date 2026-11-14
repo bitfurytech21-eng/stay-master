@@ -68,6 +68,9 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22.22.0"
+      # Allow secure guest-session cookies when GitHub Pages calls the API cross-origin.
+      - key: COOKIE_CROSS_SITE
+        value: "true"
       # Where enquiry submissions are stored. Mount a Render disk at /var/data
       # so the SQLite file survives deploys and restarts.
       - key: DATA_DIR
