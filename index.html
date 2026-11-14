@@ -18,11 +18,46 @@ section{padding:74px 0}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:2
 @media(max-width:850px){.search{grid-template-columns:repeat(2,1fr)}.search .btn{grid-column:span 2}.rail{grid-template-columns:repeat(2,1fr)}.cities{grid-template-columns:repeat(2,1fr)}.three,.steps{grid-template-columns:1fr}.top-links{gap:14px}}
 @media(max-width:560px){.wrap{width:min(100% - 32px,1120px)}header{padding:16px 0}.top-links>a:not(.btn){display:none}.hero{padding-bottom:42px}.hero h1{margin:42px 0 30px;font-size:clamp(56px,16vw,84px)}section{padding:52px 0}.search,.two,footer .cols{grid-template-columns:1fr}.search .btn{grid-column:auto}.cities,.rail{grid-template-columns:1fr 1fr;gap:10px}.card img{height:135px}.card h3{font-size:24px}.city{padding:13px}.two{gap:24px}.steps{gap:18px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+/* Updated sticky navigation and animated destination hero */
+html{scroll-padding-top:82px}
+.nav{position:sticky;top:0;z-index:30;background:var(--deep);color:var(--on-deep);border-bottom:1px solid rgba(255,255,255,.14)}
+.nb{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;position:relative}
+.nav .logo{color:var(--on-deep)}
+.menu{display:flex;align-items:center;gap:14px}
+.menu ul{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+.menu li>a,.menu li>button{display:block;padding:10px 11px;border:0;border-radius:8px;background:none;color:var(--on-deep);font:500 14px "Hanken Grotesk",sans-serif;text-decoration:none;cursor:pointer}
+.menu li>a:hover,.menu li>button:hover{background:#ffffff18}
+.mega{display:none;position:absolute;left:0;right:0;top:100%;grid-template-columns:repeat(4,1fr);gap:20px;background:var(--surface);color:var(--ink);padding:22px;border:1px solid var(--line);border-radius:0 0 16px 16px;box-shadow:0 18px 40px #0003}
+.mega.open{display:grid}.mega h5{font:italic 400 22px "Instrument Serif",serif;margin:0 0 8px}.mega a{display:block;padding:4px 0;color:var(--mute);text-decoration:none;font-size:14px}.mega a:hover{color:var(--ink);text-decoration:underline}
+.burger{display:none;background:none;color:var(--on-deep);border:1px solid #ffffff66;border-radius:10px;width:44px;height:44px;font-size:22px}
+.hero{isolation:isolate}.hero>.wrap{z-index:3}.bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}.slides,.sl{position:absolute;inset:0}.sl{opacity:0;transition:opacity 1.4s ease;transform:scale(1.04)}.sl.on{opacity:.62;animation:heroKenBurns 12s ease-out forwards}
+@keyframes heroKenBurns{to{transform:scale(1.15)}}
+.sl:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#071b17bb,#071b1755 65%,#071b1780)}
+.sun{position:absolute;z-index:1;right:13%;top:15%;width:clamp(100px,15vw,175px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffe9a8aa,#e8b23000 72%)}
+.cap{position:absolute;right:22px;bottom:14px;z-index:4;color:var(--on-deep);font:italic 24px "Instrument Serif",serif;opacity:.9}
+.dots{position:absolute;left:22px;bottom:18px;z-index:4;display:flex;gap:8px}.dots button{width:11px;height:11px;padding:0;border:0;border-radius:20px;background:#ffffff88;cursor:pointer}.dots button.on{width:28px;background:var(--acc)}
+@media(max-width:850px){.burger{display:block}.menu{display:none;position:absolute;top:100%;left:0;right:0;align-items:stretch;flex-direction:column;padding:14px 18px 20px;background:var(--deep);max-height:80vh;overflow:auto}.menu.open{display:flex}.menu ul{align-items:stretch;flex-direction:column}.menu li>a,.menu li>button{width:100%;text-align:left}.mega{position:static;grid-template-columns:1fr 1fr;box-shadow:none;margin:8px 0}.menu>.btn{align-self:flex-start}}
+@media(max-width:520px){.mega{grid-template-columns:1fr}.cap{bottom:12px;right:14px;font-size:20px}.dots{left:16px}}
+@media(prefers-reduced-motion:reduce){.sl,.sl.on{animation:none;transition:none}.sl.on{transform:none}}
+
 </style>
 </head>
 <body>
-<div class="hero" id="top"><div class="wrap">
-<header><a class="logo" href="index.html" aria-label="master home">master</a><nav class="top-links" aria-label="Main navigation"><a href="#where">Destinations</a><a href="#living">Why master</a><a href="about.html">About us</a><a class="btn" href="booking.html">Book now</a></nav></header>
+<div class="hero" id="top"><div class="bg" aria-hidden="true"><div class="slides" id="hs"></div><span class="sun"></span></div><div class="cap" id="cap" aria-hidden="true">London</div><div class="dots" id="dots" role="group" aria-label="Choose destination background"></div><div class="wrap">
+<nav class="nav" aria-label="Main"><div class="wrap nb">
+<a class="logo" href="#top" aria-label="master home">master</a>
+<button class="burger" id="bt" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">☰</button>
+<div class="menu" id="menu"><ul>
+<li><button id="lb" type="button" aria-expanded="false" aria-controls="mega">Locations ▾</button>
+<div class="mega" id="mega">
+<div><h5>London</h5><a href="london.html">St. Paul’s</a><a href="london.html">Cannon</a><a href="london.html">Farringdon</a></div>
+<div><h5>Rome &amp; Barcelona</h5><a href="rome.html">Trevi</a><a href="barcelona.html">La Rambla</a></div>
+<div><h5>Athens &amp; Warsaw</h5><a href="athens.html">Plaka Athens</a><a href="warsaw.html">Wola</a></div>
+<div><h5>Other destinations</h5><a href="hamburg.html">Altona Hamburg</a><a href="salzburg.html">Mirabell &amp; Linzergasse</a><a href="tel-aviv.html">Tel Aviv</a><a href="bat-yam.html">Bat Yam</a></div>
+</div></li>
+<li><a href="#apartments">Apartments</a></li><li><a href="#stays">Stays</a></li><li><a href="#rewards">Guest services</a></li><li><a href="#offers">Explore</a></li><li><a href="#contact">Contact</a></li>
+</ul><a class="btn" href="booking.html">Book now</a></div></div></nav>
 <p class="hero-sub">Serviced apartments &amp; aparthotels across nine destinations</p>
 <h1>Where home meets hotel</h1>
 <form class="search" id="homeSearch" action="booking.html" method="get" aria-label="Search apartments">
@@ -36,7 +71,7 @@ section{padding:74px 0}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:2
 
 <section><div class="wrap"><h2>Welcome to master</h2><p class="lead">Created for the modern traveller, we combine the best elements of a hotel stay with beautifully designed, fully equipped apartments in the heart of the cities you want to explore.</p><div class="pillrow"><span class="pill">Apartments with hotel amenities</span><span class="pill">Thoughtful service</span><span class="pill">A seamless digital experience</span></div></div></section>
 
-<section class="alt" id="where"><div class="wrap"><h2>Where we are</h2><p class="lead">Find your own urban sanctuary. Explore our destinations and choose the city that feels right for your next stay.</p><div class="cities">
+<section class="alt" id="where"><div class="wrap"><h2 id="where">Where we are</h2><p class="lead">Find your own urban sanctuary. Explore our destinations and choose the city that feels right for your next stay.</p><div class="cities">
 <a class="city" href="london.html"><strong>London</strong><small>United Kingdom · 3 buildings</small></a>
 <a class="city" href="rome.html"><strong>Rome</strong><small>Italy · 1 building</small></a>
 <a class="city" href="barcelona.html"><strong>Barcelona</strong><small>Spain · 1 building</small></a>
@@ -54,7 +89,7 @@ section{padding:74px 0}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:2
 <div><h3>Support when you need it</h3><p>Our team is here to help with your booking and stay. Reach out whenever you need assistance.</p></div>
 </div></div></section>
 
-<section class="alt"><div class="wrap"><h2>Featured apartments</h2><p class="lead">Explore a selection of our serviced apartment buildings.</p><div class="rail">
+<section class="alt" id="apartments"><div class="wrap"><h2>Featured apartments</h2><p class="lead">Explore a selection of our serviced apartment buildings.</p><div class="rail">
 <article class="card"><img src="images/buildings/london-master-st-pauls-01.jpg" alt="master St. Paul's in London" loading="lazy"><div class="t"><small>London · Serviced apartments</small><h3>master St. Paul’s</h3><a href="london-master-st-pauls.html">Explore apartments →</a></div></article>
 <article class="card"><img src="images/buildings/london-master-cannon-01.jpg" alt="master Cannon in London" loading="lazy"><div class="t"><small>London · Serviced apartments</small><h3>master Cannon</h3><a href="london-master-cannon.html">Explore apartments →</a></div></article>
 <article class="card"><img src="images/buildings/london-master-farringdon-01.jpg" alt="master Farringdon in London" loading="lazy"><div class="t"><small>London · Serviced apartments</small><h3>master Farringdon</h3><a href="london-master-farringdon.html">Explore apartments →</a></div></article>
@@ -70,18 +105,18 @@ section{padding:74px 0}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:2
 <article class="card"><img src="images/buildings/bat-yam-master-bat-yam-01.webp" alt="master Bat Yam serviced apartments" loading="lazy"><div class="t"><small>Bat Yam · Serviced apartments</small><h3>master Bat Yam</h3><a href="bat-yam-master-bat-yam.html">Explore apartments →</a></div></article>
 </div></div></section>
 
-<section><div class="wrap"><h2>A stay for every kind of trip</h2><p class="lead">A change of scene, a work trip or a longer escape — make yourself at home.</p><div class="two">
+<section id="stays"><div class="wrap"><h2>A stay for every kind of trip</h2><p class="lead">A change of scene, a work trip or a longer escape — make yourself at home.</p><div class="two">
 <div><h3>Business trips</h3><p>Enjoy the space to work and unwind, with a comfortable base for meetings and busy days.</p></div>
 <div><h3>Long stays</h3><p>Settle in with the convenience and independence of an apartment, with room for the routines that make a place feel familiar.</p></div>
 <div><h3>Leisure stays</h3><p>Explore each destination at your own pace, with a welcoming apartment to return to at the end of the day.</p></div>
 <div><h3>Family breaks</h3><p>Choose an apartment with space to spend time together and enjoy the city as a family.</p></div>
 </div></div></section>
 
-<section class="rew"><div class="wrap"><h2>Here to make your stay easier</h2><p class="lead">Book directly through our website to send your request to the master team and manage your reservation through your guest account.</p><div class="steps"><div><b>Explore</b>Find a destination and apartment that suits your trip.</div><div><b>Request your stay</b>Choose dates and guest numbers in our booking system.</div><div><b>Stay connected</b>Sign in to view your booking requests and updates.</div></div><a class="btn" href="booking.html">Book directly</a></div></section>
+<section class="rew" id="rewards"><div class="wrap"><h2>Here to make your stay easier</h2><p class="lead">Book directly through our website to send your request to the master team and manage your reservation through your guest account.</p><div class="steps"><div><b>Explore</b>Find a destination and apartment that suits your trip.</div><div><b>Request your stay</b>Choose dates and guest numbers in our booking system.</div><div><b>Stay connected</b>Sign in to view your booking requests and updates.</div></div><a class="btn" href="booking.html">Book directly</a></div></section>
 
-<section class="promo"><div class="wrap"><h2>Make yourself at home</h2><p class="lead">Explore our serviced apartments and start planning your next stay.</p><a class="btn" href="booking.html">Book now</a></div></section>
+<section class="promo" id="offers"><div class="wrap"><h2>Make yourself at home</h2><p class="lead">Explore our serviced apartments and start planning your next stay.</p><a class="btn" href="booking.html">Book now</a></div></section>
 
-<footer><div class="wrap"><div class="cols">
+<footer id="contact"><div class="wrap"><div class="cols">
 <div><h4>London</h4><ul><li><a href="london-master-st-pauls.html">master St. Paul’s</a></li><li><a href="london-master-cannon.html">master Cannon</a></li><li><a href="london-master-farringdon.html">master Farringdon</a></li></ul></div>
 <div><h4>Rome &amp; Barcelona</h4><ul><li><a href="rome-master-trevi.html">master Trevi</a></li><li><a href="barcelona-master-la-rambla.html">master La Rambla</a></li></ul></div>
 <div><h4>Athens &amp; Warsaw</h4><ul><li><a href="athens-master-plaka-athens.html">Plaka Athens</a></li><li><a href="warsaw-master-wola.html">master Wola</a></li></ul></div>
@@ -103,6 +138,33 @@ form.addEventListener('submit',function(event){
 });
 })();
 </script>
+
+<script>
+(function(){
+'use strict';
+var scenes=[['London',160],['Rome',40],['Barcelona',18],['Athens',200],['Warsaw',225],['Hamburg',210],['Salzburg',130],['Tel Aviv',190]];
+var host=document.getElementById('hs'),dots=document.getElementById('dots'),caption=document.getElementById('cap');
+if(host&&dots&&caption){
+ scenes.forEach(function(scene,i){
+  var panel=document.createElement('div');panel.className='sl'+(i===0?' on':'');
+  panel.style.background='linear-gradient(125deg,hsl('+scene[1]+' 43% 19%),hsl('+(scene[1]+32)+' 48% 42%))';
+  host.appendChild(panel);
+  var dot=document.createElement('button');dot.type='button';dot.setAttribute('aria-label','Show '+scene[0]+' background');if(i===0)dot.className='on';dot.addEventListener('click',function(){show(i);restart();});dots.appendChild(dot);
+ });
+ var current=0,timer=null,reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function show(i){host.children[current].classList.remove('on');dots.children[current].classList.remove('on');current=i;host.children[current].classList.add('on');dots.children[current].classList.add('on');caption.textContent=scenes[current][0];}
+ function restart(){if(timer)clearInterval(timer);if(!reduced)timer=setInterval(function(){show((current+1)%scenes.length);},5200);}
+ caption.textContent=scenes[0][0];restart();
+}
+var menu=document.getElementById('menu'),toggle=document.getElementById('bt'),mega=document.getElementById('mega'),locations=document.getElementById('lb');
+function closeMega(){if(mega)mega.classList.remove('open');if(locations)locations.setAttribute('aria-expanded','false');}
+if(toggle&&menu){toggle.addEventListener('click',function(){var open=menu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));if(!open)closeMega();});}
+if(locations&&mega){locations.addEventListener('click',function(e){e.stopPropagation();var open=mega.classList.toggle('open');locations.setAttribute('aria-expanded',String(open));});}
+document.addEventListener('click',function(e){if(mega&&!e.target.closest('#mega')&&!e.target.closest('#lb'))closeMega();if(menu&&e.target.closest('.menu a')&&window.innerWidth<=850){menu.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');closeMega();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMega();if(menu)menu.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');}});
+})();
+</script>
+
 <script src="api-config.js"></script>
 <script src="translator.js?v=1" defer></script>
 </body></html>
