@@ -50,7 +50,7 @@ services:
       # Proxy the form endpoint to the API service (same-origin for the browser).
       - type: rewrite
         source: /api/*
-        destination: https://stay-master-api.onrender.com/api/*
+        destination: https://stay-master-backend2.onrender.com/api/*
       # Anything unknown gets the custom 404 page.
       - type: rewrite
         source: /*
