@@ -8,7 +8,7 @@ name: Deploy site to GitHub Pages
 # a <meta name="stay-master-api"> tag plus an inline resolver, taken from the
 # repository variable STAY_MASTER_API_BASE (Settings -> Secrets and variables ->
 # Actions -> Variables). Set it to the deployed API origin, e.g.
-#   https://stay-master-api.onrender.com
+#   https://stay-master-backend2.onrender.com
 # If the variable is unset the site still deploys and simply uses same-origin
 # /api paths, which is correct when the site is served by the Render service
 # that proxies /api.
@@ -52,7 +52,7 @@ jobs:
           python - <<'PY'
           import os, pathlib, re
 
-          base = (os.environ.get("API_BASE") or "https://stay-master-api.onrender.com").strip().rstrip("/")
+          base = (os.environ.get("API_BASE") or "https://stay-master-backend2.onrender.com").strip().rstrip("/")
           if not base:
               raise SystemExit("STAY_MASTER_API_BASE must be a valid backend origin.")
 
