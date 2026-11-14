@@ -164,7 +164,13 @@ def _hand_maintained_home():
     if not os.path.exists(p):
         return None
     with open(p, encoding='utf-8') as f:
-        return f.read()
+        content = f.read()
+    # The Render service serves index.html at the domain root. If that file is
+    # only the repository bootstrap placeholder, generate the real homepage
+    # from the site data instead of publishing the placeholder to visitors.
+    if content.strip() == 'PLACEHOLDER_INDEX':
+        return None
+    return content
 
 
 def main():
