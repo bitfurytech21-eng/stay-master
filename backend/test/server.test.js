@@ -114,3 +114,22 @@ test('guest registration and login have bounded input and per-IP abuse controls'
   assert.ok(source.includes('authRateLimited(req.ip'));
   assert.ok(source.includes('password.length > 200'));
 });
+
+test('API CORS explicitly permits credentialed admin PATCH requests and rejects unlisted origins', async () => {
+  const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
+  assert.ok(source.includes("ALLOWED_ORIGINS.includes(origin)"));
+  assert.ok(source.includes("'GET, POST, PATCH, OPTIONS'"));
+  assert.ok(source.includes("'Content-Type, Authorization'"));
+  assert.ok(source.includes("Origin not allowed."));
+});
+
+test('SQLite foreign key enforcement is enabled at startup', async () => {
+  const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
+  assert.ok(source.includes("db.pragma('foreign_keys = ON')"));
+});
+
+test('rate-on-request bookings cannot accept manual payment submissions before a quote', async () => {
+  const source = await readFile(path.resolve(here, '../src/booking.js'), 'utf8');
+  assert.ok(source.includes('if(booking.total_minor<=0)'));
+  assert.ok(source.includes('cannot accept payment until the team has issued a confirmed quote'));
+});
