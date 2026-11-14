@@ -9,6 +9,7 @@ on:
       - 'build_building.py'
       - 'build_building_parts.py'
       - 'build_property_content.py'
+      - 'build_inventory.py'
       - 'build_extra.py'
       - 'make_404.py'
       - 'data/**'
@@ -33,6 +34,7 @@ jobs:
           python build.py
           python build_extra.py
           python make_404.py
+          python build_inventory.py
       - name: Commit generated pages
         run: |
           git config user.name "github-actions[bot]"
@@ -41,6 +43,9 @@ jobs:
           # the city/building layout), so it is deliberately excluded here:
           # regenerating the site must never revert the homepage.
           git add -A -- '*.html' ':!index.html'
+          # inventory.json is generated from data/site.json and is what makes
+          # the booking search work on a static host.
+          git add -A -- inventory.json
           if git diff --cached --quiet; then
             echo "No generated HTML changes."
             exit 0
