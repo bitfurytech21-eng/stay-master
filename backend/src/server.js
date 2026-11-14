@@ -405,6 +405,21 @@ app.post('/api/translate', async (req, res) => {
   }
 });
 
+// Serve the complete website from this same Node service. Render runs with the
+// repository root as its working directory; local backend runs are supported too.
+const FRONTEND_DIR = path.resolve(
+  process.cwd(),
+  process.env.FRONTEND_DIR || (fs.existsSync(path.join(process.cwd(), 'index.html')) ? '.' : '..'),
+);
+app.use(express.static(FRONTEND_DIR, {
+  index: 'index.html',
+  dotfiles: 'ignore',
+  fallthrough: true,
+  setHeaders(res, filePath) {
+    if (/\\.(?:html|js|css)$/.test(filePath)) res.setHeader('Cache-Control', 'no-cache');
+  },
+}));
+
 app.use((req, res) => res.status(404).json({ ok: false, error: 'Not found' }));
 
 const server = app.listen(PORT, () => {
