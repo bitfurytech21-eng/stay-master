@@ -414,9 +414,9 @@ const FRONTEND_DIR = path.resolve(
 // Do not expose backend source, repository metadata, or deployment files
 // through the public static website.
 app.use((req, res, next) => {
-  const pathname = decodeURIComponent(req.path || '/');
-  if (/^\\/(?:backend|\\.git|\\.github|node_modules)(?:\\/|$)/i.test(pathname) ||
-      /^\\/(?:render\\.yaml|README\\.md|\\.gitignore)$/i.test(pathname)) {
+  const pathname = req.path || '/';
+  if (/^\/(?:backend|\.git|\.github|node_modules)(?:\/|$)/i.test(pathname) ||
+      /^\/(?:render\.yaml|README\.md|\.gitignore)$/i.test(pathname)) {
     return res.status(404).end();
   }
   next();
@@ -427,7 +427,7 @@ app.use(express.static(FRONTEND_DIR, {
   dotfiles: 'ignore',
   fallthrough: true,
   setHeaders(res, filePath) {
-    if (/\\.(?:html|js|css)$/.test(filePath)) res.setHeader('Cache-Control', 'no-cache');
+    if (/\.(?:html|js|css)$/.test(filePath)) res.setHeader('Cache-Control', 'no-cache');
   },
 }));
 
