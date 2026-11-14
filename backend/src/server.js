@@ -34,6 +34,7 @@ fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
 const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
 db.exec(`
   CREATE TABLE IF NOT EXISTS enquiries (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -170,16 +171,23 @@ app.use(express.urlencoded({ extended: false, limit: '64kb' }));
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (origin && (ALLOWED_ORIGINS.length === 0 || ALLOWED_ORIGINS.includes(origin))) {
+  // Cross-origin access is opt-in. An empty allow-list must not reflect every
+  // origin while also allowing credentialed guest-session cookies.
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
-    // The guest session cookie must survive a cross-origin call, which the
-    // browser only allows when the response opts in explicitly.
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    // Admin actions use PATCH and Bearer authentication; browsers preflight
+    // these requests before sending them.
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   }
-  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  if (req.method === 'OPTIONS') {
+    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+      return res.status(403).json({ ok: false, error: 'Origin not allowed.' });
+    }
+    return res.sendStatus(204);
+  }
   next();
 });
 
