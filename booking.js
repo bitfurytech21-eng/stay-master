@@ -115,7 +115,7 @@ async function search(event){
      const onRequest=u.price_status==='on_request' || u.rate_on_request===true || u.nightly_rate_minor===0;
      const price=onRequest
        ? '<strong>Rate on request</strong> <small>our team will send you a quote for '+data.nights+' nights</small>'
-       : escapeHtml(u.max_guests)+' guests \\u00b7 '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+(Number(u.total_minor)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small>';
+       : escapeHtml(u.max_guests)+' guests \u00b7 '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+(Number(u.total_minor)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small>';
      return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+price+'</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>';
     }).join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
    }catch(e){
