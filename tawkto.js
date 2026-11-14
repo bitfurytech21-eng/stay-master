@@ -12,8 +12,8 @@
   'use strict';
 
   var config = window.STAY_MASTER_TAWKTO || {
-    propertyId: '',
-    widgetId: ''
+    propertyId: '6af8f37075c1dd3c38fc4878',
+    widgetId: '1k7e7dso3'
   };
 
   var propertyId = String(config.propertyId || '').trim();
