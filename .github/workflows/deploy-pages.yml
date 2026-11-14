@@ -39,12 +39,13 @@ jobs:
 
       - name: Regenerate pages from templates
         run: |
-          python build.py
-          python build_extra.py
-          python make_404.py
-          python make_rates.py
-          python make_backend_rates.py
-          python build_inventory.py
+          set -e
+          python -V
+          for script in build.py build_extra.py make_404.py make_rates.py make_backend_rates.py build_inventory.py; do
+            echo "::group::python $script"
+            python "$script"
+            echo "::endgroup::"
+          done
 
       - name: Point the frontend at the deployed API
         env:

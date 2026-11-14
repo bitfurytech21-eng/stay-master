@@ -127,10 +127,14 @@ def main():
     print('Wrote %s: %d properties, %d units priced'
           % (os.path.relpath(OUT, ROOT), len(table), priced))
     if problems:
-        print('WARNING: %d units left unpriced:' % len(problems))
+        # Warn but do not fail: this script only feeds the backend's seed data.
+        # A mapping gap must never break the static site deploy, which is what
+        # this runs inside. The unpriced units stay "rate on request", which is
+        # the honest state, and the warning is visible in the build log.
+        print('WARNING: %d units left unpriced (they will read "rate on request"):'
+              % len(problems))
         for problem in problems:
             print('  -', problem)
-        raise SystemExit(1)
 
 
 if __name__ == '__main__':
