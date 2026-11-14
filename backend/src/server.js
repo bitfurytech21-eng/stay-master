@@ -383,8 +383,9 @@ app.post('/api/translate', async (req, res) => {
         });
       }
 
-      const results = payload?.translatedText;
-      if (!Array.isArray(results) || results.length !== missing.length) {
+      const rawResults = payload?.translatedText;
+      const results = Array.isArray(rawResults) ? rawResults : [rawResults];
+      if (results.length !== missing.length || results.some((value) => typeof value !== 'string')) {
         return res.status(502).json({ ok: false, error: 'The translation service returned an incomplete response.' });
       }
       results.forEach((value, index) => {
