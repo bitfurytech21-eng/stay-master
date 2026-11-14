@@ -112,10 +112,10 @@ async function search(event){
    try{
     const data=await api('/api/booking/availability?'+new URLSearchParams({propertyId:p.id,checkIn,checkOut,guests}));
     box.innerHTML=data.units.length?data.units.map(u=>{
-     const onRequest=u.nightly_rate_minor===0;
+     const onRequest=u.price_status==='on_request' || u.rate_on_request===true || u.nightly_rate_minor===0;
      const price=onRequest
        ? '<strong>Rate on request</strong> <small>our team will send you a quote for '+data.nights+' nights</small>'
-       : escapeHtml(u.max_guests)+' guests \u00b7 '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+((u.nightly_rate_minor*data.nights)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small>';
+       : escapeHtml(u.max_guests)+' guests \\u00b7 '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+(Number(u.total_minor)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small>';
      return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+price+'</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>';
     }).join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
    }catch(e){
@@ -155,8 +155,14 @@ results.addEventListener('click',async e=>{
   const me=await api('/api/auth/me');
   if(!me.user){msg($('#authMessage'),'Please sign in or create an account before requesting a booking.','error');$('#guestAccess').scrollIntoView({behavior:'smooth'});return;}
   const booking=await api('/api/bookings',{method:'POST',body:JSON.stringify({unitId:Number(button.dataset.unit),propertyId:Number(button.dataset.property),...lastSearch})});
-  msg($('#authMessage'),'Booking request '+booking.reference+' received. Payment is not collected yet; our team will confirm your request.','success');
-  $('#guestAccess').scrollIntoView({behavior:'smooth'});await loadAccount();
+  msg($('#authMessage'),booking.rateOnRequest
+   ? 'Booking request '+booking.reference+' received. This apartment is priced on request; our team will send you a quote.'
+   : 'Booking '+booking.reference+' created. Review the payment instructions below to complete manual checkout.','success');
+  $('#guestAccess').scrollIntoView({behavior:'smooth'});
+  await loadAccount();
+  if(!booking.rateOnRequest && Number.isSafeInteger(booking.totalMinor) && booking.totalMinor>0){
+   await openManualCheckout(booking.reference,booking.totalMinor,booking.currency);
+  }
  }catch(err){
   const row=button.closest('.unit-row');
   const name=row&&row.querySelector('strong')?row.querySelector('strong').textContent:'this apartment';
