@@ -17,15 +17,71 @@ const escapeHtml = (v) => String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':
 const results = $('#propertyResults');
 let lastSearch = null;
 const cities = {London:'london',Rome:'rome',Barcelona:'barcelona',Athens:'athens',Warsaw:'warsaw',Hamburg:'hamburg',Salzburg:'salzburg','Tel Aviv':'tel-aviv','Bat Yam':'bat-yam'};
-async function loadProperties(city=''){
- const params=new URLSearchParams();if(city)params.set('city',city);
- const data=await api('/api/booking/properties?'+params.toString());
- return data.properties;
+// The team address used when the booking service cannot be reached. Kept in one
+// place so the fallback never drifts from the contact page.
+const TEAM_EMAIL = 'easytravelagency@trustagent.space';
+
+/* ------------------------------------------------------------------ *
+ * Static inventory
+ *
+ * The apartment list is published data, not live data: it is generated from
+ * data/site.json into inventory.json by build_inventory.py. Reading it means
+ * search works on any static host (GitHub Pages included) with no backend.
+ * The API is still preferred when it answers, because only it knows live
+ * availability and rates.
+ * ------------------------------------------------------------------ */
+let inventoryPromise = null;
+function loadInventory(){
+  if(!inventoryPromise){
+    inventoryPromise = fetch('inventory.json',{cache:'no-cache'})
+      .then(r=>{ if(!r.ok) throw new Error('inventory'); return r.json(); })
+      .then(d=>Array.isArray(d.properties)?d.properties:[])
+      .catch(()=>[]);
+  }
+  return inventoryPromise;
 }
+
+// Returns {source:'api'|'static', properties:[...]}. Never throws: if the API
+// is unreachable the static inventory is used instead, so a search always
+// produces a result rather than an error.
+// Once the API has failed, stop retrying it for the rest of the page load: a
+// dead host should not add a failed request to every search.
+let apiDown = false;
+async function loadProperties(city=''){
+  if(!apiDown){
+    try{
+      const params=new URLSearchParams();if(city)params.set('city',city);
+      const data=await api('/api/booking/properties?'+params.toString());
+      if(data && Array.isArray(data.properties) && data.properties.length){
+        return {source:'api',properties:data.properties};
+      }
+    }catch(e){apiDown=true;/* fall back to the static inventory */}
+  }
+  const all=await loadInventory();
+  const properties=city?all.filter(p=>p.citySlug===city):all;
+  return {source:'static',properties};
+}
+
 function propertyCard(p){
  const image=p.image?'<img src="'+escapeHtml(p.image)+'" alt="'+escapeHtml(p.name)+'" loading="lazy">':'<div class="property-placeholder"></div>';
- return '<article class="property-card">'+image+'<div class="property-card-body"><p class="eyebrow">'+escapeHtml(p.city)+', '+escapeHtml(p.country)+'</p><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.address||p.description||'Serviced apartments by master')+'</p><div class="unit-list" id="units-'+p.id+'"><small>Choose dates and search to check availability.</small></div></div></article>';
+ const link=p.page?'<a class="property-card-link" href="'+escapeHtml(p.page)+'">View property</a>':'';
+ return '<article class="property-card">'+image+'<div class="property-card-body"><p class="eyebrow">'+escapeHtml(p.city)+', '+escapeHtml(p.country)+'</p><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.address||p.description||'Serviced apartments by master')+'</p>'+link+'<div class="unit-list" id="units-'+escapeHtml(p.id||p.slug)+'"><small>Choose dates and search to check availability.</small></div></div></article>';
 }
+
+// Render the units of one property from the static inventory, filtered by the
+// number of guests. Rates are not published, so every unit is "on request".
+function staticUnitsHtml(p,guests){
+ const units=(p.units||[]).filter(u=>u.maxGuests>=guests);
+ if(!units.length){
+  return '<small>No apartment at this property sleeps '+escapeHtml(guests)+'. Please contact our team for options.</small>';
+ }
+ return units.map(u=>{
+  const detail=[u.guestsLabel?escapeHtml(u.guestsLabel)+' guests':'',u.bedrooms?u.bedrooms+' bed':'',u.sqm?u.sqm+' m\u00b2':''].filter(Boolean).join(' \u00b7 ');
+  return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+detail+'<br><strong>Rate on request</strong> <small>our team will send you a quote</small></span>'
+   +'<button type="button" data-unit-slug="'+escapeHtml(u.slug)+'" data-property-slug="'+escapeHtml(p.slug)+'" data-unit-name="'+escapeHtml(u.name)+'" data-property-name="'+escapeHtml(p.name)+'">Request booking</button></div>';
+ }).join('');
+}
+
 async function search(event){
  if(event)event.preventDefault();
  const cityName=$('#city').value, checkIn=$('#checkIn').value, checkOut=$('#checkOut').value, guests=Number($('#guests').value||2);
@@ -34,11 +90,16 @@ async function search(event){
  lastSearch={checkIn,checkOut,guests};
  const button=$('#searchForm button');button.disabled=true;button.textContent='Searching\u2026';
  try{
-  const properties=await loadProperties(cities[cityName]||'');
-  results.innerHTML=properties.length?properties.map(propertyCard).join(''):'<div class="booking-empty">No properties have been published to the booking inventory yet. Please contact our team for assistance.</div>';
-  $('#resultCount').textContent=properties.length+' properties';
+  const {source,properties}=await loadProperties(cities[cityName]||'');
+  results.innerHTML=properties.length?properties.map(propertyCard).join(''):'<div class="booking-empty">No properties match that destination. Please contact our team for assistance.</div>';
+  $('#resultCount').textContent=properties.length+(properties.length===1?' property':' properties');
   await Promise.all(properties.map(async p=>{
-   const box=$('#units-'+p.id);
+   const box=$('#units-'+(p.id||p.slug));
+   if(!box)return;
+   if(source==='static'){
+    box.innerHTML=staticUnitsHtml(p,guests);
+    return;
+   }
    try{
     const data=await api('/api/booking/availability?'+new URLSearchParams({propertyId:p.id,checkIn,checkOut,guests}));
     box.innerHTML=data.units.length?data.units.map(u=>{
@@ -48,22 +109,55 @@ async function search(event){
        : escapeHtml(u.max_guests)+' guests \u00b7 '+(u.nightly_rate_minor/100).toFixed(2)+' '+escapeHtml(u.currency)+' / night<br><strong>Stay total: '+((u.nightly_rate_minor*data.nights)/100).toFixed(2)+' '+escapeHtml(u.currency)+'</strong> <small>for '+data.nights+' nights, before any separately disclosed fees</small>';
      return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+price+'</span><button type="button" data-unit="'+u.id+'" data-property="'+p.id+'">Request booking</button></div>';
     }).join('') : (p.unit_types===0?'<small>Rates and bookable inventory are not yet configured for this property. Please contact our team.</small>':'<small>No matching units available for these dates.</small>');
-   }catch(e){box.textContent=e.message;}
+   }catch(e){
+    // The API answered the property list but not availability: show the
+    // published inventory rather than an error.
+    box.innerHTML=staticUnitsHtml(p,guests);
+   }
   }));
-  msg($('#searchMessage'),'Availability is based on inventory entered by the property team. Requests remain pending until confirmed.','');
+  msg($('#searchMessage'),source==='static'
+   ? 'Showing our published apartments. Rates are on request and every booking is confirmed by our team.'
+   : 'Availability is based on inventory entered by the property team. Requests remain pending until confirmed.','');
  }catch(e){msg($('#searchMessage'),e.message,'error');}
  finally{button.disabled=false;button.textContent='Search stays';}
 }
 $('#searchForm').addEventListener('submit',search);
+
+// A booking request that could not reach the API is not silently dropped: the
+// guest is told plainly and given a working way to send the same details.
+function offerEmailFallback(unitName,propertyName){
+ const subject='Booking request: '+unitName+' at '+propertyName;
+ const body=['Hello master team,','','I would like to request this apartment:','',
+  'Apartment: '+unitName,'Property: '+propertyName,
+  lastSearch?('Check in: '+lastSearch.checkIn):'',
+  lastSearch?('Check out: '+lastSearch.checkOut):'',
+  lastSearch?('Guests: '+lastSearch.guests):'',
+  '','Please confirm availability and send me a quote.',''].filter(Boolean).join('\n');
+ const href='mailto:'+TEAM_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+ const box=$('#searchMessage');
+ box.className='booking-message error';
+ box.innerHTML='Our booking service is not reachable right now, so your request was not submitted. '
+  +'<a href="'+escapeHtml(href)+'">Email our team about '+escapeHtml(unitName)+'</a> and we will confirm availability and send a quote.';
+}
+
 results.addEventListener('click',async e=>{
- const button=e.target.closest('[data-unit]');if(!button)return;
+ const button=e.target.closest('[data-unit],[data-unit-slug]');if(!button)return;
+ // Static-inventory path: no numeric ids, so the API cannot be used for it.
+ if(button.dataset.unitSlug){
+  offerEmailFallback(button.dataset.unitName,button.dataset.propertyName);
+  return;
+ }
  try{
   const me=await api('/api/auth/me');
   if(!me.user){msg($('#authMessage'),'Please sign in or create an account before requesting a booking.','error');$('#guestAccess').scrollIntoView({behavior:'smooth'});return;}
   const booking=await api('/api/bookings',{method:'POST',body:JSON.stringify({unitId:Number(button.dataset.unit),propertyId:Number(button.dataset.property),...lastSearch})});
   msg($('#authMessage'),'Booking request '+booking.reference+' received. Payment is not collected yet; our team will confirm your request.','success');
   $('#guestAccess').scrollIntoView({behavior:'smooth'});await loadAccount();
- }catch(err){msg($('#searchMessage'),err.message,'error');}
+ }catch(err){
+  const row=button.closest('.unit-row');
+  const name=row&&row.querySelector('strong')?row.querySelector('strong').textContent:'this apartment';
+  offerEmailFallback(name,'master');
+ }
 });
 document.querySelectorAll('[data-auth-tab]').forEach(button=>button.addEventListener('click',()=>{
  document.querySelectorAll('[data-auth-tab]').forEach(b=>b.classList.toggle('active',b===button));
@@ -110,26 +204,32 @@ const params=new URLSearchParams(location.search);if(params.has('city')){$('#cit
 if(params.has('checkin'))$('#checkIn').value=params.get('checkin');if(params.has('checkout'))$('#checkOut').value=params.get('checkout');
 if(params.has('guests')){const g=Math.max(1,Math.min(12,Number(params.get('guests'))||2));$('#guests').value=String(g);}
 loadAccount();
+// Fill a sensible default window (30 days out, 3 nights) when the visitor
+// arrived without dates, so a search always has something to run on.
+function ensureDates(){
+  if($('#checkIn').value&&$('#checkOut').value)return;
+  const d=new Date();d.setDate(d.getDate()+30);
+  const a=new Date(d);a.setDate(a.getDate()+3);
+  const iso=x=>x.toISOString().slice(0,10);
+  if(!$('#checkIn').value)$('#checkIn').value=iso(d);
+  if(!$('#checkOut').value)$('#checkOut').value=iso(a);
+}
 // Arriving from the homepage search widget: run the search straight away.
 if(params.has('checkin')&&params.has('checkout')){search();}
+// Arriving with only a destination (the homepage widget without dates): still
+// search, so the button always produces results.
+else if(params.has('city')){ensureDates();search();}
 // Arriving from a property page's "Check Availability": highlight that apartment.
 if(params.has('unit')){
-  // A property page links here without dates. Fill a sensible default window
-  // (30 days out, 3 nights) so the apartment is actually shown, then search.
-  if(!params.has('checkin')||!params.has('checkout')){
-    const d=new Date();d.setDate(d.getDate()+30);
-    const a=new Date(d);a.setDate(a.getDate()+3);
-    const iso=x=>x.toISOString().slice(0,10);
-    if(!$('#checkIn').value)$('#checkIn').value=iso(d);
-    if(!$('#checkOut').value)$('#checkOut').value=iso(a);
-    search();
-  }
-  const wanted=params.get('unit');
+  if(!params.has('checkin')||!params.has('checkout')){ensureDates();search();}
+  // The deep link carries the apartment name; compare like-for-like slugs.
+  const slugify=v=>String(v||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const wanted=slugify(params.get('unit'));
   const mark=()=>{
     const rows=[...document.querySelectorAll('.unit-row')];
     const hit=rows.find(r=>{
       const n=r.querySelector('strong');
-      return n && n.textContent.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')===wanted;
+      return n && slugify(n.textContent)===wanted;
     });
     if(hit){hit.classList.add('unit-row--highlight');hit.scrollIntoView({behavior:'smooth',block:'center'});}
   };
