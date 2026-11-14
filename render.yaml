@@ -1,10 +1,13 @@
-# Single-origin Stay Master deployment.
-# One Render Node service serves both the static website and /api/* routes.
-# Public site and API therefore share the same hostname and deployment.
+# Single-origin Stayawhile Master deployment.
+# One Render Node web service serves the frontend and backend API together.
+# Render builds from the repository root; backend dependencies and server are
+# managed from ./backend while the root frontend is served by Express.
 services:
   - type: web
     name: stay-master-backend2
     runtime: node
+    branch: main
+    autoDeploy: true
     buildCommand: npm --prefix backend ci
     startCommand: npm --prefix backend start
     plan: starter
@@ -15,7 +18,7 @@ services:
       - key: DATA_DIR
         value: /var/data
       - key: ENQUIRY_TO
-        value: easytravelagency@trustagent.space
+        sync: false
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -30,8 +33,6 @@ services:
         sync: false
       - key: ADMIN_TOKEN
         sync: false
-      # Retained for intentional cross-origin previews; same-origin production
-      # requests do not require CORS configuration.
       - key: ALLOWED_ORIGINS
         sync: false
       - key: MANUAL_BANK_TRANSFER_ENABLED
