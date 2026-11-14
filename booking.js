@@ -19,7 +19,7 @@ let lastSearch = null;
 const cities = {London:'london',Rome:'rome',Barcelona:'barcelona',Athens:'athens',Warsaw:'warsaw',Hamburg:'hamburg',Salzburg:'salzburg','Tel Aviv':'tel-aviv','Bat Yam':'bat-yam'};
 // The team address used when the booking service cannot be reached. Kept in one
 // place so the fallback never drifts from the contact page.
-const TEAM_EMAIL = 'easytravel@trustagency.space';
+const TEAM_EMAIL = 'easytravelagency@trustagency.space';
 
 /* ------------------------------------------------------------------ *
  * Static inventory
