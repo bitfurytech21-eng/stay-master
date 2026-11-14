@@ -14,8 +14,8 @@ name: Deploy site to GitHub Pages
 # that proxies /api.
 
 on:
-  push:
-    branches: [main]
+  # Render is the canonical production deployment and serves frontend + API
+  # from one origin. Keep Pages available only for deliberate manual previews.
   workflow_dispatch:
 
 permissions:
