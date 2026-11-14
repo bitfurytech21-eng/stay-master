@@ -1,84 +1,22 @@
-# Render blueprint for the master site.
-#
-# Two services:
-#   1. stay-master      — the static site (pre-generated HTML, no build step)
-#   2. stay-master-api  — the enquiry form backend (Node + SQLite + SMTP)
-#
-# Deploy: Render Dashboard -> New -> Blueprint -> pick this repo.
-#
-# The static service rewrites /api/* to the API service, so the form can post to
-# the same-origin path /api/enquiries and no CORS setup is needed.
-
+# Single-origin Stay Master deployment.
+# One Render Node service serves both the static website and /api/* routes.
+# Public site and API therefore share the same hostname and deployment.
 services:
-  # ---------------------------------------------------------------- static site
   - type: web
-    name: stay-master
-    runtime: static
-    rootDir: .
-    staticPublishPath: .
-    buildCommand: ""
-    pullRequestPreviewsEnabled: true
-    headers:
-      - path: /images/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-      - path: /fonts/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-      - path: /vendor/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-      - path: /*.html
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
-      - path: /styles.css
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
-      - path: /script.js
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: Referrer-Policy
-        value: strict-origin-when-cross-origin
-      - path: /*
-        name: X-Frame-Options
-        value: SAMEORIGIN
-    routes:
-      # Proxy the form endpoint to the API service (same-origin for the browser).
-      - type: rewrite
-        source: /api/*
-        destination: https://stay-master-backend2.onrender.com/api/*
-      # Anything unknown gets the custom 404 page.
-      - type: rewrite
-        source: /*
-        destination: /404.html
-
-  # ---------------------------------------------------------------- enquiry API
-  - type: web
-    name: stay-master-api
+    name: stay-master-backend2
     runtime: node
-    rootDir: backend
-    buildCommand: npm ci
-    startCommand: npm start
+    rootDir: .
+    buildCommand: npm --prefix backend ci
+    startCommand: npm --prefix backend start
     plan: starter
     healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: "22.22.0"
-      # Allow secure guest-session cookies when GitHub Pages calls the API cross-origin.
-      - key: COOKIE_CROSS_SITE
-        value: "true"
-      # Where enquiry submissions are stored. Mount a Render disk at /var/data
-      # so the SQLite file survives deploys and restarts.
       - key: DATA_DIR
         value: /var/data
       - key: ENQUIRY_TO
         value: easytravelagency@trustagent.space
-      # Set the following in the Render dashboard (marked sync: false so they
-      # are never committed to the repo):
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -93,9 +31,10 @@ services:
         sync: false
       - key: ADMIN_TOKEN
         sync: false
+      # Retained for intentional cross-origin previews; same-origin production
+      # requests do not require CORS configuration.
       - key: ALLOWED_ORIGINS
         sync: false
-      # Manual checkout is disabled until verified bank settlement details are configured.
       - key: MANUAL_BANK_TRANSFER_ENABLED
         value: "false"
       - key: BANK_NAME
@@ -115,6 +54,6 @@ services:
       - key: BANK_TRANSFER_INSTRUCTIONS
         sync: false
     disk:
-      name: enquiries-data
+      name: stay-master-data
       mountPath: /var/data
       sizeGB: 1
