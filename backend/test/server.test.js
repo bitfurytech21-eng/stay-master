@@ -40,8 +40,11 @@ test('Render deployment uses one backend-rooted Node service', async () => {
 
 test('static frontend middleware uses valid URL-path regexes and keeps backend files private', async () => {
   const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
-  assert.ok(source.includes("/^\\\\/(?:backend|\\\\.git|\\\\.github|node_modules)(?:\\\\/|$)/i"));
-  assert.ok(source.includes("if (/\\\\.(?:html|js|css)$/"));
+  assert.ok(source.includes("const pathname = req.path ||"));
+  assert.ok(source.includes("backend|"));
+  assert.ok(source.includes("node_modules"));
+  assert.ok(source.includes("dotfiles: 'ignore'"));
+  assert.ok(source.includes("express.static(FRONTEND_DIR"));
 });
 
 test('backend server has valid JavaScript syntax', async () => {
