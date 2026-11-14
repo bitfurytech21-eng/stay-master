@@ -52,10 +52,9 @@ jobs:
           python - <<'PY'
           import os, pathlib, re
 
-          base = (os.environ.get("API_BASE") or "").strip().rstrip("/")
+          base = (os.environ.get("API_BASE") or "https://stay-master-api.onrender.com").strip().rstrip("/")
           if not base:
-              print("STAY_MASTER_API_BASE is not set - keeping same-origin /api paths.")
-              raise SystemExit(0)
+              raise SystemExit("STAY_MASTER_API_BASE must be a valid backend origin.")
 
           tag = '<meta name="stay-master-api" content="%s">' % base
           # A self-contained resolver, inlined so it works even on pages that do
