@@ -314,19 +314,21 @@ mountBookingRoutes(app, db, { notifyBookingRequest });
 
 
 /* ---------------------------------------------------------------- translation proxy
- * Google Cloud Translation credentials remain server-side. The browser only
- * sends short batches of visible text to this same-origin endpoint.
+ * Requests are forwarded to the private, self-hosted LibreTranslate service.
+ * No third-party API key is required; the translator host is configured by
+ * Render's private service networking.
  */
 const translationHits = new Map();
 const translationCache = new Map();
 const TRANSLATION_LIMIT = 30;
 const TRANSLATION_WINDOW_MS = 60 * 1000;
 const SUPPORTED_TRANSLATION_LANGUAGES = new Set([
-  'ar','bg','bn','ca','cs','da','de','el','en','es','et','fa','fi','fr','gu','he',
-  'hi','hr','hu','id','it','ja','kn','ko','lt','lv','ml','mr','ms','nl','no','pa',
-  'pl','pt','ro','ru','sk','sl','sr','sv','sw','ta','te','th','tr','uk','ur','vi',
-  'zh-CN','zh-TW'
+  'ar','zh-CN','zh-TW','fr','de','es','it','pt','ru','ja','ko','hi',
+  'nl','tr','pl','el','sv','da','no','fi','he','id','th','vi','uk','ur','sw'
 ]);
+const LIBRE_LANGUAGE_CODES = { 'zh-CN': 'zh', 'zh-TW': 'zt', no: 'nb' };
+const LIBRETRANSLATE_URL = String(process.env.LIBRETRANSLATE_URL || '').replace(/\/+$/, '');
+const LIBRETRANSLATE_HOST = String(process.env.LIBRETRANSLATE_HOST || 'stay-master-translator').trim();
 
 app.post('/api/translate', async (req, res) => {
   const ip = req.ip || req.socket.remoteAddress || 'unknown';
@@ -341,15 +343,12 @@ app.post('/api/translate', async (req, res) => {
   const target = String(req.body?.target || '');
   const texts = req.body?.texts;
   if (!SUPPORTED_TRANSLATION_LANGUAGES.has(target) || !Array.isArray(texts) ||
-      texts.length < 1 || texts.length > 50 ||
+      texts.length < 1 || texts.length > 40 ||
       texts.some((value) => typeof value !== 'string' || !value.trim() || value.length > 1000)) {
-    return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1\u201350 text items (maximum 1,000 characters each).' });
-  }
-  const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
-  if (!apiKey) {
-    return res.status(503).json({ ok: false, error: 'Live translation is not configured yet.' });
+    return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1–40 text items (maximum 1,000 characters each).' });
   }
 
+  const baseUrl = LIBRETRANSLATE_URL || `http://${LIBRETRANSLATE_HOST}:5000`;
   try {
     const translations = new Array(texts.length);
     const missing = [];
@@ -358,24 +357,38 @@ app.post('/api/translate', async (req, res) => {
       if (translationCache.has(key)) translations[index] = translationCache.get(key);
       else missing.push({ index, value, key });
     });
+
     if (missing.length) {
-      const response = await fetch('https://translation.googleapis.com/language/translate/v2?key=' + encodeURIComponent(apiKey), {
+      const form = new URLSearchParams();
+      form.append('source', 'auto');
+      form.append('target', LIBRE_LANGUAGE_CODES[target] || target);
+      form.append('format', 'text');
+      // LibreTranslate accepts q as a repeated form field for batch requests.
+      missing.forEach((item) => form.append('q', item.value));
+
+      const response = await fetch(baseUrl + '/translate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ q: missing.map((item) => item.value), target, format: 'text' }),
-        signal: AbortSignal.timeout(12000),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: form,
+        signal: AbortSignal.timeout(45000),
       });
+      const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        console.error('Google Translation API returned', response.status);
-        return res.status(502).json({ ok: false, error: 'The translation service is temporarily unavailable.' });
+        console.error('Self-hosted translation service returned', response.status, payload.error || '');
+        return res.status(response.status === 429 ? 429 : 502).json({
+          ok: false,
+          error: response.status === 400
+            ? 'This language pair is not currently available on the translation server.'
+            : 'The self-hosted translation service is temporarily unavailable.',
+        });
       }
-      const payload = await response.json();
-      const results = payload?.data?.translations;
+
+      const results = payload?.translatedText;
       if (!Array.isArray(results) || results.length !== missing.length) {
         return res.status(502).json({ ok: false, error: 'The translation service returned an incomplete response.' });
       }
-      results.forEach((item, index) => {
-        const translated = String(item.translatedText || '');
+      results.forEach((value, index) => {
+        const translated = String(value || '');
         const entry = missing[index];
         translations[entry.index] = translated;
         translationCache.set(entry.key, translated);
@@ -384,8 +397,11 @@ app.post('/api/translate', async (req, res) => {
     }
     return res.json({ ok: true, translations });
   } catch (error) {
-    console.error('Translation request failed:', error.message);
-    return res.status(502).json({ ok: false, error: 'Translation could not be completed. Please try again.' });
+    console.error('Self-hosted translation request failed:', error.message);
+    return res.status(503).json({
+      ok: false,
+      error: 'The translation server is starting or temporarily unavailable. Please try again shortly.',
+    });
   }
 });
 
