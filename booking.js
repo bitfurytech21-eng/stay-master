@@ -19,7 +19,7 @@ let lastSearch = null;
 const cities = {London:'london',Rome:'rome',Barcelona:'barcelona',Athens:'athens',Warsaw:'warsaw',Hamburg:'hamburg',Salzburg:'salzburg','Tel Aviv':'tel-aviv','Bat Yam':'bat-yam'};
 // The team address used when the booking service cannot be reached. Kept in one
 // place so the fallback never drifts from the contact page.
-const TEAM_EMAIL = 'easytravelagency@trustagent.space';
+const TEAM_EMAIL = 'easytravel@trustagency.space';
 
 /* ------------------------------------------------------------------ *
  * Static inventory
@@ -131,7 +131,7 @@ $('#searchForm').addEventListener('submit',search);
 // If the backend is unreachable, do not imply a booking was submitted.
 function offerEmailFallback(unitName,propertyName){
  const subject='Booking request: '+unitName+' at '+propertyName;
- const body=['Hello master team,','','I would like to request this apartment:','',
+ const body=['Hello Stayawhile Master payment team,','','I would like to request this apartment:','',
   'Apartment: '+unitName,'Property: '+propertyName,
   lastSearch?('Check in: '+lastSearch.checkIn):'',
   lastSearch?('Check out: '+lastSearch.checkOut):'',
@@ -157,7 +157,7 @@ results.addEventListener('click',async e=>{
   const booking=await api('/api/bookings',{method:'POST',body:JSON.stringify({unitId:Number(button.dataset.unit),propertyId:Number(button.dataset.property),...lastSearch})});
   msg($('#authMessage'),booking.rateOnRequest
    ? 'Booking request '+booking.reference+' received. This apartment is priced on request; our team will send you a quote.'
-   : 'Booking '+booking.reference+' created. Review the payment instructions below to complete manual checkout.','success');
+   : 'Booking '+booking.reference+' created. Payment is pending; request your payment details by email below.','success');
   $('#guestAccess').scrollIntoView({behavior:'smooth'});
   await loadAccount();
   if(!booking.rateOnRequest && Number.isSafeInteger(booking.totalMinor) && booking.totalMinor>0){
@@ -182,15 +182,44 @@ async function authSubmit(form,endpoint){
 $('#loginForm').addEventListener('submit',e=>{e.preventDefault();authSubmit(e.currentTarget,'/api/auth/login');});
 $('#registerForm').addEventListener('submit',e=>{e.preventDefault();authSubmit(e.currentTarget,'/api/auth/register');});
 async function openManualCheckout(reference,amountMinor,currency){
- const panel=$('#manualCheckout');panel.hidden=false;panel.innerHTML='<h3>Manual bank transfer checkout</h3><p>Loading payment instructions\u2026</p>';panel.scrollIntoView({behavior:'smooth',block:'center'});
+ const panel=$('#manualCheckout');
+ panel.hidden=false;
+ panel.innerHTML='<h3>Payment pending</h3><p>Preparing your payment request…</p>';
+ panel.scrollIntoView({behavior:'smooth',block:'center'});
  try{
-  const methods=await api('/api/payments/methods');
-  if(!methods.methods.length){panel.innerHTML='<h3>Manual checkout unavailable</h3><p>'+escapeHtml(methods.message)+'</p><p>Contact our reservations team for payment instructions.</p>';return;}
-  const method=methods.methods[0];
-  if(method.currency!==currency){panel.innerHTML='<h3>Payment currency unavailable</h3><p>The configured bank account accepts '+escapeHtml(method.currency)+' but this booking is priced in '+escapeHtml(currency)+'. Please contact our reservations team for payment instructions. Do not transfer funds to this account for this booking.</p>';return;}
-  panel.innerHTML='<h3>Manual bank transfer</h3><p>Booking reference: <strong>'+escapeHtml(reference)+'</strong></p><p>Amount due: <strong>'+((amountMinor/100).toFixed(2))+' '+escapeHtml(currency)+'</strong></p><p>Transfer to the account below. Use your booking reference as the transfer description.</p><dl class="payment-details"><dt>Bank</dt><dd>'+escapeHtml(method.bankName)+'</dd><dt>Account name</dt><dd>'+escapeHtml(method.accountName)+'</dd><dt>Account number</dt><dd>'+escapeHtml(method.accountNumber)+'</dd>'+(method.sortCode?'<dt>Sort code</dt><dd>'+escapeHtml(method.sortCode)+'</dd>':'')+(method.iban?'<dt>IBAN</dt><dd>'+escapeHtml(method.iban)+'</dd>':'')+(method.swift?'<dt>SWIFT/BIC</dt><dd>'+escapeHtml(method.swift)+'</dd>':'')+'<dt>Instructions</dt><dd>'+escapeHtml(method.instructions)+'</dd></dl><form id="manualPaymentForm" class="auth-form"><label>Account holder / payer name<input name="payerName" required minlength="2" maxlength="120"></label><label>Transfer transaction reference<input name="transactionReference" required minlength="4" maxlength="120"></label><label>Transfer date<input name="transferDate" type="date" required></label><label>Additional notes (optional)<textarea name="notes" maxlength="500" rows="3"></textarea></label><button class="booking-primary" type="submit">Submit payment for verification</button></form><div id="paymentMessage" class="booking-message" role="status"></div><p class="payment-caution">Submitting details does not confirm payment. Keep your bank receipt. The team will verify the funds before updating your booking.</p>';
-  $('#manualPaymentForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.currentTarget.querySelector('button');button.disabled=true;try{const values=Object.fromEntries(new FormData(e.currentTarget).entries());const result=await api('/api/bookings/'+encodeURIComponent(reference)+'/payments',{method:'POST',body:JSON.stringify({...values,amountMinor})});msg($('#paymentMessage'),result.message,'success');await loadAccount();}catch(error){msg($('#paymentMessage'),error.message,'error');}finally{button.disabled=false;}});
- }catch(error){panel.textContent=error.message;}
+  const me=await api('/api/auth/me');
+  if(!me.user){
+   panel.innerHTML='<h3>Payment pending</h3><p>Please sign in to request payment details for booking <strong>'+escapeHtml(reference)+'</strong>.</p>';
+   return;
+  }
+  const amount=(Number(amountMinor)/100).toFixed(2)+' '+String(currency||'').toUpperCase();
+  const subject='Payment details request — Stayawhile Master booking '+reference;
+  const body=[
+   'Hello Stayawhile Master payment team,',
+   '',
+   'Please send me the bank account details and transfer instructions for this booking.',
+   '',
+   'Booking reference: '+reference,
+   'Customer name: '+me.user.name,
+   'Customer email: '+me.user.email,
+   'Amount due: '+amount,
+   '',
+   'Please confirm the correct payment instructions for this booking. I understand that payment will remain pending until your team verifies receipt.',
+   '',
+   'Thank you,',
+   me.user.name
+  ].join('\\n');
+  const href='mailto:'+TEAM_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  panel.innerHTML='<h3>Payment pending</h3>'
+   +'<p>Booking reference: <strong>'+escapeHtml(reference)+'</strong></p>'
+   +'<p>Customer: <strong>'+escapeHtml(me.user.name)+'</strong> · '+escapeHtml(me.user.email)+'</p>'
+   +'<p>Amount due: <strong>'+escapeHtml(amount)+'</strong></p>'
+   +'<p>Your booking is recorded, but it is not yet paid or confirmed. Click below to email our payment team. They will reply privately with the appropriate bank account number and transfer instructions.</p>'
+   +'<p><a class="booking-primary payment-email-link" href="'+escapeHtml(href)+'">Request Payment Details by Email</a></p>'
+   +'<p class="payment-caution">Payment status remains pending until our team verifies receipt. Do not send funds to account details from an earlier booking or another source.</p>';
+ }catch(error){
+  panel.innerHTML='<h3>Payment pending</h3><p>We could not prepare your email request. Please sign in again and retry. Your booking reference is <strong>'+escapeHtml(reference)+'</strong> and the amount due is <strong>'+escapeHtml((Number(amountMinor)/100).toFixed(2)+' '+currency)+'</strong>.</p>';
+ }
 }
 $('#bookingHistory').addEventListener('click',e=>{const button=e.target.closest('[data-pay-booking]');if(button)openManualCheckout(button.dataset.payBooking,Number(button.dataset.amount),button.dataset.currency);});
 
@@ -205,7 +234,7 @@ async function loadAccount(){
    const priced=b.total_minor>0;
    const total=priced?((b.total_minor/100).toFixed(2)+' '+escapeHtml(b.currency)):'Rate on request';
    const payButton=(priced&&b.payment_status!=='paid'&&b.status!=='cancelled')?'<br><button type="button" class="booking-secondary" data-pay-booking="'+escapeHtml(b.reference)+'" data-amount="'+b.total_minor+'" data-currency="'+escapeHtml(b.currency)+'">Manual checkout \u00b7 '+total+'</button>':'';
-   return '<div class="history-row"><strong>'+escapeHtml(b.reference)+' \u00b7 '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' \u00b7 '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' \u00b7 '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+' / submission '+escapeHtml(b.latest_payment_submission||'none')+(b.latest_payment_submission==='submitted'?'<br><span>Payment submission awaiting review</span>':payButton)+'<br><span>'+total+'</span></div>';
+   return '<div class="history-row"><strong>'+escapeHtml(b.reference)+' \u00b7 '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' \u00b7 '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' \u00b7 '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+' / submission '+escapeHtml(b.latest_payment_submission||'none')+(b.payment_status==='pending'?'<br><span>Payment pending · awaiting team verification</span>':payButton)+'<br><span>'+total+'</span></div>';
   }).join(''):'<p>You have no booking requests yet.</p>';
  }catch(e){/* signed-out state is shown by default */}
 }
