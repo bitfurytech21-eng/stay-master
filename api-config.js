@@ -15,7 +15,7 @@
 (function () {
   'use strict';
 
-  var base = '';
+  var base = 'https://stay-master-api.onrender.com';
   if (typeof window.STAY_MASTER_API_BASE === 'string') {
     base = window.STAY_MASTER_API_BASE;
   } else {
