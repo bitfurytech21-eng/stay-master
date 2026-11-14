@@ -28,14 +28,15 @@ test('all application JavaScript files pass the Node parser', async () => {
   }
 });
 
-test('Render deployment uses one backend-rooted Node service', async () => {
+test('Render deployment uses one repository-root Node service for frontend and backend', async () => {
   const yaml = await readFile(path.resolve(here, '../../render.yaml'), 'utf8');
-  assert.match(yaml, /^\s+rootDir: backend$/m);
-  assert.match(yaml, /^\s+buildCommand: npm ci$/m);
-  assert.match(yaml, /^\s+startCommand: npm start$/m);
+  assert.doesNotMatch(yaml, /^\s+rootDir:/m, 'service must use repository root so frontend files remain available');
+  assert.match(yaml, /^\s+buildCommand: npm --prefix backend ci$/m);
+  assert.match(yaml, /^\s+startCommand: npm --prefix backend start$/m);
   assert.match(yaml, /^\s+healthCheckPath: \/api\/health$/m);
-  assert.doesNotMatch(yaml, /^\s+rootDir: \.$/m);
-  assert.doesNotMatch(yaml, /npm --prefix backend/);
+  assert.match(yaml, /^\s+name: stay-master-backend2$/m);
+  const server = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
+  assert.ok(server.includes("fs.existsSync(path.join(process.cwd(), 'index.html')) ? '.' : '..'"), 'server must resolve frontend from repository root or backend working directory');
 });
 
 test('static frontend middleware uses valid URL-path regexes and keeps backend files private', async () => {
