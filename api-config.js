@@ -6,16 +6,16 @@
  *
  * When the HTML is served by a host that does NOT proxy /api (GitHub Pages, a
  * CDN, a preview URL), set the API origin in ONE place, either:
- *   <meta name="stay-master-api" content="https://stay-master-api.onrender.com">
+ *   <meta name="stay-master-api" content="https://stay-master-backend2.onrender.com">
  * or, before this file loads:
- *   <script>window.STAY_MASTER_API_BASE = 'https://stay-master-api.onrender.com';</script>
+ *   <script>window.STAY_MASTER_API_BASE = 'https://stay-master-backend2.onrender.com';</script>
  *
  * Nothing else in the codebase hard-codes a host.
  */
 (function () {
   'use strict';
 
-  var base = 'https://stay-master-api.onrender.com';
+  var base = 'https://stay-master-backend2.onrender.com';
   if (typeof window.STAY_MASTER_API_BASE === 'string') {
     base = window.STAY_MASTER_API_BASE;
   } else {
