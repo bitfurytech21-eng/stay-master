@@ -54,12 +54,13 @@ test('admin booking frontend has valid JavaScript syntax', async () => {
   assert.ok(source.length > 0);
 });
 
-test('translation API proxies to self-hosted LibreTranslate without a third-party key', async () => {
+test('translation API uses free MyMemory translation without a paid service or API key', async () => {
   const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
   assert.ok(source.includes('SUPPORTED_TRANSLATION_LANGUAGES'));
-  assert.ok(source.includes('LIBRETRANSLATE_HOST'));
-  assert.ok(source.includes("baseUrl + '/translate'"));
-  assert.ok(source.includes("form.append('source', 'auto')"));
+  assert.ok(source.includes('api.mymemory.translated.net/get'));
+  assert.ok(source.includes("langpair: 'autodetect|' + target"));
+  assert.ok(source.includes('translationCache'));
+  assert.ok(!source.includes('LIBRETRANSLATE_HOST'));
   assert.ok(!source.includes('GOOGLE_TRANSLATE_API_KEY'));
 });
 
