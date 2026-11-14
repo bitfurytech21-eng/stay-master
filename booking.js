@@ -208,7 +208,7 @@ async function openManualCheckout(reference,amountMinor,currency){
    '',
    'Thank you,',
    me.user.name
-  ].join('\\n');
+  ].join('\n');
   const href='mailto:'+TEAM_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   panel.innerHTML='<h3>Payment pending</h3>'
    +'<p>Booking reference: <strong>'+escapeHtml(reference)+'</strong></p>'
@@ -233,7 +233,7 @@ async function loadAccount(){
    // pay yet, so never offer a checkout button for it.
    const priced=b.total_minor>0;
    const total=priced?((b.total_minor/100).toFixed(2)+' '+escapeHtml(b.currency)):'Rate on request';
-   const payButton=(priced&&b.payment_status!=='paid'&&b.status!=='cancelled')?'<br><button type="button" class="booking-secondary" data-pay-booking="'+escapeHtml(b.reference)+'" data-amount="'+b.total_minor+'" data-currency="'+escapeHtml(b.currency)+'">Manual checkout \u00b7 '+total+'</button>':'';
+   const payButton=(priced&&b.payment_status!=='paid'&&b.status!=='cancelled')?'<br><button type="button" class="booking-secondary" data-pay-booking="'+escapeHtml(b.reference)+'" data-amount="'+b.total_minor+'" data-currency="'+escapeHtml(b.currency)+'">Request payment details \u00b7 '+total+'</button>':'';
    return '<div class="history-row"><strong>'+escapeHtml(b.reference)+' \u00b7 '+escapeHtml(b.property_name)+'</strong>'+escapeHtml(b.unit_name)+' \u00b7 '+escapeHtml(b.city)+'<br>'+escapeHtml(b.check_in)+' to '+escapeHtml(b.check_out)+' \u00b7 '+b.nights+' nights<br>'+escapeHtml(b.status)+' / payment '+escapeHtml(b.payment_status)+' / submission '+escapeHtml(b.latest_payment_submission||'none')+(b.payment_status==='pending'?'<br><span>Payment pending · awaiting team verification</span>':'')+payButton+'<br><span>'+total+'</span></div>';
   }).join(''):'<p>You have no booking requests yet.</p>';
  }catch(e){/* signed-out state is shown by default */}
