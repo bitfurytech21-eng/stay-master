@@ -69,17 +69,38 @@ function propertyCard(p){
 }
 
 // Render the units of one property from the static inventory, filtered by the
-// number of guests. Rates are not published, so every unit is "on request".
+// number of guests. A unit with a published rate shows its nightly price and
+// stay total; a unit with no rate stays "Rate on request".
 function staticUnitsHtml(p,guests){
  const units=(p.units||[]).filter(u=>u.maxGuests>=guests);
  if(!units.length){
   return '<small>No apartment at this property sleeps '+escapeHtml(guests)+'. Please contact our team for options.</small>';
  }
+ const nights=lastSearch?nightsBetween(lastSearch.checkIn,lastSearch.checkOut):0;
  return units.map(u=>{
   const detail=[u.guestsLabel?escapeHtml(u.guestsLabel)+' guests':'',u.bedrooms?u.bedrooms+' bed':'',u.sqm?u.sqm+' m\u00b2':''].filter(Boolean).join(' \u00b7 ');
-  return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+detail+'<br><strong>Rate on request</strong> <small>our team will send you a quote</small></span>'
+  const minor=Number(u.nightlyRateMinor||0);
+  let price;
+  if(minor>0){
+   const cur=escapeHtml(u.currency||'EUR');
+   price='<strong>'+(minor/100).toFixed(2)+' '+cur+' / night</strong>';
+   if(nights>0){
+    price+='<br><strong>Stay total: '+((minor*nights)/100).toFixed(2)+' '+cur+'</strong> <small>for '+nights+' night'+(nights===1?'':'s')+', before any separately disclosed fees</small>';
+   }else{
+    price+=' <small>choose dates for a stay total</small>';
+   }
+  }else{
+   price='<strong>Rate on request</strong> <small>our team will send you a quote</small>';
+  }
+  return '<div class="unit-row"><span><strong>'+escapeHtml(u.name)+'</strong>'+detail+'<br>'+price+'</span>'
    +'<button type="button" data-unit-slug="'+escapeHtml(u.slug)+'" data-property-slug="'+escapeHtml(p.slug)+'" data-unit-name="'+escapeHtml(u.name)+'" data-property-name="'+escapeHtml(p.name)+'">Request booking</button></div>';
  }).join('');
+}
+
+function nightsBetween(a,b){
+ if(!a||!b)return 0;
+ const n=Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/86400000);
+ return n>0?n:0;
 }
 
 async function search(event){
@@ -116,7 +137,7 @@ async function search(event){
    }
   }));
   msg($('#searchMessage'),source==='static'
-   ? 'Showing our published apartments. Rates are on request and every booking is confirmed by our team.'
+   ? 'Showing our published apartments and nightly rates. Every booking is confirmed by our team.'
    : 'Availability is based on inventory entered by the property team. Requests remain pending until confirmed.','');
  }catch(e){msg($('#searchMessage'),e.message,'error');}
  finally{button.disabled=false;button.textContent='Search stays';}
