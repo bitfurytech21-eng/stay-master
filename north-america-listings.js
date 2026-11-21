@@ -16,7 +16,7 @@ function render(items,city){
   var photos=(p.photos||[]).map(function(ph,i){return '<div class="na-photo-item"><img loading="lazy" decoding="async" src="'+localImage+'" alt="'+esc(p.name+" photo "+(i+1))+'"></div>';}).join("");
   var amenities=(p.amenities||[]).filter(Boolean).map(function(a){return "<li>"+esc(a)+"</li>";}).join("");
   var details=(p.description||"").trim();
-  var gallery=photos?'<div class="na-photo-grid">'+photos+'</div>':"";
+  var gallery="";
   var detailsBlock=(details||amenities||gallery)?'<details class="na-details"><summary>Property details &amp; photo gallery ('+(p.photos||[]).length+' photos)</summary><div class="na-detail-content">'+(details?'<p class="na-description">'+esc(details)+'</p>':"")+(amenities?'<ul class="na-amenities">'+amenities+'</ul>':"")+gallery+'<p class="na-source-note">Property information is displayed for reference. Stay Master management and live availability have not been verified.</p></div></details>':"";
   return '<article class="apt-card"><div class="apt-card-media"><img loading="lazy" decoding="async" src="'+localImage+'" alt="'+esc(p.name)+' property image placeholder"></div><div class="apt-card-body"><p class="na-card-kicker">'+esc(p.city)+' · '+esc(p.country)+' · '+esc(p.property_type||"Property")+'</p><h3>'+esc(p.name)+'</h3><ul class="apt-specs">'+facts+'</ul>'+(p.area?'<p class="na-area">'+esc(p.area)+'</p>':"")+detailsBlock+'<div class="na-actions"><a class="btn-outline" href="contact-us.html?property='+encodeURIComponent(p.name)+'">Enquire with Stay Master</a></div></div></article>';
  }).join("");
@@ -27,7 +27,7 @@ fetch("data/north-america-property-directory.json").then(function(r){if(!r.ok)th
  cities.forEach(function(city){var o=document.createElement("option");o.value=city;o.textContent=city;filter.appendChild(o);});
  document.getElementById("naPropertyCount").textContent=items.length;
  document.getElementById("naCityCount").textContent=cities.length;
- document.getElementById("naPhotoCount").textContent=items.reduce(function(n,p){return n+(p.photos||[]).length;},0).toLocaleString();
+ document.getElementById("naPhotoCount").textContent="0";
  filter.addEventListener("change",function(){render(items,filter.value);});
  render(items,"all");
 }).catch(function(){grid.innerHTML='<p class="na-loading">Property listings could not be loaded. Please refresh the page or try again later.</p>';});
