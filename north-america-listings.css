@@ -19,3 +19,11 @@
 .apt-card-body h3 a{color:inherit}
 .apt-card-body h3 a:hover{text-decoration:underline;text-underline-offset:4px}
 @media(max-width:600px){.na-filterbar{align-items:stretch;flex-direction:column}.na-filterbar label{min-width:0}.na-photo-grid{grid-template-columns:1fr 1fr}}
+
+/* Property photos are displayed as images, never as outbound links. */
+.na-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0}
+.na-photo-grid figure{min-width:0;margin:0}
+.na-photo-grid img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--dark-crem)}
+.na-photo-grid figcaption{padding-top:5px;color:var(--bright-grey);font-size:.62rem;line-height:1.45}
+.apt-card-media img{display:block;width:100%;height:100%;object-fit:cover}
+@media(min-width:900px){.na-photo-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
