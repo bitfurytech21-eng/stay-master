@@ -2,7 +2,7 @@
 "use strict";
 var placeholder="/assets/property-placeholder.svg";
 function external(url){
- if(!url||/^(?:#|\/|data:|blob:|mailto:|tel:|javascript:)/i.test(url))return false;
+ if(!url||/^(?:#|\/(?!\/)|data:|blob:|mailto:|tel:|javascript:)/i.test(url))return false;
  try{return new URL(url,location.href).origin!==location.origin;}catch(e){return false;}
 }
 function clean(root){
