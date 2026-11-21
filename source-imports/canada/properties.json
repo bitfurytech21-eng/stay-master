@@ -1,0 +1,589 @@
+{
+  "archive_title": "Stay Master Canada Property Source Reference",
+  "created_at": "2026-11-21",
+  "scope": "One representative public listing in each of the 15 Canadian destination markets already represented in Stay Master's Canada directory.",
+  "source_provider": "Vrbo",
+  "source_note": "Third-party source material for internal reference only. No ownership, management, partnership, booking integration or availability is implied.",
+  "search_snapshot_dates": {
+    "check_in": "2026-12-15",
+    "check_out": "2026-12-18",
+    "adults": 2
+  },
+  "city_market_count": 15,
+  "property_record_count": 15,
+  "records": [
+    {
+      "market_city": "Montreal",
+      "market_country": "Canada",
+      "name": "Heritage MTL 🔑 Huge 6Bedroom Waterfront Palace, Free Parking, Airport",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/9635196ha",
+      "source_property_id": "73402176",
+      "source_listing_id": "9635196ha",
+      "neighborhood_or_area": "Within Lachine",
+      "property_type_and_bedrooms": "Villa · 6 bedrooms · 7 beds",
+      "guest_capacity": "Sleeps 15",
+      "guest_rating": {
+        "score": "0",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$276",
+        "displayed_total": "$828 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://mediaim.expedia.com/lodging/74000000/73410000/73402200/73402176/268d518e.jpg",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/74000000/73410000/73402200/73402176/beacb7f8.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/74000000/73410000/73402200/73402176/fce92c83.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/74000000/73410000/73402200/73402176/ea44fb3e.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/74000000/73410000/73402200/73402176/62d24ba2.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/74000000/73410000/73402200/73402176/67ebc2b2.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Heritage MTL 🔑 Huge 6Bedroom Waterfront Palace, Free Parking, Airport\n\nWelcome to a paradisal centurial palace that impressively overlooks the historic Lachine canal’s waterfront next to a mid-century museum.\n\nThe residence features inimitable construction that’ll leave you taken back in time to colonial French architecture blended with touches of modern design.\n\nEnjoy breathtaking views, stroll to fine-dining restaurants and grocery stores, jaunt toward the bike path, water sports, and ice rinks, all this from a furnished centennial palace you won't want to depart.\n\nAIRPORT PICKUP AVAILABLE!\n\nThis listing is authorized by CITQ #311870\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Balcony\n\n- Electric vehicle charging point\n\n- Pet-friendly\n\n- Air conditioning\n\n- Refrigerator\n\n- Internet\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Laval",
+      "market_country": "Canada",
+      "name": "Eurostars Old Montreal Suites & Apartments",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/pdp/lo/100325443",
+      "source_property_id": "100325443",
+      "source_listing_id": null,
+      "neighborhood_or_area": "Old Montreal, 11.8 mi from Laval",
+      "property_type_and_bedrooms": "Aparthotel · 1 bedroom · 1 Queen Bed",
+      "guest_capacity": "Aparthotel · 1 bedroom · 1 Queen Bed",
+      "guest_rating": {
+        "score": "9.6",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$149",
+        "displayed_total": "$448 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/1b34f597.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/090ca3b9.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/cebeaddb.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/1b34f597.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/bd20aab8.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/w1992h1333x8y0-63a68252.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Eurostars Old Montreal Suites & Apartments\n\nA fitness center, a sauna, and concierge services are available at this smoke-free aparthotel. WiFi in public areas is free. Other amenities include a 24-hour front desk. Each apartment provides a kitchen with a refrigerator, an oven, a stovetop, and a dishwasher. For a bit of entertainment, guests will find a flat-screen TV with digital channels, and other amenities include a coffee/tea maker and an electric kettle.\n\nEurostars Old Montreal Suites & Apartments offers 168 air-conditioned accommodations with coffee/tea makers and designer toiletries. Each accommodation is individually furnished and decorated. Accommodations at this 3.5-star aparthotel have kitchens with full-sized refrigerators/freezers, stovetops, cookware/dishes/utensils, and dishwashers.\n\nBathrooms include complimentary toiletries and hair dryers. 43-inch flat-screen televisions come with digital channels. Housekeeping is provided daily.\n\nRecreational amenities at the aparthotel include a sauna and a fitness center.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Sauna in spa\n\n- On-site fitness center\n\n- Free cribs/infant beds\n\n- Housekeeping\n\n- Free WiFi in public areas\n\n- Air conditioning\n\n\nSee all\n\nThe current price is $105\n\n$105\n\nfor 1 night\n\nAll fees included\n\nFeb 7 - Feb 8, 2027",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Quebec City",
+      "market_country": "Canada",
+      "name": "Les Lofts St-Joseph - By Les Lofts Vieux-Quebec",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/pdp/lo/9563771",
+      "source_property_id": "9563771",
+      "source_listing_id": null,
+      "neighborhood_or_area": "8 min drive to the beach",
+      "property_type_and_bedrooms": "Condo · 1 bedroom · 1 Queen Bed",
+      "guest_capacity": "Condo · 1 bedroom · 1 Queen Bed",
+      "guest_rating": {
+        "score": "9.4",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$95",
+        "displayed_total": "$286 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/10000000/9570000/9563800/9563771/3d7ec7ac.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/10000000/9570000/9563800/9563771/380170c8.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/10000000/9570000/9563800/9563771/3d7ec7ac.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/10000000/9570000/9563800/9563771/d14135ab.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/10000000/9570000/9563800/9563771/d06e1a64.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/10000000/9570000/9563800/9563771/ceda4ba3.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Les Lofts St-Joseph - By Les Lofts Vieux-Quebec\n\nA rooftop terrace, express check-in, and express check-out are available at this smoke-free condo building. WiFi in public areas is free. Other amenities include multilingual staff assistance and a reception hall. Each condo provides a kitchen with a refrigerator, an oven, a stovetop, and a microwave. For a bit of entertainment, a flat-screen TV comes with cable channels, and guests can also appreciate conveniences like a washer/dryer and a dishwasher.\n\nLes Lofts St-Joseph - By Les Lofts Vieux-Quebec offers 18 air-conditioned accommodations with washers/dryers and hair dryers. Accommodations are furnished with dining tables and kitchen islands. Accommodations at this 4-star condo have kitchens with full-sized refrigerators/freezers, stovetops, microwaves, and cookware/dishes/utensils. Bathrooms include bathtubs or showers and complimentary toiletries.\n\nThis Québec City condo provides complimentary wireless Internet access. 40-inch flat-screen televisions come with cable channels.\n\nOur prices include all fees. No hidden fees.\n\n### Awards and affiliations\n\nSustainability Certifications\n\nThis property is certified by this third-party sustainability certification scheme: Biosphere. For more information on what this certification requires and verifies, please visit their website.\n\nSee more about this property",
+      "advertised_amenities_excerpt": "- Rooftop terrace\n\n- Air conditioning\n\n- Free WiFi in public areas\n\n- Kitchen\n\n- Washer and dryer\n\n- Refrigerator\n\n\nSee all\n\nThe current price is $77\n\n$77\n\nfor 1 night\n\nAll fees included\n\nNov 29 - Nov 30",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Toronto",
+      "market_country": "Canada",
+      "name": "Great View Downtown Toronto",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/20313341ha",
+      "source_property_id": "134649933",
+      "source_listing_id": "20313341ha",
+      "neighborhood_or_area": "11 min walk to the beach",
+      "property_type_and_bedrooms": "Apartment · 2 bedrooms · 2 beds",
+      "guest_capacity": "Sleeps 6•2 bedrooms•2 beds",
+      "guest_rating": {
+        "score": "8.4",
+        "label": "Very good"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$156",
+        "displayed_total": "$468 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/135000000/134650000/134650000/134649933/50d5bbbd.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/135000000/134650000/134650000/134649933/fac218db.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/135000000/134650000/134650000/134649933/d4c76bae.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/135000000/134650000/134650000/134649933/eebac53d.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/135000000/134650000/134650000/134649933/e8500a7c.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/135000000/134650000/134650000/134649933/0020ed33.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Great View Downtown Toronto\n\nWake up to panoramic views of the Toronto skyline, then wind down with a glass of wine as the city lights take over. This bright, centrally located condo puts you close to everything, the lake, waterfront trails, and the city's biggest landmarks are all an easy walk away. Whether you're working remotely or exploring downtown, everything you need is fully stocked and ready.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Air conditioning\n\n- Kitchen\n\n- Internet\n\n- Washer\n\n- Non smoking\n\n- Dryer\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Ottawa",
+      "market_country": "Canada",
+      "name": "Saint-paul Residence",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/20245693ha",
+      "source_property_id": "125482796",
+      "source_listing_id": "20245693ha",
+      "neighborhood_or_area": "Within Old Ottawa East",
+      "property_type_and_bedrooms": "Apartment · 2 bedrooms · 2 Double Beds",
+      "guest_capacity": "Sleeps 4•2 bedrooms•2 beds",
+      "guest_rating": {
+        "score": "7.4",
+        "label": "Good"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$142",
+        "displayed_total": "$425 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/126000000/125490000/125482800/125482796/2c204347.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/126000000/125490000/125482800/125482796/7d688856.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125490000/125482800/125482796/d1b2323a.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125490000/125482800/125482796/7cb91bc5.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125490000/125482800/125482796/2c204347.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125490000/125482800/125482796/fd25caad.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Saint-paul Residence\n\nNestled between the Ottawa River and the Rideau Canal, about a 25-minute walk from Parliament Hill, is the Residence Saint-Paul, a 3-star non-smoking establishment. The residence offers Wi-Fi throughout the building and paid parking on site.This non-smoking residence in the Old Ottawa East neighborhood is about a 10-minute drive from the Canadian Museum of History and about a 30-minute walk from shopping centers such as the ByWard Market. The Ottawa residence is also 2.5 km from the Supreme Court of Canada. This Ottawa residence is within walking distance of Calvary Baptist Church, which is popular with pilgrims and tourists.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Patio\n\n- Kitchenette\n\n- On-site fitness center\n\n- Air conditioning\n\n- Refrigerator\n\n- Internet\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Markham",
+      "market_country": "Canada",
+      "name": "Enjoy Spacious Living at This Thornhill Suite w/ Breakfast and Swimming Pool",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/4498393",
+      "source_property_id": "114257061",
+      "source_listing_id": "4498393",
+      "neighborhood_or_area": "Within Thornhill",
+      "property_type_and_bedrooms": "Hotel · 1 bedroom · 2 beds",
+      "guest_capacity": "Hotel · 1 bedroom · 2 beds",
+      "guest_rating": {
+        "score": "0",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$117",
+        "displayed_total": "$351 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/115000000/114260000/114257100/114257061/f9dc8b87.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/115000000/114260000/114257100/114257061/59da4808.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/115000000/114260000/114257100/114257061/f9dc8b87.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/115000000/114260000/114257100/114257061/206f5cbb.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/115000000/114260000/114257100/114257061/b55c1e6b.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/115000000/114260000/114257100/114257061/1109c5ab.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Enjoy Spacious Living at This Thornhill Suite w/ Breakfast and Swimming Pool\n\nDiscover nearby Pomona Mills Park and the Richmond Hill Dunlap Observatory. Perfect for family adventures and nature lovers in the vibrant area between Markham and Richmond Hill.\n\nThis listing is for a room within a hotel.\n\n✦ Your room is 350 sq. ft, equipped with complimentary toiletries, kitchen with basic amenities, high definition TV, available with Standard cable, ensuring cleanliness and comfort throughout your stay.\n\n✦ Cleaning services are available upon request (additional fee may vary)\n\nThere are a few additional details to know before you book:\n\n✦ The minimum age required for check-in is 21 years old.\n\n✦ Please ensure you have a valid ID for check-in, as it is mandatory for entry.\n\n———————————————\n\nGuest Access:\n\nDuring your stay, you will have access to the property and amenities according to the following schedule:\n\n✦ Check-in is available from 04:00 pm, and is flexible afterwards. If you expect to arrive later, please let us know as soon as possible to make the necessary arrangements.\n\n✦ Public or shared fitness center open 24/7, available in the property.\n\n✦ Indoor shared pool available all year, opened from 8:00AM to 10:00PM.\n\n✦ Paid parking lot, available for $5 per day.\n\n———————————————\n\nOther Things to Note:\n\nThere are several additional things to note:\n\n✦ A credit/debit card is required at check-in for a $150 per night refundable deposit, returned after check-out if no damages occur.\n\n✦ Pets are welcome. CAD $95 fee for stays of up to 7 nights\n\n✦ We use multi-unit listings, so rooms are similar but may have small differences.\n\n✦ Complimentary laundry facilities are available on-site.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Indoor pool\n\n- Breakfast included\n\n- On-site fitness center\n\n- Barbecue grill\n\n- Air conditioning\n\n- Pet-friendly\n\n\nSee all\n\nThe current price is $120\n\n$120\n\nfor 1 night\n\nAll fees included\n\nNov 22 - Nov 23",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Winnipeg",
+      "market_country": "Canada",
+      "name": "NEW !! MODERN 1500 SF 2  BR 2.5  BA -ULTRA LUXURIOUS  CONDO -OSBORNE VILLAGE !!",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/1341336",
+      "source_property_id": "27433668",
+      "source_listing_id": "1341336",
+      "neighborhood_or_area": "Within Osborne Village",
+      "property_type_and_bedrooms": "Condo · 2 bedrooms · 2 beds",
+      "guest_capacity": "Sleeps 4•2 bedrooms•2 beds",
+      "guest_rating": {
+        "label": "Exceptional",
+        "review_count": 100,
+        "score": "10"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$165",
+        "displayed_total": "$496 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/28000000/27440000/27433700/27433668/w1120h841x0y0-a59848cf.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/28000000/27440000/27433700/27433668/58c8a825.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/28000000/27440000/27433700/27433668/bcc6ee97.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/28000000/27440000/27433700/27433668/de167cf1.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/28000000/27440000/27433700/27433668/5a50e926.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/28000000/27440000/27433700/27433668/w1120h841x0y0-a59848cf.jpg?impolicy=resizecrop&rw=598&ra=fit"
+      ],
+      "description_excerpt": "### NEW !! MODERN 1500 SF 2 BR 2.5 BA -ULTRA LUXURIOUS CONDO -OSBORNE VILLAGE !!\n\nAn ultra modern condo in Winnipeg's, and what's rated Canada's most desired neighborhood! Osborne Village allows you to walk a short distance to numerous restaurants, social clubs, bars, boutiques and cafe's. Just a short drive to the Forks and Downtown. Built in 2014 this building has all the amenities for todays traveler. Whether you want to walk or bike everything you need is as well is close by.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Balcony\n\n- Kitchenette\n\n- Barbecue grill\n\n- Air conditioning\n\n- Refrigerator\n\n- Garage parking available\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Calgary",
+      "market_country": "Canada",
+      "name": "*Cozy Condo/King Bed/Pool/Gym/CityViews/Walkscore 91",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/20100687ha",
+      "source_property_id": "112249664",
+      "source_listing_id": "20100687ha",
+      "neighborhood_or_area": "Within Downtown Calgary",
+      "property_type_and_bedrooms": "Condo · 2 bedrooms · 2 beds",
+      "guest_capacity": "Sleeps 4•2 bedrooms•2 beds",
+      "guest_rating": {
+        "score": "0",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$135",
+        "displayed_total": "$404 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/113000000/112250000/112249700/112249664/w1179h1080x0y2-b0a86803.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/113000000/112250000/112249700/112249664/1848c6dd.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/113000000/112250000/112249700/112249664/14209360.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/113000000/112250000/112249700/112249664/ecd643c4_edited_4616.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/113000000/112250000/112249700/112249664/w1179h1572x0y1-533cd5f0.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/113000000/112250000/112249700/112249664/w1179h1080x0y2-b0a86803.jpg?impolicy=resizecrop&rw=598&ra=fit"
+      ],
+      "description_excerpt": "### \\*Cozy Condo/King Bed/Pool/Gym/CityViews/Walkscore 91\n\nCalgary!\n\nExperience the best of Calgary from our stylish 2-bedroom, 2-bathroom apartment with stunning views. Located in the vibrant Beltline area, our home boasts a walk score of 91, ensuring convenience and accessibility to the city's top attractions, dining, and entertainment!\n\nThe Space:\n\nOur spacious apartment features two bedrooms and two bathrooms, perfect for families or groups of friends traveling together. Enjoy modern amenities and tasteful decor that creates a cozy and inviting atmosphere throughout.\n\nLocation:\n\nSituated in the heart of Calgary's Beltline, our home offers proximity to excellent dining options, trendy cafes, and the bustling 17th Avenue with its vibrant nightlife. You'll be just a 15-minute walk from the Scotiabank Saddledome and BMO Centre, making it ideal for sports fans and event attendees.\n\nAmenities:\n\nGuests have access to the building's outdoor pool and gym facilities, perfect for staying active or relaxing after a day of exploring the city. Secure underground parking and 24-hour security ensure your peace of mind throughout your stay.\n\nWhat's Nearby:\n\nExplore the diverse culinary scene right outside your doorstep, or take a leisurely stroll to nearby parks and green spaces. Whether you're here for business, pleasure, or both, our central location makes it easy to experience all that Calgary has to offer.\n\nIdeal for:\n\nBusiness travelers seeking comfort and convenience\n\nFamilies looking for a home away from home\n\nGroups of friends exploring Calgary's vibrant culture\n\nBook your stay today and discover the perfect blend of comfort, convenience, and style in the heart of Calgary!\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Outdoor pool\n\n- On-site fitness center\n\n- Air conditioning\n\n- Kitchen\n\n- Garage parking available\n\n- Internet\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Edmonton",
+      "market_country": "Canada",
+      "name": "5BD Jungle Oasis - Hot Tub - BBQ - King Bed - Games - AC",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/4789794",
+      "source_property_id": "120064910",
+      "source_listing_id": "4789794",
+      "neighborhood_or_area": "Within Southeast Edmonton",
+      "property_type_and_bedrooms": "House · 5 bedrooms · 6 beds",
+      "guest_capacity": "Sleeps 13",
+      "guest_rating": {
+        "score": "9.8",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$172",
+        "displayed_total": "$517 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://mediaim.expedia.com/lodging/121000000/120070000/120065000/120064910/4a3ceb90.jpg",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/121000000/120070000/120065000/120064910/8898929e.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/121000000/120070000/120065000/120064910/16d0f6cc.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/121000000/120070000/120065000/120064910/99b348fa.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/121000000/120070000/120065000/120064910/w1052h632x0y0-d7c9b7ef.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/121000000/120070000/120065000/120064910/4a3ceb90.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "- ### Family fun awaits\n\n\n\nTop-rated for families.\n\n- ### Foosball onsite\n\n\n\nA rare find — the foosball table is waiting for you.\n\n- ### Centrally-located\n\n\n\nYou're never far from where you need to be with this convenient location.\n\n\n5 bedrooms3+ bathroomsSleeps 13",
+      "advertised_amenities_excerpt": "- Hot tub on site\n\n- Patio\n\n- Barbecue grill\n\n- Air conditioning\n\n- Refrigerator\n\n- Garage parking available\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Halifax",
+      "market_country": "Canada",
+      "name": "LUX Halifax 5BR, 3.5BA | 2 Kitchens, Deck & BBQ",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/4953813",
+      "source_property_id": "122942949",
+      "source_listing_id": "4953813",
+      "neighborhood_or_area": "10 min drive to the beach",
+      "property_type_and_bedrooms": "House · 5 bedrooms · 5 beds",
+      "guest_capacity": "Sleeps 10•5 bedrooms•5 beds",
+      "guest_rating": {
+        "score": "0",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$409",
+        "displayed_total": "$1,227 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://mediaim.expedia.com/lodging/123000000/122950000/122943000/122942949/51071f52.jpg",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/123000000/122950000/122943000/122942949/5a7a1841.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/123000000/122950000/122943000/122942949/e5858c57.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/123000000/122950000/122943000/122942949/badda852.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/123000000/122950000/122943000/122942949/b9307941.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/123000000/122950000/122943000/122942949/da56b8f6.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "- ### Make yourself at home\n\n\n\nGuests love the comfortable living areas, perfect for unwinding.\n\n- ### Firepit available\n\n\n\nOne of the few properties with a dedicated outdoor firepit.\n\n- ### At the center of it all\n\n\n\nStay in a top rated central location, steps from the best attractions, dining, and entertainment.\n\n\nSleeps 10•5 bedrooms•5 beds",
+      "advertised_amenities_excerpt": "- Balcony\n\n- Barbecue grill\n\n- Air conditioning\n\n- Refrigerator\n\n- Washer\n\n- Onsite parking available\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Dartmouth",
+      "market_country": "Canada",
+      "name": "Spacious 3BR 2BA + AC | Dartmouth | Sleeps 7 | 2 Free Parkings | Near Halifax ",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/20281854ha",
+      "source_property_id": "130287415",
+      "source_listing_id": "20281854ha",
+      "neighborhood_or_area": "9 min drive to the beach",
+      "property_type_and_bedrooms": "House · 3 bedrooms · 4 beds",
+      "guest_capacity": "Sleeps 7 \\| 2 Free Parkings \\| Near Halifax",
+      "guest_rating": {
+        "score": "9.8",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$279",
+        "displayed_total": "$838 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/131000000/130290000/130287500/130287415/936f20b4.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/131000000/130290000/130287500/130287415/77807c96.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/131000000/130290000/130287500/130287415/d19df07c.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/131000000/130290000/130287500/130287415/936f20b4.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/131000000/130290000/130287500/130287415/c32fa02d.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/131000000/130290000/130287500/130287415/18f14e7e.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "- ### Make yourself at home\n\n\n\nGuests love the comfortable living areas, perfect for unwinding.\n\n- ### Centrally-located\n\n\n\nYou're never far from where you need to be with this convenient location.\n\n\nSleeps 7•3 bedrooms•5 beds",
+      "advertised_amenities_excerpt": "- Patio\n\n- Air conditioning\n\n- Refrigerator\n\n- Internet\n\n- Washer\n\n- Onsite parking available\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Vancouver",
+      "market_country": "Canada",
+      "name": "2BR+Sofabed, 2Bath, Private 500sqft sundeck, EV Parking w/Pool, Sauna, Hot Tub",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/20330215ha",
+      "source_property_id": "137085659",
+      "source_listing_id": "20330215ha",
+      "neighborhood_or_area": "9 min drive to the beach",
+      "property_type_and_bedrooms": "Condo · 2 bedrooms · 3 beds",
+      "guest_capacity": "Sleeps 6•2 bedrooms•3 beds",
+      "guest_rating": {
+        "score": "0",
+        "label": "Exceptional"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$332",
+        "displayed_total": "$996 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/138000000/137090000/137085700/137085659/e9a7a6eb.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/138000000/137090000/137085700/137085659/87265f56.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/138000000/137090000/137085700/137085659/3eec34fb.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/138000000/137090000/137085700/137085659/e9a7a6eb.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/138000000/137090000/137085700/137085659/761b1043.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/138000000/137090000/137085700/137085659/7da13c84.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "- ### Beach equipment\n\n\n\nA rare find — beach equipment ready to go for your days by the sea.\n\n- ### Centrally-located\n\n\n\nYou're never far from where you need to be with this convenient location.\n\n- ### Discover nearby landmarks\n\n\n\nWalk to Rogers Arena\n\n\nSleeps 6•2 bedrooms•3 beds",
+      "advertised_amenities_excerpt": "- Hot tub on site\n\n- Patio\n\n- Indoor pool\n\n- On-site fitness center\n\n- Electric vehicle charging point\n\n- Air conditioning\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Burnaby",
+      "market_country": "Canada",
+      "name": "3Beds Ground-Level Private Suite in Burnaby",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/5063312",
+      "source_property_id": "125349953",
+      "source_listing_id": "5063312",
+      "neighborhood_or_area": "3 mi (4.8 km) to Burnaby center",
+      "property_type_and_bedrooms": "House · 2 bedrooms · 3 beds",
+      "guest_capacity": "Sleeps 4",
+      "guest_rating": {
+        "label": "Excellent",
+        "review_count": 3,
+        "score": "8.8"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$161",
+        "displayed_total": "$482 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/126000000/125350000/125350000/125349953/2e34e629.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/126000000/125350000/125350000/125349953/4e291cf2.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125350000/125350000/125349953/8fdcf3c8.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125350000/125350000/125349953/2ff4606a.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125350000/125350000/125349953/2e34e629.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/126000000/125350000/125350000/125349953/081e3ae0.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### 3Beds Ground-Level Private Suite in Burnaby\n\n⭐ Please note that there is no kitchen and no laundry available ⭐\n\nEnjoy a comfortable stay in this private two-bedroom space in Burnaby. The suite includes two bedrooms and one full bathroom with a private entrance. One bedroom features a queen bed, while the other includes two single beds, making it ideal for couples, families, or small groups. Clean, cozy, and conveniently designed for a relaxing stay.\n\nLayout & Amenities\n\n• Private accommodation with a separate private entrance\n\n• 2 rooms:\n\n• 1 room with a queen bed\n\n• 1 room with two single beds\n\n• 1 full bathroom with shower and all essentials\n\n• No kitchen or laundry facilities\n\n• Small appliances provided for convenience:\n\nMicrowave、Electric kettle、Mini fridge、Coffee maker\n\n• One bedroom is equipped with a TV, Disney+ subscription included\n\n• 1 on-site parking space provided\n\nLocation\n\n• 200 m (about a 3-minute walk) to a bus stop, Bus 101 provides access to a SkyTrain station\n\n• Lougheed Town Centre Shopping Mall: 3 km, 10-minute drive\n\n• Burnaby Lake Park: 1.5 km, 5-minute drive\n\n• Grocery stores: 1.4 km, 3-minute drive\n\n• SkyTrain station: 3.5 km, 8-minute drive\n\n• Costco: 2 km, 8-minute drive\n\n• Deer Lake: 7 km, 15-minute drive\n\n• Simon Fraser University (SFU): 8 km, 15-minute drive\n\n• Eating plaza / restaurants: 2.5 km, 10-minute drive\n\nPlease be aware that you will have exclusive access to this private two-room accommodation. Other residents live in separate parts of the house, and there are no shared indoor spaces.\n\nTo maintain a peaceful environment, quiet hours are from 10:00 PM to 8:00 AM.\n\nNo parties or smoking are permitted. If you have visitors, please ensure that the total number of people on the property does not exceed 6, in accordance with city bylaws and the room size.\n\nIf you are bringing pets, please add all pets to your reservation. The pet fee will be applied automatically once the pets are added. Undeclared pets are not permitted.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Pet-friendly\n\n- Onsite parking available\n\n- Microwave\n\n- Non smoking\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Regina",
+      "market_country": "Canada",
+      "name": "NEW Aura Newly built and spacious apartment with 2 bedrooms, 2 bathrooms",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/1527413",
+      "source_property_id": "33659898",
+      "source_listing_id": "1527413",
+      "neighborhood_or_area": "3.3 mi (5.3 km) to Regina center",
+      "property_type_and_bedrooms": "Condo · 2 bedrooms · 2 Queen Beds",
+      "guest_capacity": "Sleeps 4",
+      "guest_rating": {
+        "score": "9.0",
+        "label": "Wonderful"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$118",
+        "displayed_total": "$355 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/34000000/33660000/33659900/33659898/7a923a1e.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/34000000/33660000/33659900/33659898/38917035.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/34000000/33660000/33659900/33659898/f6743f17.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/34000000/33660000/33659900/33659898/8a5d3dc3.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/34000000/33660000/33659900/33659898/87ee9596.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/34000000/33660000/33659900/33659898/e7de292e.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### NEW Aura Newly built and spacious apartment with 2 bedrooms, 2 bathrooms\n\nExcellent location for your stay or visit in Regina. The property is conveniently located 10 minutes from downtown area and the University of Regina.\n\nProperty is brand new and features all new furniture and appliances. Includes master bedroom, master bathroom, second bedroom, bathroom, kitchen, dining area, and a spacious living area.\n\nBoth bedrooms have queen sized beds.\n\nThe kitchen has everything you need for everyday comfort during your stay. Rent also includes front load washer and dryer, Cable TV, and WI-FI access.\n\nIt has underground parking with remote access.\n\nWe hope to welcome you soon and thank you for your interest!\n\nSHORT TERM ACCOMMODATION LICENCE NO: STA22-00149\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Balcony\n\n- Indoor pool\n\n- On-site fitness center\n\n- Air conditioning\n\n- Refrigerator\n\n- Internet\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    },
+    {
+      "market_city": "Moncton",
+      "market_country": "Canada",
+      "name": "Castle Manor Unit 204 - More units available",
+      "source": "Vrbo",
+      "source_url": "https://www.vrbo.com/2058425",
+      "source_property_id": "57790654",
+      "source_listing_id": "2058425",
+      "neighborhood_or_area": "0.7 mi (1.1 km) to Moncton center",
+      "property_type_and_bedrooms": "House · 2 bedrooms · 2 Queen Beds",
+      "guest_capacity": "Sleeps 4",
+      "guest_rating": {
+        "label": "Exceptional",
+        "review_count": 17,
+        "score": "9.8"
+      },
+      "search_snapshot": {
+        "check_in": "2026-12-15",
+        "check_out": "2026-12-18",
+        "adults": 2,
+        "displayed_nightly_price": "$147",
+        "displayed_total": "$442 for 3 nights",
+        "currency": "USD",
+        "note": "Third-party search snapshot; not a Stay Master rate or offer."
+      },
+      "hero_image_url": "https://media.vrbo.com/lodging/58000000/57800000/57790700/57790654/8f3c7744.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "gallery_image_urls": [
+        "https://media.vrbo.com/lodging/58000000/57800000/57790700/57790654/b7fa663a.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/58000000/57800000/57790700/57790654/6aebd41c.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/58000000/57800000/57790700/57790654/8f3c7744.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/58000000/57800000/57790700/57790654/13d2a0ac.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/58000000/57800000/57790700/57790654/d67c63e2.jpg?impolicy=resizecrop&rw=297&ra=fit"
+      ],
+      "description_excerpt": "### Castle Manor Unit 204 - More units available\n\nLocated in a historic heritage property, Castle Manor Unit 204 is a spacious (1400 sq/foot) 2 bedroom condo offering many amenities. 14 foot ceilings with ample natural light. Municipal park surrounds the building. Parking for 2 vehicles also included. On site EV chargers also included.\n\nOur prices include all fees. No hidden fees.",
+      "advertised_amenities_excerpt": "- Electric vehicle charging point\n\n- Air conditioning\n\n- Pet-friendly\n\n- Garage parking available\n\n- Refrigerator\n\n- Internet\n\n\nSee all",
+      "source_page_scrape_succeeded": true,
+      "rights_note": "Externally hosted source images; confirm permission before reuse.",
+      "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
+    }
+  ]
+}
