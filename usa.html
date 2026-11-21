@@ -12,7 +12,7 @@
 'use strict';
 var grid=document.getElementById('propertyGrid'),active='all',items=[],galleries={};
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function cityKey(location){return location.split(',')[0].toLowerCase().replace(/\\s+/g,'-');}
+function cityKey(location){return location.split(',')[0].toLowerCase().replace(/\s+/g,'-');}
 function render(){
  var shown=items.filter(function(p){return active==='all'||p.public_location.indexOf(active)===0;});
  if(!shown.length){grid.innerHTML='<p class="empty">No properties found for this city.</p>';return;}
@@ -30,6 +30,6 @@ Promise.all([
  fetch('data/usa-gallery-sevierville.json').then(function(r){if(!r.ok)throw new Error('Sevierville gallery unavailable');return r.json();}),
  fetch('data/usa-gallery-gatlinburg.json').then(function(r){if(!r.ok)throw new Error('Gatlinburg gallery unavailable');return r.json();}),
  fetch('data/usa-gallery-pigeon-forge.json').then(function(r){if(!r.ok)throw new Error('Pigeon Forge gallery unavailable');return r.json();})
-]).then(function(data){items=data[0].properties||[];data.slice(1).forEach(function(g){galleries[g.city.toLowerCase().replace(/\\s+/g,'-')]=g;});var total=Object.keys(galleries).reduce(function(n,k){return n+galleries[k].properties.reduce(function(a,p){return a+(p.photo_count||0);},0);},0);document.getElementById('photoTotal').textContent=total.toLocaleString();render();}).catch(function(){grid.innerHTML='<p class="empty">The USA property directory or gallery data could not be loaded. Please try again later.</p>';});
+]).then(function(data){items=data[0].properties||[];data.slice(1).forEach(function(g){galleries[g.city.toLowerCase().replace(/\s+/g,'-')]=g;});var total=Object.keys(galleries).reduce(function(n,k){return n+galleries[k].properties.reduce(function(a,p){return a+(p.photo_count||0);},0);},0);document.getElementById('photoTotal').textContent=total.toLocaleString();render();}).catch(function(){grid.innerHTML='<p class="empty">The USA property directory or gallery data could not be loaded. Please try again later.</p>';});
 })();
 </script></body></html>
