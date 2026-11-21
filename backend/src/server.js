@@ -98,7 +98,7 @@ function buildMail(row) {
     row.message,
   ];
   return {
-    from: FROM_EMAIL || `website@${new URL(process.env.SITE_URL || 'https://example.com').hostname}`,
+    from: FROM_EMAIL || `website@${'staymaster.local'}`,
     to: TO_EMAIL,
     replyTo: row.email,
     subject: `Website enquiry \u2014 ${row.name}${row.city ? ` (${row.city})` : ''} [#${row.id}]`,
@@ -295,7 +295,7 @@ async function notifyBookingRequest(details) {
     'Payment: not collected; awaiting team confirmation.'
   ].join('\n');
   await transporter.sendMail({
-    from: FROM_EMAIL || 'website@example.com',
+    from: FROM_EMAIL || 'website@staymaster.local',
     to: TO_EMAIL,
     replyTo: details.guestEmail,
     subject: 'New booking request ' + details.reference,
@@ -330,6 +330,23 @@ app.use((req, res, next) => {
     return res.status(404).end();
   }
   next();
+});
+
+/* Enforce a local-only browser policy and sanitize all HTML pages site-wide. */
+const LOCAL_ONLY_CSP = "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self' blob:; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'";
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', LOCAL_ONLY_CSP);
+  if (req.method !== 'GET' || !(req.path === '/' || /\.html$/i.test(req.path))) return next();
+  const requested = req.path === '/' ? '/index.html' : decodeURIComponent(req.path);
+  const root = path.resolve(FRONTEND_DIR);
+  const file = path.resolve(root, '.' + requested);
+  if (file !== root && !file.startsWith(root + path.sep)) return res.status(400).end();
+  fs.readFile(file, 'utf8', (error, html) => {
+    if (error) return next();
+    const tag = '<script src="/local-only.js" defer></script>';
+    const output = /<\/head>/i.test(html) ? html.replace(/<\/head>/i, tag + '\n</head>') : html + tag;
+    res.type('html').send(output);
+  });
 });
 
 app.use(express.static(FRONTEND_DIR, {
