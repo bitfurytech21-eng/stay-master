@@ -44,58 +44,15 @@
     });
   }
 
-  /* ---------- interactive maps (Leaflet + OpenStreetMap) ---------- */
+  /* ---------- offline map fallback (no third-party map tiles) ---------- */
   var mapEls = document.querySelectorAll('[data-map]');
-
-  function showMapFallback(el) {
-    var wrap = el.closest('.map-canvas') || el.parentNode;
-    var fb = wrap.querySelector('.map-fallback');
-    el.hidden = true;
-    if (fb) fb.hidden = false;
-  }
-
   Array.prototype.forEach.call(mapEls, function (el) {
-    if (typeof window.L === 'undefined') { showMapFallback(el); return; }
-    var lat = parseFloat(el.getAttribute('data-lat'));
-    var lon = parseFloat(el.getAttribute('data-lon'));
-    var label = el.getAttribute('data-label') || 'master';
-    var zoom = parseInt(el.getAttribute('data-zoom') || '16', 10);
-    if (isNaN(lat) || isNaN(lon)) { showMapFallback(el); return; }
-
-    try {
-      var map = L.map(el, {
-        center: [lat, lon],
-        zoom: zoom,
-        zoomControl: true,
-        scrollWheelZoom: false,
-        attributionControl: true
-      });
-
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        // Plain-text attribution: OpenStreetMap's licence requires the credit,
-        // but we do not add an outbound link to a third-party site.
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-
-      var pinIcon = L.divIcon({
-        className: 'map-pin-icon',
-        html: '<span class="pin-dot"></span><span class="pin-label">' + label + '</span>',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
-      });
-
-      L.marker([lat, lon], { icon: pinIcon, title: label, alt: label })
-        .addTo(map)
-        .bindPopup('<strong>' + label + '</strong>');
-
-      map.on('click focus', function () { map.scrollWheelZoom.enable(); });
-      map.on('mouseout blur', function () { map.scrollWheelZoom.disable(); });
-
-      window.addEventListener('resize', function () { map.invalidateSize(); });
-      setTimeout(function () { map.invalidateSize(); }, 250);
-    } catch (err) {
-      showMapFallback(el);
+    var wrap = el.closest('.map-canvas') || el.parentNode;
+    var fb = wrap && wrap.querySelector('.map-fallback');
+    el.hidden = true;
+    if (fb) {
+      fb.hidden = false;
+      fb.textContent = 'Map view is unavailable in offline mode. Location details are shown in the property information.';
     }
   });
 
@@ -319,13 +276,6 @@
       window.location.href = 'booking.html?city=' + encodeURIComponent(dest) + (query ? '&' + query : '');
     });
   }
-  /* ---------- global multilingual translation control ---------- */
-  var translatorScript = document.createElement('script');
-  translatorScript.src = 'translator.js?v=1';
-  translatorScript.defer = true;
-  document.head.appendChild(translatorScript);
-
-
   /* ---------- shared property photo albums and detail styling ---------- */
   if (document.querySelector('main .bhero') && !document.querySelector('[data-property-gallery-loader]')) {
     var galleryCss = document.createElement('link');
