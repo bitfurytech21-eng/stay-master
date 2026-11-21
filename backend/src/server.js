@@ -313,11 +313,6 @@ async function notifyBookingRequest(details) {
 mountBookingRoutes(app, db, { notifyBookingRequest });
 
 
-/* ---------------------------------------------------------------- translation proxy
- * Uses MyMemory's public translation endpoint. No API key or extra Render
- * service is required. The provider's free anonymous quota is limited, so
- * requests are cached in memory and text is sent in short chunks.
- */
 // Serve the complete website from this same Node service. Render runs with the
 // repository root as its working directory; local backend runs are supported too.
 const FRONTEND_DIR = path.resolve(
