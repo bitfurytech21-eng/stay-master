@@ -1,0 +1,160 @@
+{
+  "source": "Corporate Stays public Canada destination directory",
+  "sourceUrl": "https://corporatestays.com/cs-locations/canada/",
+  "crawledOn": "2026-11-21",
+  "directoryReportedTotal": 214,
+  "currency": "CAD",
+  "note": "Directory-reported apartment counts and starting rates are third-party market references. They are not Stay Master inventory, confirmed prices, live availability, or permission to reuse third-party listing content.",
+  "cities": [
+    {
+      "city": "Montreal",
+      "province": "Quebec",
+      "country": "Canada",
+      "directoryApartmentCount": 38,
+      "publishedStartingNightlyRateCAD": 105,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/montreal/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Montreal%2C%20Quebec%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Laval",
+      "province": "Quebec",
+      "country": "Canada",
+      "directoryApartmentCount": 16,
+      "publishedStartingNightlyRateCAD": 130,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/laval/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Laval%2C%20Quebec%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Quebec City",
+      "province": "Quebec",
+      "country": "Canada",
+      "directoryApartmentCount": 8,
+      "publishedStartingNightlyRateCAD": 95,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/quebec-city/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Quebec%20City%2C%20Quebec%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Toronto",
+      "province": "Ontario",
+      "country": "Canada",
+      "directoryApartmentCount": 39,
+      "publishedStartingNightlyRateCAD": 135,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/toronto/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Toronto%2C%20Ontario%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Ottawa",
+      "province": "Ontario",
+      "country": "Canada",
+      "directoryApartmentCount": 19,
+      "publishedStartingNightlyRateCAD": 125,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/ottawa/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Ottawa%2C%20Ontario%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Markham",
+      "province": "Ontario",
+      "country": "Canada",
+      "directoryApartmentCount": 2,
+      "publishedStartingNightlyRateCAD": 135,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/markham/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Markham%2C%20Ontario%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Winnipeg",
+      "province": "Manitoba",
+      "country": "Canada",
+      "directoryApartmentCount": 25,
+      "publishedStartingNightlyRateCAD": 105,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/winnipeg/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Winnipeg%2C%20Manitoba%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Calgary",
+      "province": "Alberta",
+      "country": "Canada",
+      "directoryApartmentCount": 17,
+      "publishedStartingNightlyRateCAD": 130,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/calgary/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Calgary%2C%20Alberta%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Edmonton",
+      "province": "Alberta",
+      "country": "Canada",
+      "directoryApartmentCount": 7,
+      "publishedStartingNightlyRateCAD": 113,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/edmonton/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Edmonton%2C%20Alberta%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Halifax",
+      "province": "Nova Scotia",
+      "country": "Canada",
+      "directoryApartmentCount": 20,
+      "publishedStartingNightlyRateCAD": 125,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/halifax/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Halifax%2C%20Nova%20Scotia%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Dartmouth",
+      "province": "Nova Scotia",
+      "country": "Canada",
+      "directoryApartmentCount": 2,
+      "publishedStartingNightlyRateCAD": 130,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/dartmouth/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Dartmouth%2C%20Nova%20Scotia%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Vancouver",
+      "province": "British Columbia",
+      "country": "Canada",
+      "directoryApartmentCount": 12,
+      "publishedStartingNightlyRateCAD": 150,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/vancouver/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Vancouver%2C%20British%20Columbia%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Burnaby",
+      "province": "British Columbia",
+      "country": "Canada",
+      "directoryApartmentCount": 5,
+      "publishedStartingNightlyRateCAD": 150,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/burnaby/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Burnaby%2C%20British%20Columbia%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Regina",
+      "province": "Saskatchewan",
+      "country": "Canada",
+      "directoryApartmentCount": 3,
+      "publishedStartingNightlyRateCAD": 120,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/regina/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Regina%2C%20Saskatchewan%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    },
+    {
+      "city": "Moncton",
+      "province": "New Brunswick",
+      "country": "Canada",
+      "directoryApartmentCount": 1,
+      "publishedStartingNightlyRateCAD": 145,
+      "sourcePage": "https://corporatestays.com/cs-locations/canada/moncton/",
+      "mapSearch": "https://www.google.com/maps/search/?api=1&query=Moncton%2C%20New%20Brunswick%2C%20Canada",
+      "stayMasterStatus": "Not yet verified as Stay Master-managed or bookable inventory"
+    }
+  ]
+}
