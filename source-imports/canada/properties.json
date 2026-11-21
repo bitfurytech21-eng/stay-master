@@ -53,37 +53,38 @@
     {
       "market_city": "Laval",
       "market_country": "Canada",
-      "name": "Eurostars Old Montreal Suites & Apartments",
+      "name": "Peaceful Laval Getaway | Perfect for Families & Groups",
       "source": "Vrbo",
-      "source_url": "https://www.vrbo.com/pdp/lo/100325443",
-      "source_property_id": "100325443",
-      "source_listing_id": null,
-      "neighborhood_or_area": "Old Montreal, 11.8 mi from Laval",
-      "property_type_and_bedrooms": "Aparthotel · 1 bedroom · 1 Queen Bed",
-      "guest_capacity": "Aparthotel · 1 bedroom · 1 Queen Bed",
+      "source_url": "https://www.vrbo.com/20118946ha",
+      "source_property_id": "113518005",
+      "source_listing_id": "20118946ha",
+      "neighborhood_or_area": "Within Fabreville, Laval",
+      "property_type_and_bedrooms": "House · 3 bedrooms · 3 beds",
+      "guest_capacity": "Sleeps 6 · 3 bedrooms · 3 beds",
       "guest_rating": {
-        "score": "9.6",
-        "label": "Exceptional"
+        "score": "10",
+        "label": "Exceptional",
+        "review_count": 11
       },
       "search_snapshot": {
         "check_in": "2026-12-15",
         "check_out": "2026-12-18",
         "adults": 2,
-        "displayed_nightly_price": "$149",
-        "displayed_total": "$448 for 3 nights",
+        "displayed_nightly_price": "$115",
+        "displayed_total": "$344 for 3 nights",
         "currency": "USD",
         "note": "Third-party search snapshot; not a Stay Master rate or offer."
       },
-      "hero_image_url": "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/1b34f597.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
+      "hero_image_url": "https://media.vrbo.com/lodging/114000000/113520000/113518100/113518005/37d7c406.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455",
       "gallery_image_urls": [
-        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/090ca3b9.jpg?impolicy=resizecrop&rw=297&ra=fit",
-        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/cebeaddb.jpg?impolicy=resizecrop&rw=297&ra=fit",
-        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/1b34f597.jpg?impolicy=resizecrop&rw=598&ra=fit",
-        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/bd20aab8.jpg?impolicy=resizecrop&rw=297&ra=fit",
-        "https://media.vrbo.com/lodging/101000000/100330000/100325500/100325443/w1992h1333x8y0-63a68252.jpg?impolicy=resizecrop&rw=297&ra=fit"
+        "https://media.vrbo.com/lodging/114000000/113520000/113518100/113518005/37d7c406.jpg?impolicy=resizecrop&rw=598&ra=fit",
+        "https://media.vrbo.com/lodging/114000000/113520000/113518100/113518005/017164a8.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/114000000/113520000/113518100/113518005/9eb531fb.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/114000000/113520000/113518100/113518005/4fbfdbaa.jpg?impolicy=resizecrop&rw=297&ra=fit",
+        "https://media.vrbo.com/lodging/114000000/113520000/113518100/113518005/f8cb0a2e.jpg?impolicy=resizecrop&rw=297&ra=fit"
       ],
-      "description_excerpt": "### Eurostars Old Montreal Suites & Apartments\n\nA fitness center, a sauna, and concierge services are available at this smoke-free aparthotel. WiFi in public areas is free. Other amenities include a 24-hour front desk. Each apartment provides a kitchen with a refrigerator, an oven, a stovetop, and a dishwasher. For a bit of entertainment, guests will find a flat-screen TV with digital channels, and other amenities include a coffee/tea maker and an electric kettle.\n\nEurostars Old Montreal Suites & Apartments offers 168 air-conditioned accommodations with coffee/tea makers and designer toiletries. Each accommodation is individually furnished and decorated. Accommodations at this 3.5-star aparthotel have kitchens with full-sized refrigerators/freezers, stovetops, cookware/dishes/utensils, and dishwashers.\n\nBathrooms include complimentary toiletries and hair dryers. 43-inch flat-screen televisions come with digital channels. Housekeeping is provided daily.\n\nRecreational amenities at the aparthotel include a sauna and a fitness center.\n\nOur prices include all fees. No hidden fees.",
-      "advertised_amenities_excerpt": "- Sauna in spa\n\n- On-site fitness center\n\n- Free cribs/infant beds\n\n- Housekeeping\n\n- Free WiFi in public areas\n\n- Air conditioning\n\n\nSee all\n\nThe current price is $105\n\n$105\n\nfor 1 night\n\nAll fees included\n\nFeb 7 - Feb 8, 2027",
+      "description_excerpt": "Made for relaxation; the listing highlights a private garden and a family/group-oriented three-bedroom home in Fabreville, Laval.",
+      "advertised_amenities_excerpt": "Patio; limousine or town-car service available; barbecue grill; air conditioning; internet; refrigerator.",
       "source_page_scrape_succeeded": true,
       "rights_note": "Externally hosted source images; confirm permission before reuse.",
       "inventory_status": "Third-party reference only; not Stay Master-managed or bookable."
