@@ -1,6 +1,7 @@
 (function(){
 "use strict";
-var pageCountry=document.body.getAttribute("data-listing-country")||location.pathname.indexOf("canada")!==-1?"Canada":"United States";
+var pageCountry=document.body.getAttribute("data-listing-country");
+if(!pageCountry)pageCountry=/canada/i.test(location.pathname)?"Canada":"United States";
 var grid=document.getElementById("naPropertyGrid"),filter=document.getElementById("naCityFilter");
 if(!grid||!filter)return;
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
