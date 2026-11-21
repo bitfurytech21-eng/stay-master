@@ -1,16 +1,21 @@
-/* Stay Master API configuration.
- * The website and its API must be served from the same origin.
- * No external API host or cross-origin override is accepted.
- */
+/* The frontend and API are served from the same Stay Master origin. */
 (function () {
   'use strict';
+  var base = '';
+  if (typeof window.STAY_MASTER_API_BASE === 'string') base = window.STAY_MASTER_API_BASE;
+  else {
+    var meta = document.querySelector('meta[name="stay-master-api"]');
+    if (meta && meta.getAttribute('content')) base = meta.getAttribute('content');
+  }
+  base = String(base || '').replace(/\/+$/, '');
   window.STAY_MASTER_API = {
-    base: '',
+    base: base,
     url: function (path) {
       var p = String(path || '');
-      if (!p) return '';
-      return p.charAt(0) === '/' ? p : '/' + p;
+      if (!p) return base;
+      if (p.charAt(0) !== '/') p = '/' + p;
+      return base + p;
     },
-    crossOrigin: false
+    crossOrigin: base !== ''
   };
 })();

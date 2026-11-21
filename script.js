@@ -44,16 +44,12 @@
     });
   }
 
-  /* ---------- offline map fallback (no third-party map tiles) ---------- */
-  var mapEls = document.querySelectorAll('[data-map]');
-  Array.prototype.forEach.call(mapEls, function (el) {
-    var wrap = el.closest('.map-canvas') || el.parentNode;
-    var fb = wrap && wrap.querySelector('.map-fallback');
+  /* External map tiles are disabled. Pages use their local address/fallback text. */
+  document.querySelectorAll('[data-map]').forEach(function(el){
     el.hidden = true;
-    if (fb) {
-      fb.hidden = false;
-      fb.textContent = 'Map view is unavailable in offline mode. Location details are shown in the property information.';
-    }
+    var wrap = el.closest('.map-canvas') || el.parentNode;
+    var fallback = wrap && wrap.querySelector('.map-fallback');
+    if (fallback) fallback.hidden = false;
   });
 
   /* ---------- gallery lightbox ---------- */
@@ -276,6 +272,13 @@
       window.location.href = 'booking.html?city=' + encodeURIComponent(dest) + (query ? '&' + query : '');
     });
   }
+  /* ---------- global multilingual translation control ---------- */
+  var translatorScript = document.createElement('script');
+  translatorScript.src = 'translator.js?v=1';
+  translatorScript.defer = true;
+  document.head.appendChild(translatorScript);
+
+
   /* ---------- shared property photo albums and detail styling ---------- */
   if (document.querySelector('main .bhero') && !document.querySelector('[data-property-gallery-loader]')) {
     var galleryCss = document.createElement('link');
