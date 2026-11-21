@@ -95,19 +95,16 @@ test('admin booking frontend has valid JavaScript syntax', async () => {
   assert.ok(source.length > 0);
 });
 
-test('translation API uses free MyMemory translation without a paid service or API key', async () => {
+test('backend does not expose an external translation proxy', async () => {
   const source = await readFile(path.resolve(here, '../src/server.js'), 'utf8');
-  assert.ok(source.includes('SUPPORTED_TRANSLATION_LANGUAGES'));
-  assert.ok(source.includes('api.mymemory.translated.net/get'));
-  assert.ok(source.includes("langpair: 'autodetect|' + target"));
-  assert.ok(source.includes('translationCache'));
-  assert.ok(!source.includes('LIBRETRANSLATE_HOST'));
-  assert.ok(!source.includes('GOOGLE_TRANSLATE_API_KEY'));
+  assert.ok(!source.includes('/api/translate'));
+  assert.ok(!source.includes('api.mymemory.translated.net'));
 });
 
-test('global translator frontend has valid JavaScript syntax and calls the same-origin proxy', async () => {
+test('global translator frontend makes no external network requests', async () => {
   const source = await readFile(path.resolve(here, '../../translator.js'), 'utf8');
-  assert.ok(source.includes('/api/translate'));
+  assert.ok(!source.includes('fetch('));
+  assert.ok(!source.includes('/api/translate'));
 });
 
 test('translation frontend does not contain a provider API key', async () => {
@@ -115,10 +112,10 @@ test('translation frontend does not contain a provider API key', async () => {
   assert.ok(!/AIza[0-9A-Za-z_-]{20,}/.test(source));
 });
 
-test('visitor language preference persists between page visits', async () => {
+test('disabled translator does not save or request third-party language preferences', async () => {
   const source = await readFile(path.resolve(here, '../../translator.js'), 'utf8');
-  assert.match(source, /localStorage\.setItem\('stayMasterLanguage'/);
-  assert.match(source, /localStorage\.getItem\('stayMasterLanguage'/);
+  assert.ok(!source.includes('localStorage'));
+  assert.ok(!source.includes('navigator.language'));
 });
 
 
