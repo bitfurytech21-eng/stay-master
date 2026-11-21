@@ -1,54 +1,16 @@
-/* Where the frontend finds the backend — the single place a host is declared.
- *
- * Default is SAME-ORIGIN (''): the Node backend serves the frontend files and
- * the /api routes from one Render service and one public origin.
- *
- * For an intentional external frontend deployment, set the API origin in ONE
- * place, either:
- *   <meta name="stay-master-api" content="https://stay-master-backend2.onrender.com">
- * or, before this file loads:
- *   <script>window.STAY_MASTER_API_BASE = 'https://stay-master-backend2.onrender.com';</script>
- *
- * Nothing else in the codebase hard-codes a host.
+/* Stay Master API configuration.
+ * The website and its API must be served from the same origin.
+ * No external API host or cross-origin override is accepted.
  */
 (function () {
   'use strict';
-
-  // Frontend and API are served from the same Render origin. Keep this empty
-  // unless a deliberate external API origin is configured at deployment time.
-  var base = '';
-  if (typeof window.STAY_MASTER_API_BASE === 'string') {
-    base = window.STAY_MASTER_API_BASE;
-  } else {
-    var meta = document.querySelector('meta[name="stay-master-api"]');
-    if (meta && meta.getAttribute('content')) base = meta.getAttribute('content');
-  }
-
-  // Strip a trailing slash so callers always pass '/api/...'.
-  base = String(base || '').replace(/\/+$/, '');
-
   window.STAY_MASTER_API = {
-    base: base,
-    /** Build the URL for an API path, e.g. '/api/booking/properties'. */
+    base: '',
     url: function (path) {
       var p = String(path || '');
-      if (!p) return base;
-      if (p.charAt(0) !== '/') p = '/' + p;
-      return base + p;
+      if (!p) return '';
+      return p.charAt(0) === '/' ? p : '/' + p;
     },
-    /** True when the API lives on a different origin than the page. */
-    crossOrigin: base !== ''
+    crossOrigin: false
   };
-})();
-
-/* ---------- site-wide tawk.to live support ---------- */
-/* The widget remains inactive until real IDs are configured in tawkto.js.
-   This loader is shared by the homepage, booking flow and property pages
-   that include api-config.js. */
-(function () {
-  'use strict';
-  var script = document.createElement('script');
-  script.src = 'tawkto.js?v=1';
-  script.async = true;
-  document.head.appendChild(script);
 })();
