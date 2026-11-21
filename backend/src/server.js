@@ -325,7 +325,7 @@ const FRONTEND_DIR = path.resolve(
 // through the public static website.
 app.use((req, res, next) => {
   const pathname = req.path || '/';
-  if (/^\/(?:backend|\.git|\.github|node_modules)(?:\/|$)/i.test(pathname) ||
+  if (/^\/(?:backend|source-imports|\.git|\.github|node_modules)(?:\/|$)/i.test(pathname) ||
       /^\/(?:render\.yaml|README\.md|\.gitignore)$/i.test(pathname)) {
     return res.status(404).end();
   }
