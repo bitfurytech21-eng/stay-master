@@ -98,7 +98,7 @@ function buildMail(row) {
     row.message,
   ];
   return {
-    from: FROM_EMAIL || `website@${new URL(process.env.SITE_URL || 'https://example.com').hostname}`,
+    from: FROM_EMAIL || `website@${new URL(process.env.SITE_URL || 'http://localhost').hostname}`,
     to: TO_EMAIL,
     replyTo: row.email,
     subject: `Website enquiry \u2014 ${row.name}${row.city ? ` (${row.city})` : ''} [#${row.id}]`,
@@ -318,93 +318,6 @@ mountBookingRoutes(app, db, { notifyBookingRequest });
  * service is required. The provider's free anonymous quota is limited, so
  * requests are cached in memory and text is sent in short chunks.
  */
-const translationHits = new Map();
-const translationCache = new Map();
-const TRANSLATION_LIMIT = 20;
-const TRANSLATION_WINDOW_MS = 60 * 1000;
-const SUPPORTED_TRANSLATION_LANGUAGES = new Set([
-  'ar','zh-CN','zh-TW','fr','de','es','it','pt','ru','ja','ko','hi',
-  'nl','tr','pl','el','sv','da','no','fi','he','id','th','vi','uk','ur','sw'
-]);
-
-function splitTranslationText(value, maxLength = 450) {
-  const chunks = [];
-  let remaining = String(value || '').trim();
-  while (remaining.length > maxLength) {
-    let cut = remaining.lastIndexOf(' ', maxLength);
-    if (cut < Math.floor(maxLength * 0.55)) cut = maxLength;
-    chunks.push(remaining.slice(0, cut));
-    remaining = remaining.slice(cut).trim();
-  }
-  if (remaining) chunks.push(remaining);
-  return chunks;
-}
-
-async function translateWithMyMemory(value, target) {
-  const chunks = splitTranslationText(value);
-  const translated = [];
-  for (const chunk of chunks) {
-    const params = new URLSearchParams({
-      q: chunk,
-      langpair: 'autodetect|' + target
-    });
-    const response = await fetch('https://api.mymemory.translated.net/get?' + params.toString(), {
-      method: 'GET',
-      headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!response.ok) throw new Error('Translation provider returned HTTP ' + response.status);
-    const payload = await response.json();
-    const result = payload?.responseData?.translatedText;
-    if (payload?.responseStatus !== 200 || typeof result !== 'string') {
-      throw new Error(payload?.responseDetails || 'Translation provider returned no translation.');
-    }
-    translated.push(result);
-  }
-  return translated.join(' ');
-}
-
-app.post('/api/translate', async (req, res) => {
-  const ip = req.ip || req.socket.remoteAddress || 'unknown';
-  const now = Date.now();
-  const recent = (translationHits.get(ip) || []).filter((time) => now - time < TRANSLATION_WINDOW_MS);
-  if (recent.length >= TRANSLATION_LIMIT) {
-    return res.status(429).json({ ok: false, error: 'Translation limit reached. Please wait a minute and try again.' });
-  }
-  recent.push(now);
-  translationHits.set(ip, recent);
-
-  const target = String(req.body?.target || '');
-  const texts = req.body?.texts;
-  if (!SUPPORTED_TRANSLATION_LANGUAGES.has(target) || !Array.isArray(texts) ||
-      texts.length < 1 || texts.length > 40 ||
-      texts.some((value) => typeof value !== 'string' || !value.trim() || value.length > 1000)) {
-    return res.status(400).json({ ok: false, error: 'Please provide a supported language and 1–40 text items (maximum 1,000 characters each).' });
-  }
-
-  try {
-    const translations = [];
-    for (const value of texts) {
-      const key = target + ':' + value;
-      if (translationCache.has(key)) {
-        translations.push(translationCache.get(key));
-        continue;
-      }
-      const result = await translateWithMyMemory(value, target);
-      translations.push(result);
-      translationCache.set(key, result);
-      if (translationCache.size > 5000) translationCache.clear();
-    }
-    return res.json({ ok: true, translations });
-  } catch (error) {
-    console.error('MyMemory translation request failed:', error.message);
-    return res.status(503).json({
-      ok: false,
-      error: 'Free translation is temporarily unavailable or its daily allowance has been reached. Please try again later.',
-    });
-  }
-});
-
 // Serve the complete website from this same Node service. Render runs with the
 // repository root as its working directory; local backend runs are supported too.
 const FRONTEND_DIR = path.resolve(
