@@ -40,15 +40,3 @@
     crossOrigin: base !== ''
   };
 })();
-
-/* ---------- site-wide tawk.to live support ---------- */
-/* The widget remains inactive until real IDs are configured in tawkto.js.
-   This loader is shared by the homepage, booking flow and property pages
-   that include api-config.js. */
-(function () {
-  'use strict';
-  var script = document.createElement('script');
-  script.src = 'tawkto.js?v=1';
-  script.async = true;
-  document.head.appendChild(script);
-})();
